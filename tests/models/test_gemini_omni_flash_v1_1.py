@@ -311,7 +311,7 @@ def test_gemini_omni_flash_v1_1_reference_media_limits_match_api_schema() -> Non
     assert schema["properties"]["image_urls"]["anyOf"][0]["maxItems"] == 10
     video_schema = schema["properties"]["reference_video_urls"]
     assert video_schema["anyOf"][0]["maxItems"] == 3
-    assert "three seconds" in video_schema["description"]
+    assert "ten seconds" in video_schema["description"]
 
 
 def test_gemini_omni_flash_v1_1_models_are_registered_and_discriminated() -> None:

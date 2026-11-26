@@ -30,7 +30,7 @@ class GeminiOmniFlashV11ReferenceToVideoConfig(BaseFalConfig):
         default=None,
         max_length=3,
         description=(
-            "URLs of up to three reference videos. Each video must be at most three seconds long."
+            "URLs of up to three reference videos. Each video must be at most ten seconds long."
         ),
     )
     aspect_ratio: GeminiOmniFlashV11AspectRatio = Field(

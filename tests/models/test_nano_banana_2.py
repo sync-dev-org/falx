@@ -54,6 +54,14 @@ def test_nano_banana_2_config_accepts_all_fields() -> None:
         "enable_web_search": True,
         "system_prompt": "Use a polished editorial illustration style.",
         "seed": 42,
+        "history": [],
+        "context": [],
+        "return_history": False,
+        "include_thoughts": None,
+        "temperature": None,
+        "top_p": None,
+        "max_output_tokens": None,
+        "enable_image_search": False,
     }
 
 

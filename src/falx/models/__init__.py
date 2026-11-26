@@ -211,6 +211,21 @@ from falx.models.flux_3_keyframes_to_video import (  # noqa: E402
 )
 from falx.models.flux_3_text_to_video import Flux3TextToVideoConfig  # noqa: E402
 from falx.models.flux_video_upscale import FluxVideoUpscaleConfig  # noqa: E402
+from falx.models.gemini_3_1_flash_tts import Gemini31FlashTtsConfig  # noqa: E402
+from falx.models.gemini_3_8_flash_lite_tts import Gemini38FlashLiteTtsConfig  # noqa: E402
+from falx.models.gemini_3_8_flash_tts import Gemini38FlashTtsConfig  # noqa: E402
+from falx.models.gemini_omni_flash_edit import (  # noqa: E402
+    GeminiOmniFlashEditConfig,
+)
+from falx.models.gemini_omni_flash_image_to_video import (  # noqa: E402
+    GeminiOmniFlashImageToVideoConfig,
+)
+from falx.models.gemini_omni_flash_reference_to_video import (  # noqa: E402
+    GeminiOmniFlashReferenceToVideoConfig,
+)
+from falx.models.gemini_omni_flash_text_to_video import (  # noqa: E402
+    GeminiOmniFlashTextToVideoConfig,
+)
 from falx.models.gemini_omni_flash_v1_1_edit import (  # noqa: E402
     GeminiOmniFlashV11EditConfig,
 )
@@ -222,6 +237,32 @@ from falx.models.gemini_omni_flash_v1_1_reference_to_video import (  # noqa: E40
 )
 from falx.models.gemini_omni_flash_v1_1_text_to_video import (  # noqa: E402
     GeminiOmniFlashV11TextToVideoConfig,
+)
+from falx.models.gemini_omni_flash_v1_2_edit import (  # noqa: E402
+    GeminiOmniFlashV12EditConfig,
+)
+from falx.models.gemini_omni_flash_v1_2_extend import (  # noqa: E402
+    GeminiOmniFlashV12ExtendConfig,
+)
+from falx.models.gemini_omni_flash_v1_2_image_to_video import (  # noqa: E402
+    GeminiOmniFlashV12ImageToVideoConfig,
+)
+from falx.models.gemini_omni_flash_v1_2_reference_to_video import (  # noqa: E402
+    GeminiOmniFlashV12ReferenceToVideoConfig,
+)
+from falx.models.gemini_omni_flash_v1_2_text_to_video import (  # noqa: E402
+    GeminiOmniFlashV12TextToVideoConfig,
+)
+from falx.models.gemini_omni_flash_v1_2_upscale import (  # noqa: E402
+    GeminiOmniFlashV12UpscaleConfig,
+)
+from falx.models.gemini_tts import GeminiTtsConfig  # noqa: E402
+from falx.models.gemini_tts_common import (  # noqa: E402
+    Gemini38SpeechTurn,
+    Gemini38TtsSpeaker,
+    GeminiTtsLanguage,
+    GeminiTtsSpeaker,
+    GeminiTtsVoice,
 )
 from falx.models.gpt_image_2 import GptImage2Config, ImageSize  # noqa: E402
 from falx.models.gpt_image_2_5 import (  # noqa: E402
@@ -336,6 +377,10 @@ from falx.models.luma_ray_3_2_text_to_video import (  # noqa: E402
 from falx.models.luma_ray_3_2_video_to_video import (  # noqa: E402
     LumaRay32VideoToVideoConfig,
 )
+from falx.models.lyria2 import Lyria2Config  # noqa: E402
+from falx.models.lyria3 import Lyria3Config  # noqa: E402
+from falx.models.lyria3_pro import Lyria3ProConfig  # noqa: E402
+from falx.models.lyria_3_5 import Lyria35Config  # noqa: E402
 from falx.models.meshy_v7_text_to_3d import MeshyV7TextTo3dConfig  # noqa: E402
 from falx.models.minimax_h3_max_camera_controls import (  # noqa: E402
     H3MaxCameraKeyframe,
@@ -363,10 +408,16 @@ from falx.models.muse_image import (  # noqa: E402
     MuseImageTextToImageConfig,
 )
 from falx.models.muse_image_edit import MuseImageEditConfig  # noqa: E402
+from falx.models.nano_banana import NanoBananaConfig  # noqa: E402
 from falx.models.nano_banana_2 import NanoBanana2Config  # noqa: E402
 from falx.models.nano_banana_2_1 import NanoBanana21Config  # noqa: E402
 from falx.models.nano_banana_2_1_edit import NanoBanana21EditConfig  # noqa: E402
 from falx.models.nano_banana_2_edit import NanoBanana2EditConfig  # noqa: E402
+from falx.models.nano_banana_edit import NanoBananaEditConfig  # noqa: E402
+from falx.models.nano_banana_lite import NanoBananaLiteConfig  # noqa: E402
+from falx.models.nano_banana_lite_edit import NanoBananaLiteEditConfig  # noqa: E402
+from falx.models.nano_banana_pro import NanoBananaProConfig  # noqa: E402
+from falx.models.nano_banana_pro_edit import NanoBananaProEditConfig  # noqa: E402
 from falx.models.qwen_audio_3_tts import QwenAudio3TtsConfig  # noqa: E402
 from falx.models.qwen_image_3_common import QwenImage3ImageSize  # noqa: E402
 from falx.models.qwen_image_3_edit import QwenImage3EditConfig  # noqa: E402
@@ -446,14 +497,22 @@ from falx.models.topaz_upscale_image_precision import (  # noqa: E402
 from falx.models.topaz_upscale_image_transparent import (  # noqa: E402
     TopazUpscaleImageTransparentConfig,
 )
+from falx.models.veo3_1_extend_video import Veo31ExtendVideoConfig  # noqa: E402
 from falx.models.veo3_1_first_last_frame_to_video import (  # noqa: E402
     Veo31FirstLastFrameToVideoConfig,
 )
 from falx.models.veo3_1_image_to_video import Veo31ImageToVideoConfig  # noqa: E402
+from falx.models.veo3_1_lite_first_last_frame_to_video import (  # noqa: E402
+    Veo31LiteFirstLastFrameToVideoConfig,
+)
+from falx.models.veo3_1_lite_image_to_video import Veo31LiteImageToVideoConfig  # noqa: E402
+from falx.models.veo3_1_lite_text_to_video import Veo31LiteTextToVideoConfig  # noqa: E402
 from falx.models.veo3_1_reference_to_video import (  # noqa: E402
     Veo31ReferenceToVideoConfig,
 )
 from falx.models.veo3_1_text_to_video import Veo31TextToVideoConfig  # noqa: E402
+from falx.models.veo3_image_to_video import Veo3ImageToVideoConfig  # noqa: E402
+from falx.models.veo3_text_to_video import Veo3TextToVideoConfig  # noqa: E402
 from falx.models.vggt_1b import Vggt1bConfig  # noqa: E402
 from falx.models.vidu_q3_image_to_video import ViduQ3ImageToVideoConfig  # noqa: E402
 from falx.models.vidu_q3_reference_to_video import (  # noqa: E402
@@ -463,6 +522,7 @@ from falx.models.vidu_q3_reference_to_video_mix import (  # noqa: E402
     ViduQ3ReferenceToVideoMixConfig,
 )
 from falx.models.vidu_q3_text_to_video import ViduQ3TextToVideoConfig  # noqa: E402
+from falx.models.virtual_try_on import VirtualTryOnConfig  # noqa: E402
 from falx.models.wan_3_0_prime_image_to_video import (  # noqa: E402
     Wan30PrimeImageToVideoConfig,
 )
@@ -483,16 +543,30 @@ FalConfig = Annotated[
     | Flux3KeyframesToVideoConfig
     | Flux3TextToVideoConfig
     | FluxVideoUpscaleConfig
+    | Gemini31FlashTtsConfig
+    | Gemini38FlashLiteTtsConfig
+    | Gemini38FlashTtsConfig
     | GptImage2Config
     | GptImage2EditConfig
     | GptImage25FlareTextToImageConfig
     | GptImage25SunburstTextToImageConfig
     | GptImage25FlareEditConfig
     | GptImage25SunburstEditConfig
+    | GeminiOmniFlashEditConfig
+    | GeminiOmniFlashImageToVideoConfig
+    | GeminiOmniFlashReferenceToVideoConfig
+    | GeminiOmniFlashTextToVideoConfig
     | GeminiOmniFlashV11EditConfig
     | GeminiOmniFlashV11ImageToVideoConfig
     | GeminiOmniFlashV11ReferenceToVideoConfig
     | GeminiOmniFlashV11TextToVideoConfig
+    | GeminiOmniFlashV12EditConfig
+    | GeminiOmniFlashV12ExtendConfig
+    | GeminiOmniFlashV12ImageToVideoConfig
+    | GeminiOmniFlashV12ReferenceToVideoConfig
+    | GeminiOmniFlashV12TextToVideoConfig
+    | GeminiOmniFlashV12UpscaleConfig
+    | GeminiTtsConfig
     | GrokImagineImageV20EditConfig
     | GrokImagineImageV20TextToImageConfig
     | GrokImagineVideoV15ImageToVideoConfig
@@ -521,6 +595,10 @@ FalConfig = Annotated[
     | LumaRay32ReframeConfig
     | LumaRay32TextToVideoConfig
     | LumaRay32VideoToVideoConfig
+    | Lyria2Config
+    | Lyria3Config
+    | Lyria3ProConfig
+    | Lyria35Config
     | MeshyV7TextTo3dConfig
     | MinimaxH3MaxCameraControlsConfig
     | MinimaxH3MaxImageToVideoConfig
@@ -535,6 +613,12 @@ FalConfig = Annotated[
     | NanoBanana2EditConfig
     | NanoBanana21Config
     | NanoBanana21EditConfig
+    | NanoBananaConfig
+    | NanoBananaEditConfig
+    | NanoBananaLiteConfig
+    | NanoBananaLiteEditConfig
+    | NanoBananaProConfig
+    | NanoBananaProEditConfig
     | QwenAudio3TtsConfig
     | QwenImage3EditConfig
     | QwenImage3TextToImageConfig
@@ -568,15 +652,22 @@ FalConfig = Annotated[
     | TopazUpscaleImageGenerativeConfig
     | TopazUpscaleImagePrecisionConfig
     | TopazUpscaleImageTransparentConfig
+    | Veo31ExtendVideoConfig
     | Veo31FirstLastFrameToVideoConfig
     | Veo31ImageToVideoConfig
+    | Veo31LiteFirstLastFrameToVideoConfig
+    | Veo31LiteImageToVideoConfig
+    | Veo31LiteTextToVideoConfig
     | Veo31ReferenceToVideoConfig
     | Veo31TextToVideoConfig
+    | Veo3ImageToVideoConfig
+    | Veo3TextToVideoConfig
     | Vggt1bConfig
     | ViduQ3ImageToVideoConfig
     | ViduQ3ReferenceToVideoConfig
     | ViduQ3ReferenceToVideoMixConfig
     | ViduQ3TextToVideoConfig
+    | VirtualTryOnConfig
     | Wan30PrimeImageToVideoConfig
     | Wan30PrimeReferenceToVideoConfig
     | Wan30PrimeTextToVideoConfig,
@@ -585,6 +676,15 @@ FalConfig = Annotated[
 
 SUPPORTED_APP_IDS = frozenset(
     {
+        "fal-ai/gemini-tts",
+        "fal-ai/gemini-3.1-flash-tts",
+        "google/gemini-3.8-flash-tts",
+        "google/gemini-3.8-flash-lite-tts",
+        "fal-ai/lyria2",
+        "fal-ai/lyria3",
+        "fal-ai/lyria3/pro",
+        "google/lyria-3.5",
+        "google/virtual-try-on",
         "alibaba/happy-horse/image-to-video",
         "alibaba/happy-horse/reference-to-video",
         "alibaba/happy-horse/text-to-video",
@@ -641,14 +741,36 @@ SUPPORTED_APP_IDS = frozenset(
         "fal-ai/nano-banana-2/edit",
         "google/nano-banana-2.1",
         "google/nano-banana-2.1/edit",
+        "fal-ai/nano-banana",
+        "fal-ai/nano-banana/edit",
+        "fal-ai/gemini-25-flash-image",
+        "fal-ai/gemini-25-flash-image/edit",
+        "fal-ai/nano-banana-pro",
+        "fal-ai/nano-banana-pro/edit",
+        "fal-ai/gemini-3-pro-image-preview",
+        "fal-ai/gemini-3-pro-image-preview/edit",
+        "fal-ai/gemini-3.1-flash-image-preview",
+        "fal-ai/gemini-3.1-flash-image-preview/edit",
+        "google/nano-banana-lite",
+        "google/nano-banana-lite/edit",
         "fal-ai/sam-3-1/image",
         "fal-ai/sam-3-1/image-rle",
         "fal-ai/sam-3-1/video",
         "fal-ai/sam-3-1/video-rle",
+        "google/gemini-omni-flash",
+        "google/gemini-omni-flash/edit",
+        "google/gemini-omni-flash/image-to-video",
+        "google/gemini-omni-flash/reference-to-video",
         "google/gemini-omni-flash/v1.1/edit",
         "google/gemini-omni-flash/v1.1/image-to-video",
         "google/gemini-omni-flash/v1.1/reference-to-video",
         "google/gemini-omni-flash/v1.1/text-to-video",
+        "google/gemini-omni-flash/v1.2/edit",
+        "google/gemini-omni-flash/v1.2/extend",
+        "google/gemini-omni-flash/v1.2/image-to-video",
+        "google/gemini-omni-flash/v1.2/reference-to-video",
+        "google/gemini-omni-flash/v1.2/text-to-video",
+        "google/gemini-omni-flash/v1.2/upscale",
         "ideogram/v4",
         "openai/gpt-image-2",
         "openai/gpt-image-2/edit",
@@ -658,9 +780,22 @@ SUPPORTED_APP_IDS = frozenset(
         "openai/gpt-image-2.5/sunburst/text-to-image",
         "topaz/deblur/video",
         "topaz/interpolate/video",
+        "fal-ai/veo3",
+        "fal-ai/veo3/fast",
+        "fal-ai/veo3/image-to-video",
+        "fal-ai/veo3/fast/image-to-video",
         "fal-ai/veo3.1",
+        "fal-ai/veo3.1/extend-video",
+        "fal-ai/veo3.1/fast",
+        "fal-ai/veo3.1/fast/extend-video",
+        "fal-ai/veo3.1/fast/first-last-frame-to-video",
+        "fal-ai/veo3.1/fast/image-to-video",
+        "fal-ai/veo3.1/fast/reference-to-video",
         "fal-ai/veo3.1/first-last-frame-to-video",
         "fal-ai/veo3.1/image-to-video",
+        "fal-ai/veo3.1/lite",
+        "fal-ai/veo3.1/lite/first-last-frame-to-video",
+        "fal-ai/veo3.1/lite/image-to-video",
         "fal-ai/veo3.1/reference-to-video",
         "fal-ai/vggt-1b",
         "fal-ai/vidu/q3/image-to-video",
@@ -763,10 +898,29 @@ __all__ = [
     "Flux3KeyframesToVideoConfig",
     "Flux3TextToVideoConfig",
     "FluxVideoUpscaleConfig",
+    "GeminiOmniFlashEditConfig",
+    "GeminiOmniFlashImageToVideoConfig",
+    "GeminiOmniFlashReferenceToVideoConfig",
+    "GeminiOmniFlashTextToVideoConfig",
+    "Gemini31FlashTtsConfig",
+    "Gemini38FlashLiteTtsConfig",
+    "Gemini38FlashTtsConfig",
+    "Gemini38SpeechTurn",
+    "Gemini38TtsSpeaker",
     "GeminiOmniFlashV11EditConfig",
     "GeminiOmniFlashV11ImageToVideoConfig",
     "GeminiOmniFlashV11ReferenceToVideoConfig",
     "GeminiOmniFlashV11TextToVideoConfig",
+    "GeminiOmniFlashV12EditConfig",
+    "GeminiOmniFlashV12ExtendConfig",
+    "GeminiOmniFlashV12ImageToVideoConfig",
+    "GeminiOmniFlashV12ReferenceToVideoConfig",
+    "GeminiOmniFlashV12TextToVideoConfig",
+    "GeminiOmniFlashV12UpscaleConfig",
+    "GeminiTtsConfig",
+    "GeminiTtsLanguage",
+    "GeminiTtsSpeaker",
+    "GeminiTtsVoice",
     "GptImage2Config",
     "GptImage2EditConfig",
     "GptImage25FlareEditConfig",
@@ -825,6 +979,10 @@ __all__ = [
     "LumaRay32ReframeSourcePosition",
     "LumaRay32TextToVideoConfig",
     "LumaRay32VideoToVideoConfig",
+    "Lyria2Config",
+    "Lyria3Config",
+    "Lyria3ProConfig",
+    "Lyria35Config",
     "MatrixAxes",
     "MatrixAxis",
     "MeshyV7TextTo3dConfig",
@@ -843,6 +1001,12 @@ __all__ = [
     "NanoBanana2EditConfig",
     "NanoBanana21Config",
     "NanoBanana21EditConfig",
+    "NanoBananaConfig",
+    "NanoBananaEditConfig",
+    "NanoBananaLiteConfig",
+    "NanoBananaLiteEditConfig",
+    "NanoBananaProConfig",
+    "NanoBananaProEditConfig",
     "QwenAudio3TtsConfig",
     "QwenImage3EditConfig",
     "QwenImage3ImageSize",
@@ -889,15 +1053,22 @@ __all__ = [
     "TopazUpscaleImageGenerativeConfig",
     "TopazUpscaleImagePrecisionConfig",
     "TopazUpscaleImageTransparentConfig",
+    "Veo31ExtendVideoConfig",
     "Veo31FirstLastFrameToVideoConfig",
     "Veo31ImageToVideoConfig",
+    "Veo31LiteFirstLastFrameToVideoConfig",
+    "Veo31LiteImageToVideoConfig",
+    "Veo31LiteTextToVideoConfig",
     "Veo31ReferenceToVideoConfig",
     "Veo31TextToVideoConfig",
+    "Veo3ImageToVideoConfig",
+    "Veo3TextToVideoConfig",
     "Vggt1bConfig",
     "ViduQ3ImageToVideoConfig",
     "ViduQ3ReferenceToVideoConfig",
     "ViduQ3ReferenceToVideoMixConfig",
     "ViduQ3TextToVideoConfig",
+    "VirtualTryOnConfig",
     "Wan30PrimeImageToVideoConfig",
     "Wan30PrimeReferenceToVideoConfig",
     "Wan30PrimeTextToVideoConfig",

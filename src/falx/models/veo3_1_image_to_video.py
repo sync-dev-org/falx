@@ -6,7 +6,6 @@ from pydantic import Field
 
 from falx.models import BaseFalConfig
 from falx.models.veo3_1_common import (
-    VEO31_AUTO_ASPECT_RATIO_DESCRIPTION,
     VEO31_DURATION_DESCRIPTION,
     VEO31_RESOLUTION_DESCRIPTION,
     VEO31_SAFETY_TOLERANCE_DESCRIPTION,
@@ -20,14 +19,15 @@ from falx.models.veo3_1_common import (
 class Veo31ImageToVideoConfig(BaseFalConfig):
     random_seed_field: ClassVar[str | None] = "seed"
 
-    app_id: Literal["fal-ai/veo3.1/image-to-video"]
+    app_id: Literal["fal-ai/veo3.1/image-to-video", "fal-ai/veo3.1/fast/image-to-video"]
     prompt: str = Field(
         ...,
-        description="The text prompt describing the video you want to generate.",
+        max_length=20_000,
+        description="The text prompt describing the video you want to generate",
     )
     aspect_ratio: Veo31AutoAspectRatio = Field(
         default="auto",
-        description=VEO31_AUTO_ASPECT_RATIO_DESCRIPTION,
+        description=("The aspect ratio of the generated video. Only 16:9 and 9:16 are supported."),
     )
     duration: Veo31Duration = Field(
         default="8s",
@@ -64,6 +64,7 @@ class Veo31ImageToVideoConfig(BaseFalConfig):
         ...,
         description=(
             "URL of the input image to animate. Should be 720p or higher resolution "
-            "in 16:9 or 9:16 aspect ratio."
+            "in 16:9 or 9:16 aspect ratio. If the image is not in 16:9 or 9:16 aspect ratio, "
+            "it will be cropped to fit."
         ),
     )

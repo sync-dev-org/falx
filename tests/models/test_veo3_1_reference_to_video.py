@@ -37,7 +37,7 @@ def test_veo3_1_reference_to_video_accepts_all_fields() -> None:
         app_id="fal-ai/veo3.1/reference-to-video",
         prompt="Use the references to preserve the character identity.",
         aspect_ratio="9:16",
-        duration="12s",
+        duration="8s",
         resolution="4k",
         generate_audio=False,
         auto_fix=True,
@@ -46,23 +46,22 @@ def test_veo3_1_reference_to_video_accepts_all_fields() -> None:
     )
 
     assert config.aspect_ratio == "9:16"
-    assert config.duration == "12s"
+    assert config.duration == "8s"
     assert config.resolution == "4k"
     assert config.generate_audio is False
     assert config.auto_fix is True
     assert config.safety_tolerance == "1"
 
 
-@pytest.mark.parametrize("duration", ["4s", "8s", "12s", "custom-duration"])
-def test_veo3_1_reference_to_video_accepts_duration_string(duration: str) -> None:
-    config = Veo31ReferenceToVideoConfig(
-        app_id="fal-ai/veo3.1/reference-to-video",
-        prompt="Animate the references.",
-        image_urls=["https://example.com/ref.png"],
-        duration=duration,
-    )
-
-    assert config.duration == duration
+@pytest.mark.parametrize("duration", ["4s", "12s", "custom-duration"])
+def test_veo3_1_reference_to_video_rejects_unsupported_duration(duration: str) -> None:
+    with pytest.raises(ValidationError, match="duration"):
+        Veo31ReferenceToVideoConfig(
+            app_id="fal-ai/veo3.1/reference-to-video",
+            prompt="Animate the references.",
+            image_urls=["https://example.com/ref.png"],
+            duration=duration,
+        )
 
 
 @pytest.mark.parametrize(

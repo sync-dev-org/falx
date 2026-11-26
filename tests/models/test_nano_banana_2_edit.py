@@ -54,30 +54,31 @@ def test_nano_banana_2_edit_config_accepts_non_image_context_without_image_urls(
         **{field_name: url},
     )
 
-    assert config.image_urls is None
+    assert config.image_urls == []
     assert getattr(config, field_name) == url
 
 
 @pytest.mark.parametrize(
-    ("payload", "needle"),
+    "parameters",
     [
-        (
-            {"app_id": "fal-ai/nano-banana-2/edit", "prompt": "edit this"},
-            "image_urls, video_url, audio_url, or pdf_url",
-        ),
-        (
-            {
-                "app_id": "fal-ai/nano-banana-2/edit",
-                "prompt": "edit this",
-                "image_urls": [],
-            },
-            "image_urls",
-        ),
+        {},
+        {"image_urls": []},
+        {"context": [{"type": "image", "image_url": "https://example.com/a.png"}]},
+        {"history": [{"role": "user", "parts": [{"type": "text", "text": "previous turn"}]}]},
     ],
 )
-def test_nano_banana_2_edit_config_rejects_invalid_payloads(
-    payload: dict[str, object],
-    needle: str,
+def test_nano_banana_2_edit_config_accepts_optional_image_inputs(
+    parameters: dict[str, object],
 ) -> None:
-    with pytest.raises(ValidationError, match=needle):
-        NanoBanana2EditConfig(**payload)
+    config = NanoBanana2EditConfig(
+        app_id="fal-ai/nano-banana-2/edit", prompt="edit this", **parameters
+    )
+
+    assert config.image_urls == []
+
+
+def test_nano_banana_2_edit_config_rejects_non_string_image_urls() -> None:
+    with pytest.raises(ValidationError, match="image_urls"):
+        NanoBanana2EditConfig(
+            app_id="fal-ai/nano-banana-2/edit", prompt="edit this", image_urls=[123]
+        )

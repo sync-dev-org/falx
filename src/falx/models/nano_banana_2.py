@@ -1,107 +1,84 @@
 from __future__ import annotations
 
-from typing import ClassVar, Literal
+from typing import Annotated, Literal
 
 from pydantic import Field
 
-from falx.models import BaseFalConfig
+from falx.models.nano_banana_common import (
+    GeminiDocumentPart,
+    GeminiImagePart,
+    GeminiSignaturePart,
+    GeminiTextPart,
+    GeminiVideoMessage,
+    GeminiVideoPart,
+    NanoBananaExtendedAspectRatio,
+)
+from falx.models.nano_banana_pro import NanoBananaProCommon
 
 
-class NanoBanana2Common(BaseFalConfig):
-    """Shared parameters for nano-banana-2 text and edit endpoints."""
+class NanoBanana2Common(NanoBananaProCommon):
+    """Shared parameters for nano-banana-2 generation and editing."""
 
-    random_seed_field: ClassVar[str | None] = "seed"
-
-    prompt: str = Field(
-        ...,
-        min_length=3,
-        max_length=50000,
-        description="Text prompt that describes the image to generate.",
-    )
-    num_images: int = Field(
-        default=1,
-        ge=1,
-        le=4,
-        description="Number of images to generate for the request.",
-    )
-    limit_generations: bool = Field(
-        default=True,
+    history: list[GeminiVideoMessage] = Field(
+        default_factory=list,
         description=(
-            "Limits each round of prompting to one generated image, ignoring prompt "
-            "instructions that ask for more images or intermediate images. This is "
-            "experimental and may affect generation quality."
+            "Previous native Gemini turns, including original parts and thought signatures "
+            "from conversations. The current prompt starts a new user turn."
         ),
     )
-    sync_mode: bool = Field(
-        default=False,
-        description=(
-            "When true, generated media is returned as a data URI and is not available "
-            "in request history."
-        ),
-    )
-    system_prompt: str = Field(
-        default="",
-        description=(
-            "Optional system instruction that steers the model persona and output "
-            "style across the request. Leave blank to omit."
-        ),
-    )
-    resolution: Literal["0.5K", "1K", "2K", "4K"] = Field(
-        default="1K",
-        description="Resolution of the generated image.",
-    )
-    aspect_ratio: (
-        Literal[
-            "auto",
-            "21:9",
-            "16:9",
-            "3:2",
-            "4:3",
-            "5:4",
-            "1:1",
-            "4:5",
-            "3:4",
-            "2:3",
-            "9:16",
-            "4:1",
-            "1:4",
-            "8:1",
-            "1:8",
+    context: list[
+        Annotated[
+            GeminiTextPart
+            | GeminiImagePart
+            | GeminiDocumentPart
+            | GeminiVideoPart
+            | GeminiSignaturePart,
+            Field(discriminator="type"),
         ]
-        | None
-    ) = Field(
-        default="auto",
+    ] = Field(
+        default_factory=list,
         description=(
-            "Aspect ratio of the generated image. Use auto to let the model decide from the prompt."
+            "Ordered text, image, PDF, UTF-8 text-file or video parts appended to the current "
+            "prompt. Original media bytes are preserved; images count toward the total "
+            "14-reference limit."
         ),
-    )
-    output_format: Literal["jpeg", "png", "webp"] = Field(
-        default="png",
-        description="File format for generated images.",
     )
     thinking_level: Literal["minimal", "high"] | None = Field(
         default=None,
         description=(
-            "Optional model thinking level. Set minimal or high to include model "
-            "thoughts in generation; omit to disable thinking."
+            "Controls thinking effort ('minimal' or 'high') and requests thought summaries. "
+            "Omit to use the provider default ('minimal'); thinking cannot be disabled."
         ),
     )
-    safety_tolerance: Literal["1", "2", "3", "4", "5", "6"] = Field(
-        default="4",
+    aspect_ratio: NanoBananaExtendedAspectRatio | None = Field(
+        default="auto",
         description=(
-            "Content moderation tolerance for API calls, where 1 is most strict and "
-            "6 is least strict."
+            "The aspect ratio of the generated image. Supports extreme ratios: 4:1, 1:4, 8:1, "
+            '1:8. Use "auto" to let the model decide based on the prompt.'
         ),
     )
-    enable_web_search: bool = Field(
-        default=False,
-        description="Allows the image generation task to use current web information.",
+    resolution: Literal["0.5K", "1K", "2K", "4K"] = Field(
+        default="1K",
+        description="The resolution of the image to generate.",
     )
-    seed: int | None = Field(
-        default=None,
-        description="Seed for the random number generator.",
+    limit_generations: bool = Field(
+        default=True,
+        description=(
+            "Experimental parameter to limit the number of generations from each round of "
+            "prompting to 1. Set to `True` to to disregard any instructions in the prompt "
+            "regarding the number of images to generate and ignore any intermediate images "
+            "generated by the model. This may affect generation quality."
+        ),
+    )
+    enable_image_search: bool = Field(
+        default=False,
+        description=(
+            "Ground image generation with Google Image Search. Can be combined with "
+            "enable_web_search; source attribution is returned in grounding_metadata. Uses "
+            "direct Google or Vertex APIs."
+        ),
     )
 
 
 class NanoBanana2Config(NanoBanana2Common):
-    app_id: Literal["fal-ai/nano-banana-2"]
+    app_id: Literal["fal-ai/nano-banana-2", "fal-ai/gemini-3.1-flash-image-preview"]

@@ -206,7 +206,8 @@ def test_schema_prints_veo3_1_text_to_video_defaults() -> None:
     assert payload["parameters"]["aspect_ratio"] == "16:9"
     assert payload["parameters"]["auto_fix"] is True
     assert "image_url" not in payload["parameters"]
-    assert "Allowed values: '4s', '6s', '8s' (string)." in result.stdout
+    assert payload["parameters"]["duration"] == "8s"
+    assert "The duration of the generated video." in result.stdout
 
 
 def test_schema_prints_veo3_1_image_to_video_defaults() -> None:

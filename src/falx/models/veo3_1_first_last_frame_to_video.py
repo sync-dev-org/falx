@@ -20,10 +20,14 @@ from falx.models.veo3_1_common import (
 class Veo31FirstLastFrameToVideoConfig(BaseFalConfig):
     random_seed_field: ClassVar[str | None] = "seed"
 
-    app_id: Literal["fal-ai/veo3.1/first-last-frame-to-video"]
+    app_id: Literal[
+        "fal-ai/veo3.1/first-last-frame-to-video",
+        "fal-ai/veo3.1/fast/first-last-frame-to-video",
+    ]
     prompt: str = Field(
         ...,
-        description="The text prompt describing the video you want to generate.",
+        max_length=20_000,
+        description="The text prompt describing the video you want to generate",
     )
     aspect_ratio: Veo31AutoAspectRatio = Field(
         default="auto",
@@ -62,9 +66,9 @@ class Veo31FirstLastFrameToVideoConfig(BaseFalConfig):
     )
     first_frame_url: str = Field(
         ...,
-        description="URL of the first frame of the video.",
+        description="URL of the first frame of the video",
     )
     last_frame_url: str = Field(
         ...,
-        description="URL of the last frame of the video.",
+        description="URL of the last frame of the video",
     )

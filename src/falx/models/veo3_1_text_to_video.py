@@ -20,10 +20,11 @@ from falx.models.veo3_1_common import (
 class Veo31TextToVideoConfig(BaseFalConfig):
     random_seed_field: ClassVar[str | None] = "seed"
 
-    app_id: Literal["fal-ai/veo3.1"]
+    app_id: Literal["fal-ai/veo3.1", "fal-ai/veo3.1/fast"]
     prompt: str = Field(
         ...,
-        description="The text prompt describing the video you want to generate.",
+        max_length=20_000,
+        description="The text prompt describing the video you want to generate",
     )
     aspect_ratio: Veo31AspectRatio = Field(
         default="16:9",

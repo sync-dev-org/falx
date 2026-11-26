@@ -53,7 +53,16 @@ from falx.models import (
 
 
 def test_supported_app_ids_lists_initial_registered_models() -> None:
-    assert len(SUPPORTED_APP_IDS) == 106
+    assert len(SUPPORTED_APP_IDS) == 150
+    assert "fal-ai/gemini-tts" in SUPPORTED_APP_IDS
+    assert "fal-ai/gemini-3.1-flash-tts" in SUPPORTED_APP_IDS
+    assert "google/gemini-3.8-flash-tts" in SUPPORTED_APP_IDS
+    assert "google/gemini-3.8-flash-lite-tts" in SUPPORTED_APP_IDS
+    assert "fal-ai/lyria2" in SUPPORTED_APP_IDS
+    assert "fal-ai/lyria3" in SUPPORTED_APP_IDS
+    assert "fal-ai/lyria3/pro" in SUPPORTED_APP_IDS
+    assert "google/lyria-3.5" in SUPPORTED_APP_IDS
+    assert "google/virtual-try-on" in SUPPORTED_APP_IDS
     assert "blackforestlabs/flux-3/edit-video" in SUPPORTED_APP_IDS
     assert "bria/increase-resolution" in SUPPORTED_APP_IDS
     assert "bria/video/background-removal/green-screen-despill" in SUPPORTED_APP_IDS
@@ -69,6 +78,18 @@ def test_supported_app_ids_lists_initial_registered_models() -> None:
     assert "openai/gpt-image-2.5/sunburst/edit" in SUPPORTED_APP_IDS
     assert "fal-ai/nano-banana-2" in SUPPORTED_APP_IDS
     assert "fal-ai/nano-banana-2/edit" in SUPPORTED_APP_IDS
+    assert "fal-ai/nano-banana" in SUPPORTED_APP_IDS
+    assert "fal-ai/nano-banana/edit" in SUPPORTED_APP_IDS
+    assert "fal-ai/gemini-25-flash-image" in SUPPORTED_APP_IDS
+    assert "fal-ai/gemini-25-flash-image/edit" in SUPPORTED_APP_IDS
+    assert "fal-ai/nano-banana-pro" in SUPPORTED_APP_IDS
+    assert "fal-ai/nano-banana-pro/edit" in SUPPORTED_APP_IDS
+    assert "fal-ai/gemini-3-pro-image-preview" in SUPPORTED_APP_IDS
+    assert "fal-ai/gemini-3-pro-image-preview/edit" in SUPPORTED_APP_IDS
+    assert "fal-ai/gemini-3.1-flash-image-preview" in SUPPORTED_APP_IDS
+    assert "fal-ai/gemini-3.1-flash-image-preview/edit" in SUPPORTED_APP_IDS
+    assert "google/nano-banana-lite" in SUPPORTED_APP_IDS
+    assert "google/nano-banana-lite/edit" in SUPPORTED_APP_IDS
     assert "fal-ai/bytedance/seedream/v4.5/text-to-image" in SUPPORTED_APP_IDS
     assert "fal-ai/bytedance/seedream/v4.5/edit" in SUPPORTED_APP_IDS
     assert "fal-ai/bytedance/seedream/v5/lite/text-to-image" in SUPPORTED_APP_IDS
@@ -100,10 +121,23 @@ def test_supported_app_ids_lists_initial_registered_models() -> None:
     assert "alibaba/happy-horse/image-to-video" in SUPPORTED_APP_IDS
     assert "alibaba/happy-horse/reference-to-video" in SUPPORTED_APP_IDS
     assert "alibaba/happy-horse/video-edit" in SUPPORTED_APP_IDS
+    assert "fal-ai/veo3" in SUPPORTED_APP_IDS
+    assert "fal-ai/veo3/fast" in SUPPORTED_APP_IDS
+    assert "fal-ai/veo3/image-to-video" in SUPPORTED_APP_IDS
+    assert "fal-ai/veo3/fast/image-to-video" in SUPPORTED_APP_IDS
     assert "fal-ai/veo3.1" in SUPPORTED_APP_IDS
     assert "fal-ai/veo3.1/image-to-video" in SUPPORTED_APP_IDS
     assert "fal-ai/veo3.1/first-last-frame-to-video" in SUPPORTED_APP_IDS
     assert "fal-ai/veo3.1/reference-to-video" in SUPPORTED_APP_IDS
+    assert "fal-ai/veo3.1/extend-video" in SUPPORTED_APP_IDS
+    assert "fal-ai/veo3.1/fast" in SUPPORTED_APP_IDS
+    assert "fal-ai/veo3.1/fast/image-to-video" in SUPPORTED_APP_IDS
+    assert "fal-ai/veo3.1/fast/first-last-frame-to-video" in SUPPORTED_APP_IDS
+    assert "fal-ai/veo3.1/fast/reference-to-video" in SUPPORTED_APP_IDS
+    assert "fal-ai/veo3.1/fast/extend-video" in SUPPORTED_APP_IDS
+    assert "fal-ai/veo3.1/lite" in SUPPORTED_APP_IDS
+    assert "fal-ai/veo3.1/lite/image-to-video" in SUPPORTED_APP_IDS
+    assert "fal-ai/veo3.1/lite/first-last-frame-to-video" in SUPPORTED_APP_IDS
     assert "fal-ai/vidu/q3/text-to-video" in SUPPORTED_APP_IDS
     assert "fal-ai/vidu/q3/image-to-video" in SUPPORTED_APP_IDS
     assert "fal-ai/vidu/q3/reference-to-video" in SUPPORTED_APP_IDS
@@ -123,10 +157,21 @@ def test_supported_app_ids_lists_initial_registered_models() -> None:
     assert "xai/grok-imagine-video/v1.5/image-to-video" in SUPPORTED_APP_IDS
     assert "xai/grok-imagine-video/v1.5/reference-to-video" in SUPPORTED_APP_IDS
     assert "xai/grok-imagine-video/v1.5/text-to-video" in SUPPORTED_APP_IDS
+    assert "google/gemini-omni-flash" in SUPPORTED_APP_IDS
+    assert "google/gemini-omni-flash/edit" in SUPPORTED_APP_IDS
+    assert "google/gemini-omni-flash/image-to-video" in SUPPORTED_APP_IDS
+    assert "google/gemini-omni-flash/reference-to-video" in SUPPORTED_APP_IDS
+    assert "google/gemini-omni-flash/v1.2/text-to-video" in SUPPORTED_APP_IDS
+    assert "google/gemini-omni-flash/v1.2/image-to-video" in SUPPORTED_APP_IDS
+    assert "google/gemini-omni-flash/v1.2/reference-to-video" in SUPPORTED_APP_IDS
+    assert "google/gemini-omni-flash/v1.2/edit" in SUPPORTED_APP_IDS
+    assert "google/gemini-omni-flash/v1.2/extend" in SUPPORTED_APP_IDS
+    assert "google/gemini-omni-flash/v1.2/upscale" in SUPPORTED_APP_IDS
 
 
 def test_registered_models_declare_random_seed_metadata() -> None:
     seeded_app_ids = {
+        "fal-ai/lyria2",
         "alibaba/qwen-image-3/edit",
         "alibaba/qwen-image-3/text-to-image",
         "ideogram/v4",
@@ -154,9 +199,33 @@ def test_registered_models_declare_random_seed_metadata() -> None:
         "fal-ai/nano-banana-2/edit",
         "google/nano-banana-2.1",
         "google/nano-banana-2.1/edit",
+        "fal-ai/veo3",
+        "fal-ai/veo3/fast",
+        "fal-ai/veo3/image-to-video",
+        "fal-ai/veo3/fast/image-to-video",
+        "fal-ai/nano-banana",
+        "fal-ai/nano-banana/edit",
+        "fal-ai/gemini-25-flash-image",
+        "fal-ai/gemini-25-flash-image/edit",
+        "fal-ai/nano-banana-pro",
+        "fal-ai/nano-banana-pro/edit",
+        "fal-ai/gemini-3-pro-image-preview",
+        "fal-ai/gemini-3-pro-image-preview/edit",
+        "fal-ai/gemini-3.1-flash-image-preview",
+        "fal-ai/gemini-3.1-flash-image-preview/edit",
+        "google/nano-banana-lite",
+        "google/nano-banana-lite/edit",
         "fal-ai/veo3.1",
         "fal-ai/veo3.1/image-to-video",
         "fal-ai/veo3.1/first-last-frame-to-video",
+        "fal-ai/veo3.1/extend-video",
+        "fal-ai/veo3.1/fast",
+        "fal-ai/veo3.1/fast/image-to-video",
+        "fal-ai/veo3.1/fast/first-last-frame-to-video",
+        "fal-ai/veo3.1/fast/extend-video",
+        "fal-ai/veo3.1/lite",
+        "fal-ai/veo3.1/lite/image-to-video",
+        "fal-ai/veo3.1/lite/first-last-frame-to-video",
         "fal-ai/vidu/q3/text-to-video",
         "fal-ai/vidu/q3/image-to-video",
         "fal-ai/vidu/q3/reference-to-video",

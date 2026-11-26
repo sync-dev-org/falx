@@ -6,7 +6,6 @@ from pydantic import Field
 
 from falx.models import BaseFalConfig
 from falx.models.veo3_1_common import (
-    VEO31_ASPECT_RATIO_DESCRIPTION,
     VEO31_RESOLUTION_DESCRIPTION,
     VEO31_SAFETY_TOLERANCE_DESCRIPTION,
     Veo31AspectRatio,
@@ -16,16 +15,17 @@ from falx.models.veo3_1_common import (
 
 
 class Veo31ReferenceToVideoConfig(BaseFalConfig):
-    app_id: Literal["fal-ai/veo3.1/reference-to-video"]
+    app_id: Literal["fal-ai/veo3.1/reference-to-video", "fal-ai/veo3.1/fast/reference-to-video"]
     prompt: str = Field(
         ...,
-        description="The text prompt describing the video you want to generate.",
+        max_length=20_000,
+        description="The text prompt describing the video you want to generate",
     )
     aspect_ratio: Veo31AspectRatio = Field(
         default="16:9",
-        description=VEO31_ASPECT_RATIO_DESCRIPTION,
+        description="The aspect ratio of the generated video.",
     )
-    duration: str = Field(
+    duration: Literal["8s"] = Field(
         default="8s",
         description="The duration of the generated video.",
     )
@@ -50,5 +50,5 @@ class Veo31ReferenceToVideoConfig(BaseFalConfig):
     )
     image_urls: list[str] = Field(
         ...,
-        description="URLs of the reference images to use for consistent subject appearance.",
+        description="URLs of the reference images to use for consistent subject appearance",
     )
