@@ -47,3 +47,7 @@ class ViduQ3TextToVideoConfig(BaseFalConfig):
             "Whether to use direct audio-video generation. When true, outputs video with sound."
         ),
     )
+    enable_safety_checker: bool = Field(
+        default=True,
+        description="Authorized callers may set false to request relaxed screening.",
+    )

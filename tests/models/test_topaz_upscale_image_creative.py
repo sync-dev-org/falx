@@ -24,6 +24,7 @@ def test_topaz_upscale_image_creative_accepts_schema_defaults() -> None:
         "color_preservation": None,
         "crop_to_fill": False,
         "output_format": "jpeg",
+        "enable_safety_checker": True,
     }
 
 

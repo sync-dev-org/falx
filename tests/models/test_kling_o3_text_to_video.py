@@ -18,6 +18,7 @@ def test_kling_o3_pro_text_to_video_accepts_schema_defaults() -> None:
 
     assert config.model_dump() == {
         "app_id": "fal-ai/kling-video/o3/pro/text-to-video",
+        "enable_safety_checker": True,
         "prompt": 'A mecha lands on the ground and says "I am here".',
         "aspect_ratio": "16:9",
         "shot_type": "customize",

@@ -4,10 +4,10 @@ from typing import Literal
 
 from pydantic import Field
 
-from falx.models.seedream_v5_pro_common import SeedreamV5ProCommon
+from falx.models.seedream_v5_pro_common import SeedreamV5ProGenerationCommon
 
 
-class SeedreamV5ProTextToImageConfig(SeedreamV5ProCommon):
+class SeedreamV5ProTextToImageConfig(SeedreamV5ProGenerationCommon):
     app_id: Literal["bytedance/seedream/v5/pro/text-to-image"]
     prompt: str = Field(
         ...,

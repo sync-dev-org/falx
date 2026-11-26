@@ -14,11 +14,12 @@ def test_seedance2_fast_reference_to_video_config_accepts_full_config() -> None:
         video_urls=["https://example.com/motion.mp4"],
         audio_urls=["https://example.com/music.mp3"],
         resolution="720p",
-        duration=8,
+        duration="8",
         aspect_ratio="16:9",
         generate_audio=False,
         bitrate_mode="high",
-        seed=42,
+        codec="H265",
+        return_last_frame=True,
         end_user_id="user-123",
     )
 
@@ -29,11 +30,12 @@ def test_seedance2_fast_reference_to_video_config_accepts_full_config() -> None:
         "video_urls": ["https://example.com/motion.mp4"],
         "audio_urls": ["https://example.com/music.mp3"],
         "resolution": "720p",
-        "duration": 8,
+        "duration": "8",
         "aspect_ratio": "16:9",
         "generate_audio": False,
         "bitrate_mode": "high",
-        "seed": 42,
+        "codec": "H265",
+        "return_last_frame": True,
         "end_user_id": "user-123",
     }
 
@@ -86,8 +88,9 @@ def test_seedance2_fast_reference_to_video_config_uses_documented_defaults() -> 
     assert config.duration == "auto"
     assert config.aspect_ratio == "auto"
     assert config.generate_audio is True
-    assert config.bitrate_mode == "high"
-    assert config.seed is None
+    assert config.bitrate_mode == "standard"
+    assert config.codec == "auto"
+    assert config.return_last_frame is False
     assert config.end_user_id is None
 
 

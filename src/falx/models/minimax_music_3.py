@@ -59,3 +59,7 @@ class MinimaxMusic3Config(BaseFalConfig):
         le=20,
         description="Classifier-free guidance scale of the flow-matching stage.",
     )
+    enable_safety_checker: bool = Field(
+        default=True,
+        description="Authorized callers may set false to request relaxed screening.",
+    )

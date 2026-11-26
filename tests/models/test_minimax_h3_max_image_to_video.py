@@ -21,6 +21,7 @@ def test_minimax_h3_max_image_to_video_accepts_schema_defaults_without_image() -
     )
 
     assert config.model_dump() == {
+        "target_audio_url": None,
         "app_id": APP_ID,
         "image_url": None,
         "prompt_expansion_mode": "balanced",
@@ -49,6 +50,7 @@ def test_minimax_h3_max_image_to_video_accepts_all_fields() -> None:
     )
 
     assert config.model_dump() == {
+        "target_audio_url": None,
         "app_id": APP_ID,
         "image_url": "https://example.com/first.png",
         "prompt_expansion_mode": "quality",
@@ -81,8 +83,8 @@ def test_minimax_h3_max_image_to_video_accepts_resolution_enum(resolution: str) 
     assert config.resolution == resolution
 
 
-@pytest.mark.parametrize("duration", [5, 15])
-def test_minimax_h3_max_image_to_video_accepts_duration_boundaries(duration: int) -> None:
+@pytest.mark.parametrize("duration", [0.92, 1.5, 15])
+def test_minimax_h3_max_image_to_video_accepts_duration_boundaries(duration: float) -> None:
     config = MinimaxH3MaxImageToVideoConfig(
         app_id=APP_ID,
         prompt="Clouds drift over a quiet valley.",
@@ -130,7 +132,7 @@ def test_minimax_h3_max_image_to_video_does_not_invent_prompt_expansion_enum() -
                 "app_id": APP_ID,
                 "prompt": "Clouds drift over a valley.",
                 "prompt_expansion_mode": "balanced",
-                "duration": 4,
+                "duration": 0.91,
             },
             "duration",
         ),

@@ -21,6 +21,7 @@ def test_minimax_h3_max_turbo_text_to_video_accepts_schema_defaults() -> None:
     )
 
     assert config.model_dump() == {
+        "target_audio_url": None,
         "app_id": APP_ID,
         "prompt": "A white kitten chases a butterfly across a sunlit garden.",
         "duration": 5,
@@ -47,6 +48,7 @@ def test_minimax_h3_max_turbo_text_to_video_accepts_all_fields() -> None:
     )
 
     assert config.model_dump() == {
+        "target_audio_url": None,
         "app_id": APP_ID,
         "prompt": "A train crosses a mountain bridge at sunrise.",
         "duration": 15,
@@ -94,9 +96,9 @@ def test_minimax_h3_max_turbo_text_to_video_accepts_aspect_ratio_enum(
     assert config.aspect_ratio == aspect_ratio
 
 
-@pytest.mark.parametrize("duration", [5, 15])
+@pytest.mark.parametrize("duration", [0.92, 1.5, 15])
 def test_minimax_h3_max_turbo_text_to_video_accepts_duration_boundaries(
-    duration: int,
+    duration: float,
 ) -> None:
     config = MinimaxH3MaxTurboTextToVideoConfig(
         app_id=APP_ID,
@@ -154,7 +156,7 @@ def test_minimax_h3_max_turbo_text_to_video_does_not_invent_prompt_expansion_enu
                 "app_id": APP_ID,
                 "prompt": "A quiet ocean at dusk.",
                 "prompt_expansion_mode": "balanced",
-                "duration": 4,
+                "duration": 0.91,
             },
             "duration",
         ),

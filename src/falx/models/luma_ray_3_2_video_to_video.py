@@ -23,11 +23,21 @@ class LumaRay32VideoToVideoConfig(BaseFalConfig):
     app_id: Literal["luma/agent/ray/v3.2/video-to-video"]
     prompt: str = Field(
         ...,
+        min_length=1,
+        max_length=6000,
         description="Text prompt describing how to edit the source video.",
     )
     video_url: str = Field(
         ...,
+        min_length=1,
         description="URL of the source video to edit.",
+    )
+    user: str | None = Field(
+        default=None,
+        description=(
+            "Optional opaque identifier for the end user making the request. "
+            "Used only for abuse attribution; never interpreted by fal."
+        ),
     )
     start_image_url: str | None = Field(
         default=None,
@@ -93,6 +103,10 @@ class LumaRay32VideoToVideoConfig(BaseFalConfig):
             "Source-video frame positions where each keyframes[i] is anchored. "
             "Non-negative, unique, and the same length as keyframes."
         ),
+    )
+    enable_safety_checker: bool = Field(
+        default=True,
+        description="Authorized callers may set false to request relaxed screening.",
     )
 
     @model_validator(mode="after")

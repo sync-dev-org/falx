@@ -41,6 +41,9 @@ def test_seedream_v5_lite_text_to_image_accepts_all_fields() -> None:
         "max_images": 6,
         "sync_mode": True,
         "enable_safety_checker": False,
+        "output_format": "jpeg",
+        "watermark": False,
+        "sequential_image_generation": None,
         "return_byteplus_urls": True,
     }
 
@@ -137,7 +140,7 @@ def test_seedream_v5_lite_text_to_image_accepts_num_images_boundaries(
             {
                 "app_id": "fal-ai/bytedance/seedream/v5/lite/text-to-image",
                 "prompt": "A cinematic still life.",
-                "max_images": 7,
+                "max_images": 16,
             },
             "max_images",
         ),

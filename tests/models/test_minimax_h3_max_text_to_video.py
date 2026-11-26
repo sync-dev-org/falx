@@ -21,6 +21,7 @@ def test_minimax_h3_max_text_to_video_accepts_schema_defaults() -> None:
     )
 
     assert config.model_dump() == {
+        "target_audio_url": None,
         "app_id": APP_ID,
         "prompt_expansion_mode": "balanced",
         "resolution": "768P",
@@ -47,6 +48,7 @@ def test_minimax_h3_max_text_to_video_accepts_all_fields() -> None:
     )
 
     assert config.model_dump() == {
+        "target_audio_url": None,
         "app_id": APP_ID,
         "prompt_expansion_mode": "quality",
         "resolution": "480P",
@@ -92,8 +94,8 @@ def test_minimax_h3_max_text_to_video_accepts_aspect_ratio_enum(
     assert config.aspect_ratio == aspect_ratio
 
 
-@pytest.mark.parametrize("duration", [5, 15])
-def test_minimax_h3_max_text_to_video_accepts_duration_boundaries(duration: int) -> None:
+@pytest.mark.parametrize("duration", [0.92, 1.5, 15])
+def test_minimax_h3_max_text_to_video_accepts_duration_boundaries(duration: float) -> None:
     config = MinimaxH3MaxTextToVideoConfig(
         app_id=APP_ID,
         prompt="A quiet ocean at dusk.",
@@ -150,7 +152,7 @@ def test_minimax_h3_max_text_to_video_does_not_invent_prompt_expansion_enum() ->
                 "app_id": APP_ID,
                 "prompt": "A quiet ocean at dusk.",
                 "prompt_expansion_mode": "balanced",
-                "duration": 4,
+                "duration": 0.91,
             },
             "duration",
         ),

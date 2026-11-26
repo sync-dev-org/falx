@@ -22,6 +22,8 @@ class LumaRay32TextToVideoConfig(BaseFalConfig):
     app_id: Literal["luma/agent/ray/v3.2/text-to-video"]
     prompt: str = Field(
         ...,
+        min_length=1,
+        max_length=6000,
         description="Text prompt describing the video to generate.",
     )
     aspect_ratio: LumaRay32AspectRatio = Field(
@@ -54,10 +56,9 @@ class LumaRay32TextToVideoConfig(BaseFalConfig):
         default=False,
         description="Also export an EXR file alongside the MP4. Requires hdr=true and HDR access.",
     )
-    reference_image_urls: list[str] | None = Field(
-        default=None,
-        max_length=4,
-        description="Optional list of reference image URLs used to guide the generation.",
+    enable_safety_checker: bool = Field(
+        default=True,
+        description="Authorized callers may set false to request relaxed screening.",
     )
 
     @model_validator(mode="after")

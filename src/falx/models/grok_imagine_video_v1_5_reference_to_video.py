@@ -1,20 +1,17 @@
 from __future__ import annotations
 
-from typing import ClassVar, Literal
+from typing import Literal
 
 from pydantic import Field
 
-from falx.models import BaseFalConfig
 from falx.models.grok_imagine_video_v1_5_text_to_video import (
-    GrokImagineVideoV15AspectRatio,
+    GrokImagineVideoV15TextToVideoConfig,
 )
 
 GrokImagineVideoV15ReferenceResolution = Literal["480p", "720p"]
 
 
-class GrokImagineVideoV15ReferenceToVideoConfig(BaseFalConfig):
-    random_seed_field: ClassVar[str | None] = None
-
+class GrokImagineVideoV15ReferenceToVideoConfig(GrokImagineVideoV15TextToVideoConfig):
     app_id: Literal["xai/grok-imagine-video/v1.5/reference-to-video"]
     prompt: str = Field(
         ...,
@@ -42,8 +39,4 @@ class GrokImagineVideoV15ReferenceToVideoConfig(BaseFalConfig):
     resolution: GrokImagineVideoV15ReferenceResolution = Field(
         default="480p",
         description="Resolution of the output video.",
-    )
-    aspect_ratio: GrokImagineVideoV15AspectRatio = Field(
-        default="16:9",
-        description="Aspect ratio of the generated video.",
     )

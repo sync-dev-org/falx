@@ -20,6 +20,7 @@ class HappyHorseVideoEditConfig(BaseFalConfig):
     )
     prompt: str = Field(
         ...,
+        min_length=1,
         max_length=2500,
         description=(
             "Text prompt describing the desired edit. Refer to supplied reference "

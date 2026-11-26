@@ -19,18 +19,16 @@ ImageSizePreset = Literal[
 
 class ImageSize(BaseFalConfig):
     width: int = Field(
-        ...,
-        description=(
-            "Custom image width in pixels. Concrete sizes must use dimensions that "
-            "are multiples of 16."
-        ),
+        default=512,
+        gt=0,
+        le=14142,
+        description="The width of the generated image.",
     )
     height: int = Field(
-        ...,
-        description=(
-            "Custom image height in pixels. Concrete sizes must use dimensions that "
-            "are multiples of 16."
-        ),
+        default=512,
+        gt=0,
+        le=14142,
+        description="The height of the generated image.",
     )
 
 
@@ -39,15 +37,17 @@ class GptImage2Common(BaseFalConfig):
 
     prompt: str = Field(
         ...,
-        min_length=2,
+        min_length=1,
         max_length=32000,
         description="Prompt for image generation.",
     )
     image_size: ImageSizePreset | ImageSize = Field(
         default="landscape_4_3",
         description=(
-            "Size of the generated image. Use a preset name, an explicit width and "
-            "height object, or auto to let the model pick the best size."
+            "The size of the generated image. Supports preset names, explicit {width, height}, "
+            "or 'auto' to let the model pick the best size. Concrete sizes must have both "
+            "dimensions as multiples of 16, max edge 3840px, aspect ratio <= 3:1, total pixels "
+            "between 655,360 and 8,294,400."
         ),
     )
     quality: Literal["auto", "low", "medium", "high"] = Field(
@@ -60,12 +60,29 @@ class GptImage2Common(BaseFalConfig):
     num_images: int = Field(
         default=1,
         ge=1,
-        le=4,
+        le=10,
         description="Number of images to generate.",
     )
     output_format: Literal["jpeg", "png", "webp"] = Field(
         default="png",
         description="Output file format for generated images.",
+    )
+    background: Literal["auto", "transparent", "opaque"] = Field(
+        default="auto",
+        description="Background for the generated image",
+    )
+    output_compression: int | None = Field(
+        default=None,
+        ge=0,
+        le=100,
+        description=(
+            "Compression level from 0 to 100. Only supported when output_format is "
+            "'jpeg' or 'webp'."
+        ),
+    )
+    enable_safety_checker: bool = Field(
+        default=True,
+        description="Authorized callers may set false to request relaxed screening.",
     )
     sync_mode: bool = Field(
         default=False,

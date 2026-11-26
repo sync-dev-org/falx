@@ -30,6 +30,10 @@ def test_seedance25_image_to_video_accepts_documented_defaults() -> None:
         "aspect_ratio": "auto",
         "generate_audio": True,
         "bitrate_mode": "standard",
+        "codec": "auto",
+        "output_format": "mp4",
+        "draft": False,
+        "return_last_frame": False,
         "end_user_id": None,
     }
 
@@ -74,7 +78,7 @@ def test_seedance25_image_to_video_accepts_duration_string_enum(duration: str) -
         ("duration", "31"),
         ("aspect_ratio", "16:9"),
         ("bitrate_mode", "lossless"),
-        ("resolution", "4k"),
+        ("resolution", "8k"),
     ],
 )
 def test_seedance25_image_to_video_rejects_undocumented_enum_values(
@@ -92,7 +96,7 @@ def test_seedance25_image_to_video_rejects_undocumented_enum_values(
         Seedance25ImageToVideoConfig.model_validate(payload)
 
 
-@pytest.mark.parametrize("missing_field", ["prompt", "image_url"])
+@pytest.mark.parametrize("missing_field", ["image_url"])
 def test_seedance25_image_to_video_requires_documented_fields(missing_field: str) -> None:
     payload = {
         "app_id": APP_ID,

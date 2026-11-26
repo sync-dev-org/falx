@@ -45,8 +45,11 @@ def test_muse_image_text_to_image_accepts_all_fields() -> None:
     assert config.sync_mode is True
 
 
-@pytest.mark.parametrize("aspect_ratio", [None, *ASPECT_RATIOS])
-def test_muse_image_text_to_image_accepts_nullable_aspect_ratio_enum(
+@pytest.mark.parametrize(
+    "aspect_ratio",
+    [None, *ASPECT_RATIOS, "5:4", "1920:1200", "960:600", "1:16", "16:1", "99999:99999"],
+)
+def test_muse_image_text_to_image_accepts_nullable_custom_aspect_ratios(
     aspect_ratio: str | None,
 ) -> None:
     config = MuseImageTextToImageConfig(
@@ -56,6 +59,14 @@ def test_muse_image_text_to_image_accepts_nullable_aspect_ratio_enum(
     )
 
     assert config.aspect_ratio == aspect_ratio
+
+
+@pytest.mark.parametrize(
+    "aspect_ratio", ["0:1", "01:1", "1:0", "1.5:1", "100000:100000", "1:17", "17:1"]
+)
+def test_muse_image_text_to_image_rejects_invalid_custom_aspect_ratios(aspect_ratio: str) -> None:
+    with pytest.raises(ValidationError, match="aspect_ratio"):
+        MuseImageTextToImageConfig(app_id=APP_ID, prompt="A portrait.", aspect_ratio=aspect_ratio)
 
 
 @pytest.mark.parametrize("num_images", [1, 10])

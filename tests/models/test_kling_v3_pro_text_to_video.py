@@ -17,6 +17,7 @@ def test_kling_v3_pro_text_to_video_accepts_minimal_prompt_request() -> None:
 
     assert config.model_dump() == {
         "app_id": "fal-ai/kling-video/v3/pro/text-to-video",
+        "enable_safety_checker": True,
         "prompt": "Fireflies drift through a dark forest.",
         "duration": "5",
         "multi_prompt": None,

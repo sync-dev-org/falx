@@ -8,7 +8,7 @@ from falx.models import BaseFalConfig
 
 
 class Seedance2FastImageToVideoConfig(BaseFalConfig):
-    random_seed_field: ClassVar[str | None] = "seed"
+    random_seed_field: ClassVar[str | None] = None
 
     app_id: Literal["bytedance/seedance-2.0/fast/image-to-video"]
     prompt: str = Field(
@@ -35,13 +35,16 @@ class Seedance2FastImageToVideoConfig(BaseFalConfig):
             "Fast tier does not offer 1080p or 4k."
         ),
     )
-    duration: Literal["auto", 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] = Field(
-        default="auto",
-        description=(
-            "Duration of the generated video in seconds. "
-            "Allowed values: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 (int) "
-            "or 'auto' (string) to let the model decide based on the prompt."
-        ),
+    duration: Literal["auto", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"] = (
+        Field(
+            default="auto",
+            description=(
+                "Duration of the generated video in seconds. "
+                "Allowed values: '4', '5', '6', '7', '8', '9', '10', '11', '12', "
+                "'13', '14', '15' (string) or 'auto' (string) to let the model decide "
+                "based on the prompt."
+            ),
+        )
     )
     aspect_ratio: Literal["auto", "21:9", "16:9", "4:3", "1:1", "3:4", "9:16"] = Field(
         default="auto",
@@ -57,17 +60,22 @@ class Seedance2FastImageToVideoConfig(BaseFalConfig):
         ),
     )
     bitrate_mode: Literal["standard", "high"] = Field(
-        default="high",
+        default="standard",
         description=(
             "Output bitrate mode. high requests a higher-quality, larger-file encode; "
             "standard uses the default bitrate."
         ),
     )
-    seed: int | None = Field(
-        default=None,
+    codec: Literal["auto", "H264", "H265"] = Field(
+        default="auto",
         description=(
-            "Random seed for reproducibility. Results may still vary slightly with the same seed."
+            "'auto' uses the default video codec; US backend output is kept unchanged. "
+            "'H264' and 'H265' select H.264 and H.265 respectively."
         ),
+    )
+    return_last_frame: bool = Field(
+        default=False,
+        description="If true, also return the last frame of the generated video as an image.",
     )
     end_user_id: str | None = Field(
         default=None,

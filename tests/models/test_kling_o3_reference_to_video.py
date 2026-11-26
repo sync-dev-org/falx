@@ -32,6 +32,7 @@ def test_kling_o3_pro_reference_to_video_accepts_elements_and_image_refs() -> No
 
     assert config.model_dump() == {
         "app_id": "fal-ai/kling-video/o3/pro/reference-to-video",
+        "enable_safety_checker": True,
         "prompt": "@Element1 enters the scene with @Image1 styling.",
         "start_image_url": "https://example.com/start.png",
         "duration": "8",

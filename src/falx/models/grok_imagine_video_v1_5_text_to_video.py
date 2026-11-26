@@ -6,7 +6,9 @@ from pydantic import Field
 
 from falx.models import BaseFalConfig
 
-GrokImagineVideoV15AspectRatio = Literal["16:9", "4:3", "3:2", "1:1", "2:3", "3:4", "9:16"]
+GrokImagineVideoV15AspectRatio = Literal[
+    "16:9", "4:3", "3:2", "1:1", "2:3", "3:4", "9:16", "21:9", "5:2"
+]
 GrokImagineVideoV15Resolution = Literal["480p", "720p", "1080p"]
 
 
@@ -32,4 +34,14 @@ class GrokImagineVideoV15TextToVideoConfig(BaseFalConfig):
     aspect_ratio: GrokImagineVideoV15AspectRatio = Field(
         default="16:9",
         description="Aspect ratio of the generated video.",
+    )
+    generate_audio: bool | None = Field(
+        default=None,
+        description=(
+            "Whether to generate audio. When unset, xAI's default applies (audio included)."
+        ),
+    )
+    enable_safety_checker: bool = Field(
+        default=True,
+        description="Authorized callers may set false to request relaxed screening.",
     )

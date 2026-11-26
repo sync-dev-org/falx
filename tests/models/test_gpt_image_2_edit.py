@@ -19,6 +19,9 @@ def test_gpt_image_2_edit_config_accepts_minimal_required_fields() -> None:
     assert config.quality == "high"
     assert config.num_images == 1
     assert config.output_format == "png"
+    assert config.background == "auto"
+    assert config.output_compression is None
+    assert config.enable_safety_checker is True
     assert config.sync_mode is False
     assert config.mask_url is None
 
@@ -32,6 +35,9 @@ def test_gpt_image_2_edit_config_accepts_all_fields() -> None:
         quality="low",
         num_images=4,
         output_format="jpeg",
+        background="opaque",
+        output_compression=75,
+        enable_safety_checker=False,
         sync_mode=True,
         mask_url="https://example.com/mask.png",
     )
@@ -43,6 +49,9 @@ def test_gpt_image_2_edit_config_accepts_all_fields() -> None:
         "quality": "low",
         "num_images": 4,
         "output_format": "jpeg",
+        "background": "opaque",
+        "output_compression": 75,
+        "enable_safety_checker": False,
         "sync_mode": True,
         "image_urls": [
             "https://example.com/input.png",
@@ -99,7 +108,7 @@ def test_gpt_image_2_edit_config_accepts_quality_enum(quality: str) -> None:
     assert config.quality == quality
 
 
-@pytest.mark.parametrize("num_images", [1, 4])
+@pytest.mark.parametrize("num_images", [1, 10])
 def test_gpt_image_2_edit_config_accepts_num_images_boundaries(num_images: int) -> None:
     config = GptImage2EditConfig(
         app_id="openai/gpt-image-2/edit",
@@ -109,6 +118,43 @@ def test_gpt_image_2_edit_config_accepts_num_images_boundaries(num_images: int) 
     )
 
     assert config.num_images == num_images
+
+
+@pytest.mark.parametrize("image_count", [0, 16])
+def test_gpt_image_2_edit_config_accepts_image_urls_boundaries(image_count: int) -> None:
+    image_urls = [f"https://example.com/input-{index}.png" for index in range(image_count)]
+
+    config = GptImage2EditConfig(
+        app_id="openai/gpt-image-2/edit", prompt="make it warm", image_urls=image_urls
+    )
+
+    assert config.image_urls == image_urls
+
+
+@pytest.mark.parametrize("prompt", ["a", "x" * 32_000], ids=["minimum", "maximum"])
+def test_gpt_image_2_edit_config_accepts_prompt_length_boundaries(prompt: str) -> None:
+    config = GptImage2EditConfig(
+        app_id="openai/gpt-image-2/edit",
+        prompt=prompt,
+        image_urls=["https://example.com/input.png"],
+    )
+
+    assert config.prompt == prompt
+
+
+@pytest.mark.parametrize("output_compression", [None, 0, 100])
+def test_gpt_image_2_edit_config_accepts_output_compression_boundaries(
+    output_compression: int | None,
+) -> None:
+    config = GptImage2EditConfig(
+        app_id="openai/gpt-image-2/edit",
+        prompt="make it warm",
+        image_urls=["https://example.com/input.png"],
+        output_format="jpeg",
+        output_compression=output_compression,
+    )
+
+    assert config.output_compression == output_compression
 
 
 @pytest.mark.parametrize(
@@ -126,14 +172,14 @@ def test_gpt_image_2_edit_config_accepts_num_images_boundaries(num_images: int) 
             {
                 "app_id": "openai/gpt-image-2/edit",
                 "prompt": "make it warm",
-                "image_urls": [],
+                "image_urls": [f"https://example.com/input-{index}.png" for index in range(17)],
             },
             "image_urls",
         ),
         (
             {
                 "app_id": "openai/gpt-image-2/edit",
-                "prompt": "a",
+                "prompt": "",
                 "image_urls": ["https://example.com/input.png"],
             },
             "prompt",
@@ -170,7 +216,7 @@ def test_gpt_image_2_edit_config_accepts_num_images_boundaries(num_images: int) 
                 "app_id": "openai/gpt-image-2/edit",
                 "prompt": "make it warm",
                 "image_urls": ["https://example.com/input.png"],
-                "num_images": 5,
+                "num_images": 11,
             },
             "num_images",
         ),
@@ -182,6 +228,33 @@ def test_gpt_image_2_edit_config_accepts_num_images_boundaries(num_images: int) 
                 "output_format": "gif",
             },
             "output_format",
+        ),
+        (
+            {
+                "app_id": "openai/gpt-image-2/edit",
+                "prompt": "make it warm",
+                "image_urls": [],
+                "background": "invalid",
+            },
+            "background",
+        ),
+        (
+            {
+                "app_id": "openai/gpt-image-2/edit",
+                "prompt": "make it warm",
+                "image_urls": [],
+                "output_compression": -1,
+            },
+            "output_compression",
+        ),
+        (
+            {
+                "app_id": "openai/gpt-image-2/edit",
+                "prompt": "make it warm",
+                "image_urls": [],
+                "output_compression": 101,
+            },
+            "output_compression",
         ),
         (
             {

@@ -15,9 +15,10 @@ class SeedreamV45EditConfig(SeedreamV45Common):
     )
     image_urls: list[str] = Field(
         ...,
-        min_length=1,
-        max_length=10,
-        description=("Input image URLs for editing. Up to ten input images may be provided."),
+        description=(
+            "List of URLs of input images for editing. Presently, up to 10 image inputs "
+            "are allowed. If over 10 images are sent, only the last 10 will be used."
+        ),
     )
 
     @model_validator(mode="after")

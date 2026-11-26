@@ -8,6 +8,7 @@ from falx.models.flux_3_common import (
     Flux3BaseConfig,
     Flux3FixedDuration,
     Flux3Keyframe,
+    validate_flux_3_keyframe_positions,
 )
 
 
@@ -32,11 +33,5 @@ class Flux3KeyframesToVideoConfig(Flux3BaseConfig):
 
     @model_validator(mode="after")
     def validate_keyframe_positions(self) -> Self:
-        frame_indexes = [keyframe.frame_index for keyframe in self.keyframes]
-        if len(set(frame_indexes)) != len(frame_indexes):
-            raise ValueError("keyframe frame_index values must be unique")
-
-        maximum_frame_index = self.duration * 24
-        if any(frame_index > maximum_frame_index for frame_index in frame_indexes):
-            raise ValueError("keyframe frame_index must be at most duration * 24")
+        validate_flux_3_keyframe_positions(self.keyframes, self.duration)
         return self

@@ -30,6 +30,9 @@ def test_minimax_h3_max_camera_controls_accepts_schema_defaults() -> None:
     )
 
     assert config.model_dump() == {
+        "camera_poses": None,
+        "camera_poses_scale": 1,
+        "free_camera_preset": None,
         "app_id": APP_ID,
         "prompt": DEFAULT_PROMPT,
         "duration": 5,
@@ -61,6 +64,9 @@ def test_minimax_h3_max_camera_controls_accepts_all_fields() -> None:
     )
 
     assert config.model_dump() == {
+        "camera_poses": None,
+        "camera_poses_scale": 1,
+        "free_camera_preset": None,
         "app_id": APP_ID,
         "prompt": "Orbit around the subject.",
         "duration": 15,
@@ -98,8 +104,8 @@ def test_minimax_h3_max_camera_controls_accepts_resolution_enum(resolution: str)
     assert config.resolution == resolution
 
 
-@pytest.mark.parametrize("duration", [5, 15])
-def test_minimax_h3_max_camera_controls_accepts_duration_boundaries(duration: int) -> None:
+@pytest.mark.parametrize("duration", [0.92, 1.5, 15])
+def test_minimax_h3_max_camera_controls_accepts_duration_boundaries(duration: float) -> None:
     config = MinimaxH3MaxCameraControlsConfig(
         app_id=APP_ID,
         image_url="https://example.com/first.png",
@@ -162,7 +168,7 @@ def test_minimax_h3_max_camera_controls_does_not_invent_prompt_expansion_enum() 
             {
                 "image_url": "https://example.com/first.png",
                 "prompt_expansion_mode": "balanced",
-                "duration": 4,
+                "duration": 0.91,
             },
             "duration",
         ),

@@ -19,6 +19,7 @@ def test_topaz_interpolate_video_config_accepts_minimal_required_fields() -> Non
         "target_fps": 60,
         "slowdown_factor": 1,
         "H264_output": False,
+        "enable_safety_checker": True,
     }
 
 
@@ -39,6 +40,7 @@ def test_topaz_interpolate_video_config_accepts_all_fields() -> None:
         "target_fps": 120,
         "slowdown_factor": 8,
         "H264_output": True,
+        "enable_safety_checker": True,
     }
 
 
@@ -89,6 +91,7 @@ def test_topaz_interpolate_video_schema_matches_public_api_contract() -> None:
         "target_fps",
         "slowdown_factor",
         "H264_output",
+        "enable_safety_checker",
     ]
     assert schema["required"] == ["app_id", "video_url"]
     assert schema["properties"]["model"]["enum"] == ["Apollo", "Chronos", "Aion"]

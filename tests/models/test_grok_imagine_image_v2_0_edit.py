@@ -25,6 +25,8 @@ ASPECT_RATIOS = [
     "9:19.5",
     "9:20",
     "1:2",
+    "21:9",
+    "5:2",
 ]
 
 
@@ -43,6 +45,7 @@ def test_grok_imagine_image_v2_0_edit_accepts_schema_defaults() -> None:
         "num_images": 1,
         "output_format": "jpeg",
         "sync_mode": False,
+        "enable_safety_checker": True,
         "image_urls": None,
     }
 
@@ -57,7 +60,8 @@ def test_grok_imagine_image_v2_0_edit_accepts_all_fields() -> None:
         num_images=4,
         output_format="png",
         sync_mode=True,
-        image_urls=[f"https://example.com/source-{index}.png" for index in range(3)],
+        enable_safety_checker=False,
+        image_urls=[f"https://example.com/source-{index}.png" for index in range(5)],
     )
 
     assert config.aspect_ratio == "16:9"
@@ -66,7 +70,8 @@ def test_grok_imagine_image_v2_0_edit_accepts_all_fields() -> None:
     assert config.num_images == 4
     assert config.output_format == "png"
     assert config.sync_mode is True
-    assert len(config.image_urls or []) == 3
+    assert config.enable_safety_checker is False
+    assert len(config.image_urls or []) == 5
 
 
 @pytest.mark.parametrize("aspect_ratio", ASPECT_RATIOS)
@@ -82,8 +87,8 @@ def test_grok_imagine_image_v2_0_edit_accepts_aspect_ratio_enum(
     assert config.aspect_ratio == aspect_ratio
 
 
-@pytest.mark.parametrize("image_urls", [None, [], ["1"], ["1", "2", "3"]])
-def test_grok_imagine_image_v2_0_edit_accepts_optional_image_urls_up_to_three(
+@pytest.mark.parametrize("image_urls", [None, [], ["1"], ["1", "2", "3", "4", "5"]])
+def test_grok_imagine_image_v2_0_edit_accepts_optional_image_urls_up_to_five(
     image_urls: list[str] | None,
 ) -> None:
     config = GrokImagineImageV20EditConfig(
@@ -102,8 +107,16 @@ def test_grok_imagine_image_v2_0_edit_accepts_optional_image_urls_up_to_three(
         ({"prompt": "x" * 8001}, "prompt"),
         ({"prompt": "Edit the image.", "aspect_ratio": "3:1"}, "aspect_ratio"),
         (
-            {"prompt": "Edit the image.", "image_urls": ["1", "2", "3", "4"]},
+            {"prompt": "Edit the image.", "image_urls": ["1", "2", "3", "4", "5", "6"]},
             "image_urls",
+        ),
+        ({"prompt": "Edit the image.", "num_images": 0}, "num_images"),
+        ({"prompt": "Edit the image.", "num_images": 11}, "num_images"),
+        ({"prompt": "Edit the image.", "quality": "high"}, "quality"),
+        ({"prompt": "Edit the image.", "resolution": "4k"}, "resolution"),
+        (
+            {"prompt": "Edit the image.", "enable_safety_checker": None},
+            "enable_safety_checker",
         ),
         ({"prompt": "Edit the image.", "unexpected": True}, "unexpected"),
     ],
@@ -126,6 +139,22 @@ def test_grok_imagine_image_v2_0_edit_schema_describes_edited_image_quality() ->
     schema = GrokImagineImageV20EditConfig.model_json_schema()
     quality = schema["properties"]["quality"]
 
-    assert quality["description"] == "Quality level of the edited image."
+    assert "Quality level of the edited image." in quality["description"]
+    assert "`auto`" in quality["description"]
     assert quality["default"] == "medium"
-    assert quality["enum"] == ["low", "medium"]
+    assert quality["enum"] == ["low", "medium", "auto"]
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [("resolution", "1.5k"), ("quality", "auto"), ("num_images", 10)],
+)
+def test_grok_imagine_image_v2_0_edit_accepts_current_image_options(
+    field: str,
+    value: str | int,
+) -> None:
+    config = GrokImagineImageV20EditConfig.model_validate(
+        {"app_id": APP_ID, "prompt": "Edit the image.", field: value}
+    )
+
+    assert config.model_dump(exclude={"app_id"})[field] == value

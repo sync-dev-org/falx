@@ -21,6 +21,7 @@ def test_minimax_h3_max_turbo_image_to_video_accepts_schema_defaults() -> None:
     )
 
     assert config.model_dump() == {
+        "target_audio_url": None,
         "app_id": APP_ID,
         "prompt": "The camera slowly reveals a mountain landscape.",
         "duration": 5,
@@ -49,6 +50,7 @@ def test_minimax_h3_max_turbo_image_to_video_accepts_all_fields() -> None:
     )
 
     assert config.model_dump() == {
+        "target_audio_url": None,
         "app_id": APP_ID,
         "prompt": "Clouds drift overhead while the camera pulls back.",
         "duration": 15,
@@ -83,9 +85,9 @@ def test_minimax_h3_max_turbo_image_to_video_accepts_resolution_enum(
     assert config.resolution == resolution
 
 
-@pytest.mark.parametrize("duration", [5, 15])
+@pytest.mark.parametrize("duration", [0.92, 1.5, 15])
 def test_minimax_h3_max_turbo_image_to_video_accepts_duration_boundaries(
-    duration: int,
+    duration: float,
 ) -> None:
     config = MinimaxH3MaxTurboImageToVideoConfig(
         app_id=APP_ID,
@@ -134,7 +136,7 @@ def test_minimax_h3_max_turbo_image_to_video_does_not_invent_prompt_expansion_en
                 "app_id": APP_ID,
                 "prompt": "Clouds drift over a valley.",
                 "prompt_expansion_mode": "balanced",
-                "duration": 4,
+                "duration": 0.91,
             },
             "duration",
         ),

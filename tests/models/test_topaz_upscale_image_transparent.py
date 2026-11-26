@@ -18,6 +18,7 @@ def test_topaz_upscale_image_transparent_accepts_schema_defaults() -> None:
         "app_id": APP_ID,
         "image_url": "https://example.com/source.png",
         "output_format": "png",
+        "enable_safety_checker": True,
     }
 
 

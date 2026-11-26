@@ -13,6 +13,7 @@ class HappyHorseTextToVideoConfig(BaseFalConfig):
     app_id: Literal["alibaba/happy-horse/text-to-video"]
     prompt: str = Field(
         ...,
+        min_length=1,
         max_length=2500,
         description="Text prompt describing the desired video.",
     )

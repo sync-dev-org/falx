@@ -4,6 +4,7 @@ import pytest
 from pydantic import ValidationError
 
 from falx.models import (
+    BaseFalConfig,
     LumaRay32EditControls,
     LumaRay32EditDepthControl,
     LumaRay32EditFaceControl,
@@ -15,6 +16,7 @@ from falx.models import (
     LumaRay32ReframeSourcePosition,
     LumaRay32TextToVideoConfig,
     LumaRay32VideoToVideoConfig,
+    config_class_for_app_id,
 )
 
 
@@ -33,7 +35,7 @@ def test_luma_ray_3_2_text_to_video_accepts_schema_defaults() -> None:
         "loop": False,
         "hdr": False,
         "exr_export": False,
-        "reference_image_urls": None,
+        "enable_safety_checker": True,
     }
 
 
@@ -46,17 +48,12 @@ def test_luma_ray_3_2_text_to_video_accepts_all_fields() -> None:
         duration="5s",
         hdr=True,
         exr_export=True,
-        reference_image_urls=[
-            "https://example.com/ref-1.png",
-            "https://example.com/ref-2.png",
-            "https://example.com/ref-3.png",
-            "https://example.com/ref-4.png",
-        ],
+        enable_safety_checker=False,
     )
 
     assert config.hdr is True
     assert config.exr_export is True
-    assert len(config.reference_image_urls or []) == 4
+    assert config.enable_safety_checker is False
 
 
 def test_luma_ray_3_2_image_to_video_accepts_first_frame_defaults() -> None:
@@ -77,7 +74,7 @@ def test_luma_ray_3_2_image_to_video_accepts_first_frame_defaults() -> None:
         "loop": False,
         "hdr": False,
         "exr_export": False,
-        "reference_image_urls": None,
+        "enable_safety_checker": True,
         "keyframes": None,
         "keyframe_indexes": None,
     }
@@ -148,13 +145,110 @@ def test_luma_ray_3_2_reframe_accepts_source_position() -> None:
         "video_url": "https://example.com/source.mp4",
         "aspect_ratio": "21:9",
         "resolution": "540p",
+        "duration": None,
         "source_position": {
             "x_norm": -0.1,
             "y_norm": 0.0,
             "w_norm": 1.2,
             "h_norm": 1.0,
         },
+        "enable_safety_checker": True,
     }
+
+
+LUMA_INPUTS = [
+    {"app_id": "luma/agent/ray/v3.2/text-to-video"},
+    {
+        "app_id": "luma/agent/ray/v3.2/image-to-video",
+        "image_url": "https://example.com/start.png",
+    },
+    {
+        "app_id": "luma/agent/ray/v3.2/video-to-video",
+        "video_url": "https://example.com/source.mp4",
+    },
+    {
+        "app_id": "luma/agent/ray/v3.2/reframe",
+        "video_url": "https://example.com/source.mp4",
+        "aspect_ratio": "16:9",
+    },
+]
+
+
+def luma_config(payload: dict[str, str], **parameters: object) -> BaseFalConfig:
+    return config_class_for_app_id(payload["app_id"]).model_validate(
+        {"prompt": "Animate the scene.", **payload, **parameters}
+    )
+
+
+@pytest.mark.parametrize("payload", LUMA_INPUTS)
+@pytest.mark.parametrize("length", [1, 6000])
+def test_luma_ray_3_2_accepts_prompt_length_boundaries(
+    payload: dict[str, str], length: int
+) -> None:
+    assert luma_config(payload, prompt="p" * length).model_dump()["prompt"] == "p" * length
+
+
+@pytest.mark.parametrize("payload", LUMA_INPUTS)
+@pytest.mark.parametrize("length", [0, 6001])
+def test_luma_ray_3_2_rejects_prompt_outside_length_bounds(
+    payload: dict[str, str], length: int
+) -> None:
+    with pytest.raises(ValidationError, match="prompt"):
+        luma_config(payload, prompt="p" * length)
+
+
+@pytest.mark.parametrize("payload", LUMA_INPUTS)
+def test_luma_ray_3_2_sends_default_and_explicit_screening_settings(
+    payload: dict[str, str],
+) -> None:
+    assert luma_config(payload).model_dump()["enable_safety_checker"] is True
+    assert (
+        luma_config(payload, enable_safety_checker=False).model_dump()["enable_safety_checker"]
+        is False
+    )
+    with pytest.raises(ValidationError, match="enable_safety_checker"):
+        luma_config(payload, enable_safety_checker=None)
+
+
+@pytest.mark.parametrize("payload", LUMA_INPUTS[1:])
+def test_luma_ray_3_2_requires_nonempty_source_url(payload: dict[str, str]) -> None:
+    field = "image_url" if "image_url" in payload else "video_url"
+    assert luma_config(payload, **{field: "x"}).model_dump()[field] == "x"
+    with pytest.raises(ValidationError, match=field):
+        luma_config(payload, **{field: ""})
+
+
+@pytest.mark.parametrize("payload", LUMA_INPUTS[:2])
+def test_luma_ray_3_2_generation_does_not_send_unsupported_reference_images(
+    payload: dict[str, str],
+) -> None:
+    config = luma_config(payload)
+    assert "reference_image_urls" not in config.model_dump(exclude_none=True)
+    assert "reference_image_urls" not in config.model_json_schema()["properties"]
+    with pytest.raises(ValidationError, match="reference_image_urls"):
+        luma_config(payload, reference_image_urls=["https://example.com/reference.png"])
+
+
+@pytest.mark.parametrize("duration", [None, "5s", "10s"])
+def test_luma_ray_3_2_reframe_accepts_optional_duration(duration: str | None) -> None:
+    assert luma_config(LUMA_INPUTS[3], duration=duration).model_dump()["duration"] == duration
+
+
+def test_luma_ray_3_2_reframe_omits_unspecified_duration_and_rejects_invalid_duration() -> None:
+    assert "duration" not in luma_config(LUMA_INPUTS[3]).model_dump(exclude_none=True)
+    with pytest.raises(ValidationError, match="duration"):
+        luma_config(LUMA_INPUTS[3], duration="15s")
+
+
+@pytest.mark.parametrize("user", [None, "", "customer-123"])
+def test_luma_ray_3_2_video_edit_accepts_optional_user(user: str | None) -> None:
+    assert luma_config(LUMA_INPUTS[2], user=user).model_dump()["user"] == user
+
+
+def test_luma_ray_3_2_video_edit_omits_unspecified_user_and_rejects_nonstring_user() -> None:
+    assert "user" not in luma_config(LUMA_INPUTS[2]).model_dump(exclude_none=True)
+    with pytest.raises(ValidationError, match="user"):
+        luma_config(LUMA_INPUTS[2], user=42)
 
 
 @pytest.mark.parametrize(

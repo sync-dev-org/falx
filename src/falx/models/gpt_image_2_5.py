@@ -22,8 +22,10 @@ class GptImage25Common(BaseFalConfig):
     image_size: ImageSizePreset | ImageSize = Field(
         default="landscape_4_3",
         description=(
-            "The size of the generated image. Supports preset names, an explicit "
-            "width and height object, or auto to let the model pick the best size."
+            "The size of the generated image. Supports preset names, explicit {width, height}, "
+            "or 'auto' to let the model pick the best size. Concrete sizes must have both "
+            "dimensions as multiples of 16, max edge 3840px, aspect ratio <= 3:1, total pixels "
+            "between 655,360 and 8,294,400."
         ),
     )
     quality: Literal["auto", "low", "medium", "high", "xhigh", "max"] = Field(
@@ -52,9 +54,12 @@ class GptImage25Common(BaseFalConfig):
         ge=0,
         le=100,
         description=(
-            "Compression level from 0 to 100. Only supported when output_format is "
-            "jpeg or webp."
+            "Compression level from 0 to 100. Only supported when output_format is jpeg or webp."
         ),
+    )
+    enable_safety_checker: bool = Field(
+        default=True,
+        description="Authorized callers may set false to request relaxed screening.",
     )
     sync_mode: bool = Field(
         default=False,

@@ -35,6 +35,7 @@ def test_gpt_image_2_5_edit_accepts_schema_defaults(
         "output_format": "png",
         "background": "auto",
         "output_compression": None,
+        "enable_safety_checker": True,
         "sync_mode": False,
         "image_urls": ["https://example.com/input.png"],
         "mask_url": None,
@@ -56,6 +57,7 @@ def test_gpt_image_2_5_edit_accepts_all_fields(
         output_format="jpeg",
         background="opaque",
         output_compression=75,
+        enable_safety_checker=False,
         sync_mode=True,
         mask_url="https://example.com/mask.png",
     )
@@ -69,6 +71,7 @@ def test_gpt_image_2_5_edit_accepts_all_fields(
         "output_format": "jpeg",
         "background": "opaque",
         "output_compression": 75,
+        "enable_safety_checker": False,
         "sync_mode": True,
         "image_urls": [
             "https://example.com/input.png",

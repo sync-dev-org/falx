@@ -37,6 +37,7 @@ def test_gpt_image_2_5_text_to_image_accepts_schema_defaults(
         "output_format": "png",
         "background": "auto",
         "output_compression": None,
+        "enable_safety_checker": True,
         "sync_mode": False,
     }
 
@@ -55,6 +56,7 @@ def test_gpt_image_2_5_text_to_image_accepts_all_fields(
         output_format="webp",
         background="transparent",
         output_compression=80,
+        enable_safety_checker=False,
         sync_mode=True,
     )
 
@@ -67,6 +69,7 @@ def test_gpt_image_2_5_text_to_image_accepts_all_fields(
         "output_format": "webp",
         "background": "transparent",
         "output_compression": 80,
+        "enable_safety_checker": False,
         "sync_mode": True,
     }
 

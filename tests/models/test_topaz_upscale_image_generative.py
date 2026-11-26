@@ -33,6 +33,7 @@ def test_topaz_upscale_image_generative_accepts_schema_defaults() -> None:
         "sharpen": None,
         "denoise": None,
         "detail": None,
+        "enable_safety_checker": True,
     }
 
 
@@ -77,7 +78,7 @@ def test_topaz_upscale_image_generative_is_registered() -> None:
     [
         ({}, "image_url"),
         ({"image_url": ""}, "image_url"),
-        ({"image_url": "x", "model": "Wonder 4"}, "model"),
+        ({"image_url": "x", "model": "unknown"}, "model"),
         ({"image_url": "x", "upscale_factor": 0.5}, "upscale_factor"),
         ({"image_url": "x", "upscale_factor": 4.5}, "upscale_factor"),
         ({"image_url": "x", "subject_detection": "Subject"}, "subject_detection"),

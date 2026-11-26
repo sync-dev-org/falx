@@ -13,7 +13,7 @@ class Wan30PrimeReferenceToVideoConfig(BaseFalConfig):
     app_id: Literal["alibaba/wan-3.0-prime/reference-to-video"]
     prompt: str | None = Field(
         default=None,
-        max_length=5000,
+        max_length=20000,
         description=(
             "Text prompt directing how the reference media is used. Reference media "
             "can be addressed positionally, e.g. 'the subject in Image 1 walks past Video 1'."

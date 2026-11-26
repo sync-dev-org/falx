@@ -14,7 +14,7 @@ class Wan30PrimeTextToVideoConfig(BaseFalConfig):
     prompt: str = Field(
         ...,
         min_length=1,
-        max_length=5000,
+        max_length=20000,
         description="Text prompt for the generated video.",
     )
     resolution: Literal["480p", "720p", "1080p"] = Field(

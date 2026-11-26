@@ -53,3 +53,7 @@ class TopazUpscaleImageCreativeConfig(BaseFalConfig):
         default="jpeg",
         description="Output format of the upscaled image.",
     )
+    enable_safety_checker: bool = Field(
+        default=True,
+        description="Authorized callers may set false to request relaxed screening.",
+    )

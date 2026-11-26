@@ -19,6 +19,7 @@ def test_kling_o3_pro_image_to_video_accepts_schema_defaults() -> None:
 
     assert config.model_dump() == {
         "app_id": "fal-ai/kling-video/o3/pro/image-to-video",
+        "enable_safety_checker": True,
         "prompt": "The character walks forward slowly.",
         "image_url": "https://example.com/start.png",
         "shot_type": "customize",

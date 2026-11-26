@@ -9,8 +9,8 @@ from falx.models import BaseFalConfig
 
 class Seedance25ImageToVideoConfig(BaseFalConfig):
     app_id: Literal["bytedance/seedance-2.5/image-to-video"]
-    prompt: str = Field(
-        ...,
+    prompt: str | None = Field(
+        default=None,
         description="The text prompt describing the desired motion and action for the video.",
     )
     image_url: str = Field(
@@ -28,11 +28,11 @@ class Seedance25ImageToVideoConfig(BaseFalConfig):
             "image. Supported formats: JPEG, PNG, WebP. Max 30 MB."
         ),
     )
-    resolution: Literal["480p", "720p", "1080p"] = Field(
+    resolution: Literal["480p", "720p", "1080p", "4k"] = Field(
         default="720p",
         description=(
             "Video resolution - 480p for faster generation, 720p for balance, "
-            "1080p for high quality."
+            "1080p for high quality, 4k for highest quality."
         ),
     )
     duration: Literal[
@@ -88,6 +88,32 @@ class Seedance25ImageToVideoConfig(BaseFalConfig):
         description=(
             "Output bitrate mode. 'high' requests a higher-quality, larger-file encode from "
             "the model; 'standard' uses the default bitrate."
+        ),
+    )
+    codec: Literal["auto", "H264", "H265"] = Field(
+        default="auto",
+        description=(
+            "'auto' uses the default video codec; US backend output is kept unchanged. "
+            "'H264' and 'H265' select H.264 and H.265 respectively."
+        ),
+    )
+    return_last_frame: bool = Field(
+        default=False,
+        description="If true, also return the last frame of the generated video as an image.",
+    )
+    draft: bool = Field(
+        default=False,
+        description=(
+            "Generate a draft preview at 480p, overriding resolution. Returns a draft_id "
+            "for completing the draft at 1080p or 4k within 14 days."
+        ),
+    )
+    output_format: Literal["mp4", "mov"] = Field(
+        default="mp4",
+        description=(
+            "Output video format. 'mp4' is broadly compatible with browsers, mobile devices "
+            "and media players. 'mov' targets professional post-production such as color "
+            "grading, keying and compositing, but may not be supported by all players."
         ),
     )
     end_user_id: str | None = Field(

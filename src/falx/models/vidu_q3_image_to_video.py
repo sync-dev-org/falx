@@ -56,6 +56,10 @@ class ViduQ3ImageToVideoConfig(BaseFalConfig):
             "with sound, including dialogue and sound effects."
         ),
     )
+    enable_safety_checker: bool | None = Field(
+        default=True,
+        description="Enable safety checks; disabling requires authorization.",
+    )
 
     @model_validator(mode="after")
     def validate_transition_resolution(self) -> Self:

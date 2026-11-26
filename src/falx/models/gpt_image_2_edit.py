@@ -20,8 +20,11 @@ class GptImage2EditConfig(GptImage2Common):
     )
     image_urls: list[str] = Field(
         ...,
-        min_length=1,
-        description="Reference image URLs to use for the generation.",
+        max_length=16,
+        description=(
+            "The URLs of the images to use as a reference for the generation. A maximum "
+            "of 16 images are allowed."
+        ),
     )
     mask_url: str | None = Field(
         default=None,

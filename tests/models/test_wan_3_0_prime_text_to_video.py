@@ -110,7 +110,7 @@ def test_wan_3_0_prime_text_to_video_accepts_seed_boundaries(seed: int | None) -
 
 def test_wan_3_0_prime_text_to_video_accepts_prompt_length_boundaries() -> None:
     assert Wan30PrimeTextToVideoConfig(app_id=APP_ID, prompt="x").prompt == "x"
-    assert len(Wan30PrimeTextToVideoConfig(app_id=APP_ID, prompt="x" * 5000).prompt) == 5000
+    assert len(Wan30PrimeTextToVideoConfig(app_id=APP_ID, prompt="x" * 20000).prompt) == 20000
 
 
 @pytest.mark.parametrize(
@@ -118,7 +118,7 @@ def test_wan_3_0_prime_text_to_video_accepts_prompt_length_boundaries() -> None:
     [
         ({"app_id": APP_ID}, "prompt"),
         ({"app_id": APP_ID, "prompt": ""}, "prompt"),
-        ({"app_id": APP_ID, "prompt": "x" * 5001}, "prompt"),
+        ({"app_id": APP_ID, "prompt": "x" * 20001}, "prompt"),
         ({"app_id": APP_ID, "prompt": "A lighthouse in fog.", "resolution": "4k"}, "resolution"),
         (
             {"app_id": APP_ID, "prompt": "A lighthouse in fog.", "aspect_ratio": "21:9"},

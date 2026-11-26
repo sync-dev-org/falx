@@ -15,6 +15,7 @@ def test_kling_o3_pro_video_to_video_edit_accepts_schema_defaults() -> None:
 
     assert config.model_dump() == {
         "app_id": "fal-ai/kling-video/o3/pro/video-to-video/edit",
+        "enable_safety_checker": True,
         "prompt": "Change environment to snow.",
         "video_url": "https://example.com/reference.mp4",
         "shot_type": "customize",

@@ -10,7 +10,7 @@ from falx.models import (
 )
 
 APP_ID = "xai/grok-imagine-video/v1.5/reference-to-video"
-ASPECT_RATIOS = ["16:9", "4:3", "3:2", "1:1", "2:3", "3:4", "9:16"]
+ASPECT_RATIOS = ["16:9", "4:3", "3:2", "1:1", "2:3", "3:4", "9:16", "21:9", "5:2"]
 
 
 def test_grok_imagine_video_v1_5_reference_to_video_accepts_schema_defaults() -> None:
@@ -27,6 +27,8 @@ def test_grok_imagine_video_v1_5_reference_to_video_accepts_schema_defaults() ->
         "duration": 8,
         "resolution": "480p",
         "aspect_ratio": "16:9",
+        "generate_audio": None,
+        "enable_safety_checker": True,
     }
 
 
@@ -38,12 +40,35 @@ def test_grok_imagine_video_v1_5_reference_to_video_accepts_all_fields() -> None
         duration=15,
         resolution="720p",
         aspect_ratio="9:16",
+        generate_audio=False,
+        enable_safety_checker=False,
     )
 
     assert len(config.reference_image_urls) == 7
     assert config.duration == 15
     assert config.resolution == "720p"
     assert config.aspect_ratio == "9:16"
+    assert config.generate_audio is False
+    assert config.enable_safety_checker is False
+
+
+@pytest.mark.parametrize("generate_audio", [None, False, True])
+def test_grok_imagine_video_v1_5_reference_to_video_accepts_optional_audio(
+    generate_audio: bool | None,
+) -> None:
+    config = GrokImagineVideoV15ReferenceToVideoConfig(
+        app_id=APP_ID,
+        prompt="Animate <IMAGE_0>.",
+        reference_image_urls=["https://example.com/source.png"],
+        generate_audio=generate_audio,
+    )
+
+    assert config.generate_audio is generate_audio
+    payload = config.model_dump(exclude={"app_id"}, exclude_none=True)
+    if generate_audio is None:
+        assert "generate_audio" not in payload
+    else:
+        assert payload["generate_audio"] is generate_audio
 
 
 @pytest.mark.parametrize("aspect_ratio", ASPECT_RATIOS)
@@ -142,9 +167,7 @@ def test_grok_imagine_video_v1_5_reference_to_video_rejects_invalid_payloads(
     needle: str,
 ) -> None:
     with pytest.raises(ValidationError, match=needle):
-        GrokImagineVideoV15ReferenceToVideoConfig.model_validate(
-            {"app_id": APP_ID, **parameters}
-        )
+        GrokImagineVideoV15ReferenceToVideoConfig.model_validate({"app_id": APP_ID, **parameters})
 
 
 def test_grok_imagine_video_v1_5_reference_to_video_is_registered() -> None:

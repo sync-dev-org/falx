@@ -20,7 +20,35 @@ def test_vidu_q3_text_to_video_accepts_schema_defaults() -> None:
         "aspect_ratio": "16:9",
         "resolution": "720p",
         "audio": True,
+        "enable_safety_checker": True,
     }
+
+
+@pytest.mark.parametrize("enable_safety_checker", [True, False])
+def test_vidu_q3_text_to_video_accepts_safety_checker(enable_safety_checker: bool) -> None:
+    config = ViduQ3TextToVideoConfig(
+        app_id="fal-ai/vidu/q3/text-to-video",
+        prompt="A quiet city park.",
+        enable_safety_checker=enable_safety_checker,
+    )
+
+    assert config.model_dump()["enable_safety_checker"] is enable_safety_checker
+
+
+@pytest.mark.parametrize("invalid_enable_safety_checker", [None, "invalid"])
+def test_vidu_q3_text_to_video_rejects_invalid_safety_checker(
+    invalid_enable_safety_checker: object,
+) -> None:
+    with pytest.raises(ValidationError, match="enable_safety_checker") as exc_info:
+        ViduQ3TextToVideoConfig.model_validate(
+            {
+                "app_id": "fal-ai/vidu/q3/text-to-video",
+                "prompt": "A quiet city park.",
+                "enable_safety_checker": invalid_enable_safety_checker,
+            }
+        )
+
+    assert exc_info.value.errors()[0]["type"] in {"bool_type", "bool_parsing"}
 
 
 def test_vidu_q3_text_to_video_accepts_all_fields() -> None:

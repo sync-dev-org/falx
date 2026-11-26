@@ -34,6 +34,13 @@ class KlingVideoV3ProMotionControlConfig(BaseFalConfig):
     random_seed_field: ClassVar[str | None] = None
 
     app_id: Literal["fal-ai/kling-video/v3/pro/motion-control"]
+    enable_safety_checker: bool = Field(
+        default=True,
+        description=(
+            "Disabling safety checks requires account authorization; "
+            "unauthorized requests are always checked."
+        ),
+    )
     prompt: str | None = Field(
         default=None,
         max_length=2500,

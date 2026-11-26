@@ -23,10 +23,13 @@ class LumaRay32ImageToVideoConfig(BaseFalConfig):
     app_id: Literal["luma/agent/ray/v3.2/image-to-video"]
     prompt: str = Field(
         ...,
+        min_length=1,
+        max_length=6000,
         description="Text prompt describing the motion/scene to generate.",
     )
     image_url: str | None = Field(
         default=None,
+        min_length=1,
         description=(
             "URL of the image used as the first frame of the video. Provide either "
             "image_url (optionally with end_image_url) or keyframes."
@@ -68,11 +71,6 @@ class LumaRay32ImageToVideoConfig(BaseFalConfig):
         default=False,
         description="Also export an EXR file alongside the MP4. Requires hdr=true and HDR access.",
     )
-    reference_image_urls: list[str] | None = Field(
-        default=None,
-        max_length=4,
-        description="Optional list of reference image URLs used to guide the generation.",
-    )
     keyframes: list[str] | None = Field(
         default=None,
         min_length=1,
@@ -90,6 +88,10 @@ class LumaRay32ImageToVideoConfig(BaseFalConfig):
             "Output-frame positions where each keyframes[i] is anchored. "
             "Non-negative, unique, and the same length as keyframes."
         ),
+    )
+    enable_safety_checker: bool = Field(
+        default=True,
+        description="Authorized callers may set false to request relaxed screening.",
     )
 
     @model_validator(mode="after")

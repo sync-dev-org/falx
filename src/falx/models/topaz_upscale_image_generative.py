@@ -12,9 +12,13 @@ class TopazUpscaleImageGenerativeConfig(BaseFalConfig):
     image_url: str = Field(
         ...,
         min_length=1,
-        description="Url of the image to be upscaled",
+        description=(
+            "Url of the image to be upscaled. Wonder 4 supports up to 256 MP input and "
+            "output. The complete upload request must fit within 500 MB."
+        ),
     )
     model: Literal[
+        "Wonder 4",
         "Wonder 3.5",
         "Wonder 3",
         "Wonder 2",
@@ -27,8 +31,9 @@ class TopazUpscaleImageGenerativeConfig(BaseFalConfig):
     ] = Field(
         default="Wonder 3",
         description=(
-            "Generative upscaling model. Wonder 3.5 is the latest Wonder with finer detail "
-            "and fewer repetitive patterns; Wonder 3 is Topaz's most advanced generative "
+            "Generative upscaling model. Wonder 4 automatically enhances and upscales images "
+            "with no model-specific controls. Wonder 3.5 offers finer detail and fewer "
+            "repetitive patterns; Wonder 3 is Topaz's most advanced generative "
             "realism model (Wonder 2/Wonder are earlier generations); Recover 3 rebuilds "
             "natural detail; Standard MAX is high-quality precision-leaning upscaling; "
             "Redefine adds prompt-guided creative detail; Recovery and Recovery V2 rebuild "
@@ -55,7 +60,10 @@ class TopazUpscaleImageGenerativeConfig(BaseFalConfig):
     )
     face_enhancement: bool = Field(
         default=True,
-        description="Whether to apply face enhancement to the image.",
+        description=(
+            "Whether to apply face enhancement to the image. Ignored by Wonder 4, which "
+            "handles face recovery automatically."
+        ),
     )
     face_enhancement_creativity: float = Field(
         default=0,
@@ -96,8 +104,7 @@ class TopazUpscaleImageGenerativeConfig(BaseFalConfig):
         ge=1,
         le=5,
         description=(
-            "Texture detail level for generative upscaling (1-5). Applies to Redefine model "
-            "only."
+            "Texture detail level for generative upscaling (1-5). Applies to Redefine model only."
         ),
     )
     prompt: str | None = Field(
@@ -132,4 +139,8 @@ class TopazUpscaleImageGenerativeConfig(BaseFalConfig):
         ge=0,
         le=1,
         description="Detail recovery level (0.0-1.0). Applies to Recovery V2 model only.",
+    )
+    enable_safety_checker: bool = Field(
+        default=True,
+        description="Authorized callers may set false to request relaxed screening.",
     )

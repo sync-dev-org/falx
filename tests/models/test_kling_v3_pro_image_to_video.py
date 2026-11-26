@@ -19,6 +19,7 @@ def test_kling_v3_pro_image_to_video_accepts_minimal_prompt_request() -> None:
 
     assert config.model_dump() == {
         "app_id": "fal-ai/kling-video/v3/pro/image-to-video",
+        "enable_safety_checker": True,
         "prompt": "The subject slowly turns toward the camera.",
         "multi_prompt": None,
         "start_image_url": "https://example.com/start.png",

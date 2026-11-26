@@ -132,6 +132,12 @@ def test_wan_3_0_prime_reference_to_video_accepts_empty_prompt_and_reference_lis
     assert config.reference_audio_urls == []
 
 
+def test_wan_3_0_prime_reference_to_video_accepts_max_length_prompt() -> None:
+    config = Wan30PrimeReferenceToVideoConfig(app_id=APP_ID, prompt="x" * 20000)
+
+    assert config.prompt == "x" * 20000
+
+
 @pytest.mark.parametrize("resolution", ["480p", "720p", "1080p"])
 def test_wan_3_0_prime_reference_to_video_accepts_resolution_enum(resolution: str) -> None:
     config = Wan30PrimeReferenceToVideoConfig(app_id=APP_ID, resolution=resolution)
@@ -165,7 +171,7 @@ def test_wan_3_0_prime_reference_to_video_accepts_seed_boundaries(seed: int | No
 @pytest.mark.parametrize(
     ("payload", "needle"),
     [
-        ({"app_id": APP_ID, "prompt": "x" * 5001}, "prompt"),
+        ({"app_id": APP_ID, "prompt": "x" * 20001}, "prompt"),
         ({"app_id": APP_ID, "resolution": "4k"}, "resolution"),
         ({"app_id": APP_ID, "aspect_ratio": "21:9"}, "aspect_ratio"),
         ({"app_id": APP_ID, "duration": 1}, "duration"),

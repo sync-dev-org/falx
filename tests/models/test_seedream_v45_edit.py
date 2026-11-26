@@ -100,15 +100,22 @@ def test_seedream_v45_edit_accepts_ten_input_images() -> None:
     assert config.image_urls == image_urls
 
 
-def test_seedream_v45_edit_rejects_more_than_ten_input_images() -> None:
-    image_urls = [f"https://example.com/input-{index}.png" for index in range(11)]
+@pytest.mark.parametrize("image_count", [0, 11])
+def test_seedream_v45_edit_preserves_reference_array_without_item_limits(image_count: int) -> None:
+    image_urls = [f"https://example.com/input-{index}.png" for index in range(image_count)]
 
-    with pytest.raises(ValidationError, match="image_urls"):
-        SeedreamV45EditConfig(
-            app_id="fal-ai/bytedance/seedream/v4.5/edit",
-            prompt="Use all references.",
-            image_urls=image_urls,
-        )
+    config = SeedreamV45EditConfig(
+        app_id="fal-ai/bytedance/seedream/v4.5/edit",
+        prompt="Use the endpoint's last-ten behavior.",
+        image_urls=image_urls,
+    )
+
+    assert config.model_dump(exclude={"app_id"})["image_urls"] == image_urls
+    schema = SeedreamV45EditConfig.model_json_schema()
+    assert "image_urls" in schema["required"]
+    assert schema["properties"]["image_urls"]["items"] == {"type": "string"}
+    assert "minItems" not in schema["properties"]["image_urls"]
+    assert "maxItems" not in schema["properties"]["image_urls"]
 
 
 @pytest.mark.parametrize(
@@ -143,14 +150,6 @@ def test_seedream_v45_edit_accepts_total_input_and_output_image_limit(
             {
                 "app_id": "fal-ai/bytedance/seedream/v4.5/edit",
                 "prompt": "Make the scene warmer.",
-            },
-            "image_urls",
-        ),
-        (
-            {
-                "app_id": "fal-ai/bytedance/seedream/v4.5/edit",
-                "prompt": "Make the scene warmer.",
-                "image_urls": [],
             },
             "image_urls",
         ),

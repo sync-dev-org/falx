@@ -14,8 +14,7 @@ class SoniloV11SfxSegment(BaseModel):
         default=0.0,
         ge=0,
         description=(
-            "Segment start time in seconds (from video start). The FIRST segment's "
-            "start must be 0."
+            "Segment start time in seconds (from video start). The FIRST segment's start must be 0."
         ),
     )
     end: float = Field(
@@ -63,5 +62,16 @@ class SoniloV11VideoToSoundEffectsConfig(BaseFalConfig):
         description=(
             "Format of the returned audio file: aac (default), mp3, wav, or flac. "
             "(The video with sound is always AAC.)"
+        ),
+    )
+    keep_speech_vocal: bool = Field(
+        default=False,
+        description=(
+            "Keep the original video's speech/vocals. When on, the source audio is "
+            "separated (music source separation) and the isolated vocals are kept as "
+            "recorded, with the generated sound mixed in at a level matched to the "
+            "voice; the rest of the original soundtrack (music, ambience) is dropped. "
+            "Applies to the returned audio and video. When off (default), the result "
+            "carries only the generated sound."
         ),
     )

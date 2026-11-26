@@ -42,3 +42,4 @@ class TopazInterpolateVideoConfig(BaseFalConfig):
         default=False,
         description="Whether to use H264 codec for output video. Default is H265.",
     )
+    enable_safety_checker: bool = Field(default=True)

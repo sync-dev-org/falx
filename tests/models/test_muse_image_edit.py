@@ -12,6 +12,29 @@ from falx.models import (
 APP_ID = "meta/muse-image/edit"
 
 
+@pytest.mark.parametrize("aspect_ratio", ["5:4", "1920:1200", "1:16", "16:1"])
+def test_muse_image_edit_accepts_custom_aspect_ratios(aspect_ratio: str) -> None:
+    config = MuseImageEditConfig(
+        app_id=APP_ID,
+        prompt="Edit the image.",
+        image_urls=["https://example.com/source.png"],
+        aspect_ratio=aspect_ratio,
+    )
+
+    assert config.model_dump(exclude={"app_id"})["aspect_ratio"] == aspect_ratio
+
+
+@pytest.mark.parametrize("aspect_ratio", ["0:1", "100000:100000", "1:17", "17:1"])
+def test_muse_image_edit_rejects_invalid_custom_aspect_ratios(aspect_ratio: str) -> None:
+    with pytest.raises(ValidationError, match="aspect_ratio"):
+        MuseImageEditConfig(
+            app_id=APP_ID,
+            prompt="Edit the image.",
+            image_urls=["https://example.com/source.png"],
+            aspect_ratio=aspect_ratio,
+        )
+
+
 def test_muse_image_edit_accepts_schema_defaults() -> None:
     config = MuseImageEditConfig(
         app_id=APP_ID,

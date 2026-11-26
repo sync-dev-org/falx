@@ -16,6 +16,7 @@ def test_minimax_music_3_accepts_schema_defaults() -> None:
     )
 
     assert config.model_dump() == {
+        "enable_safety_checker": True,
         "app_id": APP_ID,
         "prompt": "Acoustic pop with warm vocals.",
         "lyrics": "[verse]\nMorning light",
@@ -38,6 +39,7 @@ def test_minimax_music_3_accepts_all_fields_at_boundaries() -> None:
     )
 
     assert config.model_dump() == {
+        "enable_safety_checker": True,
         "app_id": APP_ID,
         "prompt": "Instrumental ambient soundscape.",
         "lyrics": "",

@@ -5,18 +5,7 @@ from typing import ClassVar, Literal
 from pydantic import Field
 
 from falx.models import BaseFalConfig
-
-BriaVideoOutputContainerAndCodec = Literal[
-    "mp4_h265",
-    "mp4_h264",
-    "webm_vp9",
-    "mov_h265",
-    "mov_proresks",
-    "mkv_h265",
-    "mkv_h264",
-    "mkv_vp9",
-    "gif",
-]
+from falx.models.bria_video_common import BriaVideoOutputContainerAndCodec
 
 
 class BriaVideoBackgroundRemovalGreenScreenDespillConfig(BaseFalConfig):

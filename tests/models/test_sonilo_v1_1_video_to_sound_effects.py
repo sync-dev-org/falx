@@ -23,6 +23,7 @@ def test_sonilo_v1_1_video_to_sound_effects_accepts_schema_defaults() -> None:
         "prompt": None,
         "segments": None,
         "audio_format": "aac",
+        "keep_speech_vocal": False,
     }
 
 
@@ -47,6 +48,7 @@ def test_sonilo_v1_1_video_to_sound_effects_accepts_all_fields() -> None:
             {"start": 2.5, "end": 5.0, "prompt": "A wooden door closes."},
         ],
         "audio_format": "flac",
+        "keep_speech_vocal": False,
     }
 
 

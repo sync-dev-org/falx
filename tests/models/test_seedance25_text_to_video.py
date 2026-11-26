@@ -25,6 +25,10 @@ def test_seedance25_text_to_video_accepts_documented_defaults() -> None:
         "aspect_ratio": "auto",
         "duration": "auto",
         "bitrate_mode": "standard",
+        "codec": "auto",
+        "output_format": "mp4",
+        "draft": False,
+        "return_last_frame": False,
         "end_user_id": None,
         "generate_audio": True,
         "resolution": "720p",
@@ -70,7 +74,7 @@ def test_seedance25_text_to_video_accepts_duration_string_enum(duration: str) ->
         ("duration", "31"),
         ("aspect_ratio", "2:1"),
         ("bitrate_mode", "lossless"),
-        ("resolution", "4k"),
+        ("resolution", "8k"),
     ],
 )
 def test_seedance25_text_to_video_rejects_undocumented_enum_values(

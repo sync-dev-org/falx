@@ -42,6 +42,9 @@ def test_seedream_v5_lite_edit_accepts_all_fields() -> None:
         "max_images": 6,
         "sync_mode": True,
         "enable_safety_checker": False,
+        "output_format": "jpeg",
+        "watermark": False,
+        "sequential_image_generation": None,
         "image_urls": [
             "https://example.com/source.png",
             "./fixtures/product.png",
@@ -98,15 +101,16 @@ def test_seedream_v5_lite_edit_accepts_ten_input_images() -> None:
     assert config.image_urls == image_urls
 
 
-def test_seedream_v5_lite_edit_rejects_more_than_ten_input_images() -> None:
+def test_seedream_v5_lite_edit_preserves_more_than_ten_input_images() -> None:
     image_urls = [f"https://example.com/input-{index}.png" for index in range(11)]
 
-    with pytest.raises(ValidationError, match="image_urls"):
-        SeedreamV5LiteEditConfig(
-            app_id="fal-ai/bytedance/seedream/v5/lite/edit",
-            prompt="Use all references.",
-            image_urls=image_urls,
-        )
+    config = SeedreamV5LiteEditConfig(
+        app_id="fal-ai/bytedance/seedream/v5/lite/edit",
+        prompt="Use all references.",
+        image_urls=image_urls,
+    )
+
+    assert config.image_urls == image_urls
 
 
 @pytest.mark.parametrize(
@@ -117,14 +121,6 @@ def test_seedream_v5_lite_edit_rejects_more_than_ten_input_images() -> None:
             {
                 "app_id": "fal-ai/bytedance/seedream/v5/lite/edit",
                 "prompt": "Make the scene warmer.",
-            },
-            "image_urls",
-        ),
-        (
-            {
-                "app_id": "fal-ai/bytedance/seedream/v5/lite/edit",
-                "prompt": "Make the scene warmer.",
-                "image_urls": [],
             },
             "image_urls",
         ),

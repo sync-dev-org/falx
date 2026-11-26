@@ -14,6 +14,7 @@ SeedreamV5ProImageSizePreset = Literal[
     "landscape_4_3",
     "landscape_16_9",
     "auto_1K",
+    "auto_1.5K",
     "auto_2K",
 ]
 
@@ -44,7 +45,7 @@ class SeedreamV5ProCommon(BaseFalConfig):
         default="auto_2K",
         description=(
             "The size of the generated image. Total pixels must be between "
-            "1024x1024 and 2048x2048, with aspect ratio between 1/16 and 16."
+            "921600 and 4624220, with aspect ratio between 1/16 and 16."
         ),
     )
     num_images: int = Field(
@@ -69,5 +70,21 @@ class SeedreamV5ProCommon(BaseFalConfig):
         description=(
             "Enables the safety checker. Disabling it requires account authorization; "
             "unauthorized requests are always checked."
+        ),
+    )
+
+
+class SeedreamV5ProGenerationCommon(SeedreamV5ProCommon):
+    """Additional generation options for Seedream 5 Pro text and edit endpoints."""
+
+    watermark: bool = Field(
+        default=False,
+        description="Whether to add the provider's visible watermark.",
+    )
+    enhance_prompt_mode: Literal["standard", "fast"] = Field(
+        default="standard",
+        description=(
+            "Prompt optimization mode. `standard` prioritizes image quality; `fast` reduces "
+            "generation time."
         ),
     )

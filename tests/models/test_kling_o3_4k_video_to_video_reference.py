@@ -21,6 +21,7 @@ def test_kling_o3_4k_video_to_video_reference_accepts_schema_defaults() -> None:
 
     assert config.model_dump() == {
         "app_id": APP_ID,
+        "enable_safety_checker": True,
         "prompt": "Follow the watercolor style of the reference.",
         "video_url": "https://example.com/reference.mp4",
         "shot_type": "customize",
@@ -130,9 +131,7 @@ def test_kling_o3_4k_video_to_video_reference_rejects_invalid_payloads(
     needle: str,
 ) -> None:
     with pytest.raises(ValidationError, match=needle):
-        KlingVideoO34kVideoToVideoReferenceConfig.model_validate(
-            {"app_id": APP_ID, **parameters}
-        )
+        KlingVideoO34kVideoToVideoReferenceConfig.model_validate({"app_id": APP_ID, **parameters})
 
 
 def test_kling_o3_4k_video_to_video_reference_is_registered() -> None:

@@ -72,9 +72,7 @@ def test_flux_3_extend_video_schema_preserves_source_constraints() -> None:
 
 
 def test_flux_3_extend_video_schema_preserves_route_specific_prompt_contract() -> None:
-    description = Flux3ExtendVideoConfig.model_json_schema()["properties"]["prompt"][
-        "description"
-    ]
+    description = Flux3ExtendVideoConfig.model_json_schema()["properties"]["prompt"]["description"]
 
     assert description == (
         "The text prompt describing how the video continues from the source clip's final frames."
@@ -119,13 +117,36 @@ def test_flux_3_keyframes_schema_exposes_openapi_bounds() -> None:
     assert schema["$defs"]["Flux3Keyframe"]["properties"]["frame_index"]["minimum"] == 0
 
 
-@pytest.mark.parametrize("resolution", ["720p", "1080p"])
-def test_flux_3_accepts_resolution_enum(resolution: str) -> None:
-    config = Flux3TextToVideoConfig.model_validate(
+@pytest.mark.parametrize(
+    ("route", "inputs"),
+    [
+        ("text-to-video", {}),
+        ("image-to-video", {"image_url": "https://example.com/start.png"}),
+        ("extend-video", {"video_url": "https://example.com/source.mp4"}),
+        (
+            "first-last-frame-to-video",
+            {
+                "start_image_url": "https://example.com/start.png",
+                "end_image_url": "https://example.com/end.png",
+            },
+        ),
+        (
+            "keyframes-to-video",
+            {"keyframes": [{"image_url": "https://example.com/start.png", "frame_index": 0}]},
+        ),
+    ],
+)
+@pytest.mark.parametrize("resolution", ["720p", "1080p", "1440p", "2160p"])
+def test_flux_3_accepts_resolution_enum(
+    route: str, inputs: dict[str, object], resolution: str
+) -> None:
+    app_id = "blackforestlabs/flux-3/" + route
+    config = config_class_for_app_id(app_id).model_validate(
         {
-            "app_id": "blackforestlabs/flux-3/text-to-video",
+            "app_id": app_id,
             "prompt": "A cinematic landscape.",
             "resolution": resolution,
+            **inputs,
         }
     )
 

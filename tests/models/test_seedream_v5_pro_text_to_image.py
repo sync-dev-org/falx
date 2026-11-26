@@ -20,6 +20,8 @@ def test_seedream_v5_pro_text_to_image_accepts_minimal_required_fields() -> None
         "image_size": "auto_2K",
         "num_images": 1,
         "output_format": "jpeg",
+        "watermark": False,
+        "enhance_prompt_mode": "standard",
         "sync_mode": False,
         "enable_safety_checker": True,
     }
@@ -32,6 +34,8 @@ def test_seedream_v5_pro_text_to_image_accepts_all_fields() -> None:
         image_size="auto_1K",
         num_images=6,
         output_format="png",
+        watermark=True,
+        enhance_prompt_mode="fast",
         sync_mode=True,
         enable_safety_checker=False,
     )
@@ -42,6 +46,8 @@ def test_seedream_v5_pro_text_to_image_accepts_all_fields() -> None:
         "image_size": "auto_1K",
         "num_images": 6,
         "output_format": "png",
+        "watermark": True,
+        "enhance_prompt_mode": "fast",
         "sync_mode": True,
         "enable_safety_checker": False,
     }
@@ -57,6 +63,7 @@ def test_seedream_v5_pro_text_to_image_accepts_all_fields() -> None:
         "landscape_4_3",
         "landscape_16_9",
         "auto_1K",
+        "auto_1.5K",
         "auto_2K",
     ],
 )

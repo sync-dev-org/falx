@@ -43,6 +43,7 @@ def test_kling_v3_motion_control_config_accepts_all_fields() -> None:
 
     assert config.model_dump() == {
         "app_id": "fal-ai/kling-video/v3/pro/motion-control",
+        "enable_safety_checker": True,
         "prompt": "Make the character perform the same dance as the reference video.",
         "image_url": "https://example.com/character.webp",
         "video_url": "https://example.com/motion.mp4",

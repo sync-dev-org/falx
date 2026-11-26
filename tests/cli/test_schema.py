@@ -5,7 +5,7 @@ from ruamel.yaml import YAML
 from typer.testing import CliRunner
 
 from falx.cli import app
-from falx.models import Flux3KeyframesToVideoConfig
+from falx.models import Flux3KeyframesToVideoConfig, validate_parameters
 from falx.models.kling_o3_common import KlingO3MultiPromptElement
 from falx.models.kling_v3_common import KlingV3MultiPromptElement
 
@@ -71,7 +71,8 @@ def test_schema_prints_seedream_v5_lite_yaml_example(app_id: str) -> None:
     payload = safe_yaml.load(result.stdout)
     assert payload["app_id"] == app_id
     assert payload["parameters"]["image_size"] == "auto_2K"
-    assert "auto_3K" in result.stdout
+    parameters = {**payload["parameters"], "image_size": "auto_3K"}
+    assert validate_parameters(app_id, parameters).image_size == "auto_3K"
 
 
 def test_schema_prints_seedream_v5_lite_text_to_image_byteplus_urls_example() -> None:
@@ -126,8 +127,8 @@ def test_seedance2_duration_description_enumerates_allowed_values() -> None:
 
     assert result.exit_code == 0
     assert (
-        "Allowed values: 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 (int) "
-        "or 'auto' (string)" in result.stdout
+        "Allowed values: '4', '5', '6', '7', '8', '9', '10', '11', '12', "
+        "'13', '14', '15' (string) or 'auto' (string)" in result.stdout
     )
 
 
@@ -325,7 +326,7 @@ def test_schema_prints_luma_ray_3_2_text_to_video_fields() -> None:
     assert payload["parameters"]["loop"] is False
     assert payload["parameters"]["hdr"] is False
     assert payload["parameters"]["exr_export"] is False
-    assert payload["parameters"]["reference_image_urls"] is None
+    assert "reference_image_urls" not in payload["parameters"]
 
 
 def test_schema_prints_luma_ray_3_2_image_to_video_fields() -> None:

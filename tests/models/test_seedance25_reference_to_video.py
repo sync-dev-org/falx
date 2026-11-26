@@ -35,7 +35,13 @@ def test_seedance25_reference_to_video_accepts_documented_defaults() -> None:
         "aspect_ratio": "auto",
         "generate_audio": True,
         "bitrate_mode": "standard",
+        "codec": "auto",
+        "output_format": "mp4",
+        "draft": False,
+        "return_last_frame": False,
         "end_user_id": None,
+        "task": "reference",
+        "seed": None,
     }
 
 
@@ -80,7 +86,7 @@ def test_seedance25_reference_to_video_schema_uses_optional_non_nullable_arrays(
 
     for field in ("image_urls", "video_urls", "audio_urls"):
         field_schema = schema["properties"][field]
-        assert field not in schema["required"]
+        assert field not in schema.get("required", [])
         assert field_schema["type"] == "array"
         assert "anyOf" not in field_schema
         assert "default" not in field_schema
@@ -116,7 +122,7 @@ def test_seedance25_reference_to_video_accepts_duration_string_enum(duration: st
         ("duration", "31"),
         ("aspect_ratio", "2:1"),
         ("bitrate_mode", "lossless"),
-        ("resolution", "4k"),
+        ("resolution", "8k"),
     ],
 )
 def test_seedance25_reference_to_video_rejects_undocumented_enum_values(
@@ -170,13 +176,14 @@ def test_seedance25_reference_to_video_accepts_full_fifty_file_budget() -> None:
     assert sum(len(urls or []) for urls in reference_lists) == 50
 
 
-def test_seedance25_reference_to_video_rejects_audio_without_visual_reference() -> None:
-    with pytest.raises(ValidationError, match="audio_urls require image_urls or video_urls"):
-        Seedance25ReferenceToVideoConfig(
-            app_id=APP_ID,
-            prompt="Use @Audio1 to guide the shot.",
-            audio_urls=["https://example.com/dialogue.wav"],
-        )
+def test_seedance25_reference_to_video_accepts_audio_without_visual_reference() -> None:
+    config = Seedance25ReferenceToVideoConfig(
+        app_id=APP_ID,
+        prompt="Use @Audio1 to guide the shot.",
+        audio_urls=["https://example.com/dialogue.wav"],
+    )
+
+    assert config.model_dump()["audio_urls"] == ["https://example.com/dialogue.wav"]
 
 
 def test_seedance25_reference_to_video_describes_media_constraints() -> None:
@@ -198,7 +205,6 @@ def test_seedance25_reference_to_video_describes_media_constraints() -> None:
     assert "MP3, WAV" in audio_description
     assert "15 MB" in audio_description
     assert "combined duration must not exceed 30.2 seconds" in audio_description
-    assert "at least one reference image or video is required" in audio_description
 
 
 def test_seedance25_reference_to_video_is_registered() -> None:

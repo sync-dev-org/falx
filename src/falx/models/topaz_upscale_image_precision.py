@@ -21,13 +21,14 @@ class TopazUpscaleImagePrecisionConfig(BaseFalConfig):
         "Low Resolution V2",
         "CGI",
         "Text Refine",
+        "Faces",
     ] = Field(
         default="Standard V2",
         description=(
             "Precision upscaling model. Standard V2 fits most photos; High Fidelity V3/V2 "
             "preserve detail in professional shots; Low Resolution V2 recovers compressed "
             "sources; CGI targets art and rendered graphics; Text Refine keeps text and "
-            "shapes crisp."
+            "shapes crisp; Faces restores facial detail with Face Recovery 3."
         ),
     )
     upscale_factor: float = Field(
@@ -90,4 +91,8 @@ class TopazUpscaleImagePrecisionConfig(BaseFalConfig):
         ge=0.01,
         le=1,
         description="Enhancement strength (0.01-1.0). Applies to Text Refine model only.",
+    )
+    enable_safety_checker: bool = Field(
+        default=True,
+        description="Authorized callers may set false to request relaxed screening.",
     )

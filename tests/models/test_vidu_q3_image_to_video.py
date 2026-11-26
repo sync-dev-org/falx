@@ -21,7 +21,21 @@ def test_vidu_q3_image_to_video_accepts_schema_defaults() -> None:
         "seed": None,
         "resolution": "720p",
         "audio": True,
+        "enable_safety_checker": True,
     }
+
+
+@pytest.mark.parametrize("enable_safety_checker", [True, False, None])
+def test_vidu_q3_image_to_video_accepts_nullable_safety_checker(
+    enable_safety_checker: bool | None,
+) -> None:
+    config = ViduQ3ImageToVideoConfig(
+        app_id="fal-ai/vidu/q3/image-to-video",
+        image_url="https://example.com/start.png",
+        enable_safety_checker=enable_safety_checker,
+    )
+
+    assert config.model_dump()["enable_safety_checker"] is enable_safety_checker
 
 
 def test_vidu_q3_image_to_video_accepts_all_fields() -> None:

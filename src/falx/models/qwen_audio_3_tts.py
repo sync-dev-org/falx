@@ -90,3 +90,7 @@ class QwenAudio3TtsConfig(BaseFalConfig):
             "explicitly improves pronunciation and intonation."
         ),
     )
+    enable_safety_checker: bool = Field(
+        default=True,
+        description="Authorized callers may set false to request relaxed screening.",
+    )

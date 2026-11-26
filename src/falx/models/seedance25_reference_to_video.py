@@ -1,17 +1,29 @@
 from __future__ import annotations
 
-from typing import Literal, Self
+from typing import ClassVar, Literal
 
-from pydantic import Field, model_validator
+from pydantic import Field
 
 from falx.models import BaseFalConfig
 
 
 class Seedance25ReferenceToVideoConfig(BaseFalConfig):
+    random_seed_field: ClassVar[str | None] = "seed"
+
     app_id: Literal["bytedance/seedance-2.5/reference-to-video"]
-    prompt: str = Field(
-        ...,
+    prompt: str | None = Field(
+        default=None,
         description="The text prompt used to generate the video.",
+    )
+    task: Literal["auto", "reference", "editing", "extension"] = Field(
+        default="reference",
+        description=(
+            "The type of video generation task. Reference uses the supplied media as guidance. "
+            "Editing modifies a reference video and automatically coerces aspect_ratio and "
+            "duration to auto. Extension continues a reference video and automatically coerces "
+            "aspect_ratio to auto. Auto leaves the task type unset so the model decides it "
+            "from the prompt and references."
+        ),
     )
     image_urls: list[str] = Field(
         default_factory=list,
@@ -30,8 +42,9 @@ class Seedance25ReferenceToVideoConfig(BaseFalConfig):
             "Reference videos to guide video generation. Refer to them in the prompt as "
             "@Video1, @Video2, etc. Supported formats: MP4, MOV. Up to 10 videos. Each "
             "video must be 1.8 to 30.2 seconds and no larger than 200 MB; combined duration "
-            "must not exceed 30.2 seconds. Dimensions must be 300 to 6,000 pixels per side, "
-            "aspect ratio 0.4 to 2.5, and frame rate 24 to 60 FPS."
+            "must not exceed 30.2 seconds. An extension with a single video accepts up to "
+            "120 seconds; only its last 30.2 seconds are sent to the model. Dimensions must "
+            "be 300 to 6,000 pixels per side, aspect ratio 0.4 to 2.5, and frame rate 24 to 60 FPS."
         ),
     )
     audio_urls: list[str] = Field(
@@ -41,15 +54,14 @@ class Seedance25ReferenceToVideoConfig(BaseFalConfig):
             "Reference audio to guide video generation. Refer to them in the prompt as "
             "@Audio1, @Audio2, etc. Supported formats: MP3, WAV. Up to 10 files. Each file "
             "must be 1.8 to 30.2 seconds and no larger than 15 MB; combined duration must "
-            "not exceed 30.2 seconds. If audio is provided, at least one reference image "
-            "or video is required."
+            "not exceed 30.2 seconds."
         ),
     )
-    resolution: Literal["480p", "720p", "1080p"] = Field(
+    resolution: Literal["480p", "720p", "1080p", "4k"] = Field(
         default="720p",
         description=(
             "Video resolution - 480p for faster generation, 720p for balance, "
-            "1080p for high quality."
+            "1080p for high quality, 4k for highest quality."
         ),
     )
     duration: Literal[
@@ -111,21 +123,40 @@ class Seedance25ReferenceToVideoConfig(BaseFalConfig):
             "the model; 'standard' uses the default bitrate."
         ),
     )
+    codec: Literal["auto", "H264", "H265"] = Field(
+        default="auto",
+        description=(
+            "'auto' uses the default video codec; US backend output is kept unchanged. "
+            "'H264' and 'H265' select H.264 and H.265 respectively."
+        ),
+    )
+    return_last_frame: bool = Field(
+        default=False,
+        description="If true, also return the last frame of the generated video as an image.",
+    )
+    draft: bool = Field(
+        default=False,
+        description=(
+            "Generate a draft preview at 480p, overriding resolution. Returns a draft_id "
+            "for completing the draft at 1080p or 4k within 14 days."
+        ),
+    )
+    output_format: Literal["mp4", "mov"] = Field(
+        default="mp4",
+        description=(
+            "Output video format. 'mp4' is broadly compatible with browsers, mobile devices "
+            "and media players. 'mov' targets professional post-production such as color "
+            "grading, keying and compositing, but may not be supported by all players."
+        ),
+    )
+    seed: int | None = Field(
+        default=None,
+        description=(
+            "Random seed for reproducibility. Note that results may still vary slightly "
+            "even with the same seed."
+        ),
+    )
     end_user_id: str | None = Field(
         default=None,
         description="The unique user ID of the end user.",
     )
-
-    @model_validator(mode="after")
-    def validate_reference_file_constraints(self) -> Self:
-        image_count = len(self.image_urls or [])
-        video_count = len(self.video_urls or [])
-        audio_count = len(self.audio_urls or [])
-
-        if image_count + video_count + audio_count > 50:
-            raise ValueError(
-                "total files across image_urls, video_urls, and audio_urls must be <= 50"
-            )
-        if audio_count > 0 and image_count == 0 and video_count == 0:
-            raise ValueError("audio_urls require image_urls or video_urls")
-        return self

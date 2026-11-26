@@ -47,7 +47,12 @@ def test_models_command_lists_audio_app_ids() -> None:
     [
         (
             "alibaba/qwen-audio-3-tts",
-            {"text": "<text>", "voice": "Cherry", "language": "Auto"},
+            {
+                "text": "<text>",
+                "voice": "Cherry",
+                "language": "Auto",
+                "enable_safety_checker": True,
+            },
         ),
         (
             "minimax/music-3",
@@ -58,6 +63,7 @@ def test_models_command_lists_audio_app_ids() -> None:
                 "seed": None,
                 "num_inference_steps": 30,
                 "guidance_scale": 1.7,
+                "enable_safety_checker": True,
             },
         ),
         (
@@ -67,6 +73,7 @@ def test_models_command_lists_audio_app_ids() -> None:
                 "prompt": None,
                 "segments": None,
                 "audio_format": "aac",
+                "keep_speech_vocal": False,
             },
         ),
     ],

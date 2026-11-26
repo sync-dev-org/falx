@@ -70,10 +70,31 @@ def test_happy_horse_reference_to_video_config_accepts_image_url_boundaries() ->
     assert len(config.image_urls) == 9
 
 
+@pytest.mark.parametrize("prompt_length", [1, 2500])
+def test_happy_horse_reference_to_video_config_accepts_prompt_length_boundaries(
+    prompt_length: int,
+) -> None:
+    config = HappyHorseReferenceToVideoConfig(
+        app_id="alibaba/happy-horse/reference-to-video",
+        prompt="x" * prompt_length,
+        image_urls=["https://example.com/character-1.png"],
+    )
+
+    assert config.prompt == "x" * prompt_length
+
+
 @pytest.mark.parametrize(
     ("payload", "needle"),
     [
         ({"app_id": "alibaba/happy-horse/reference-to-video"}, "prompt"),
+        (
+            {
+                "app_id": "alibaba/happy-horse/reference-to-video",
+                "prompt": "",
+                "image_urls": ["https://example.com/character-1.png"],
+            },
+            "prompt",
+        ),
         (
             {
                 "app_id": "alibaba/happy-horse/reference-to-video",

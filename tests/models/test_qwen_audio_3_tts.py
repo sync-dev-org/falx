@@ -78,6 +78,7 @@ def test_qwen_audio_3_tts_accepts_schema_defaults() -> None:
         "text": "Hello from falx.",
         "voice": "Cherry",
         "language": "Auto",
+        "enable_safety_checker": True,
     }
 
 
@@ -87,6 +88,7 @@ def test_qwen_audio_3_tts_accepts_all_fields() -> None:
         text="こんにちは。",
         voice="Kiki",
         language="Japanese",
+        enable_safety_checker=False,
     )
 
     assert config.model_dump() == {
@@ -94,6 +96,7 @@ def test_qwen_audio_3_tts_accepts_all_fields() -> None:
         "text": "こんにちは。",
         "voice": "Kiki",
         "language": "Japanese",
+        "enable_safety_checker": False,
     }
 
 
@@ -117,6 +120,8 @@ def test_qwen_audio_3_tts_schema_matches_openapi_contract() -> None:
         "Language of the input text. `Auto` lets the model detect it; setting it "
         "explicitly improves pronunciation and intonation."
     )
+    assert schema["properties"]["enable_safety_checker"]["type"] == "boolean"
+    assert schema["properties"]["enable_safety_checker"]["default"] is True
 
 
 @pytest.mark.parametrize("voice", VOICES)
@@ -143,6 +148,14 @@ def test_qwen_audio_3_tts_accepts_language_enum(language: str) -> None:
         ({"app_id": APP_ID, "text": "Hello.", "language": "Dutch"}, "language"),
         ({"app_id": APP_ID, "text": "Hello.", "voice": None}, "voice"),
         ({"app_id": APP_ID, "text": "Hello.", "language": None}, "language"),
+        (
+            {"app_id": APP_ID, "text": "Hello.", "enable_safety_checker": None},
+            "enable_safety_checker",
+        ),
+        (
+            {"app_id": APP_ID, "text": "Hello.", "enable_safety_checker": "invalid"},
+            "enable_safety_checker",
+        ),
         ({"app_id": APP_ID, "text": "Hello.", "unexpected": True}, "unexpected"),
     ],
 )

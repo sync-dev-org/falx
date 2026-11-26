@@ -24,6 +24,9 @@ ASPECT_RATIOS = [
     "9:19.5",
     "9:20",
     "1:2",
+    "auto",
+    "21:9",
+    "5:2",
 ]
 
 
@@ -42,6 +45,7 @@ def test_grok_imagine_image_v2_0_text_to_image_accepts_schema_defaults() -> None
         "num_images": 1,
         "output_format": "jpeg",
         "sync_mode": False,
+        "enable_safety_checker": True,
     }
 
 
@@ -55,6 +59,7 @@ def test_grok_imagine_image_v2_0_text_to_image_accepts_all_fields() -> None:
         num_images=4,
         output_format="webp",
         sync_mode=True,
+        enable_safety_checker=False,
     )
 
     assert config.aspect_ratio == "20:9"
@@ -63,6 +68,7 @@ def test_grok_imagine_image_v2_0_text_to_image_accepts_all_fields() -> None:
     assert config.num_images == 4
     assert config.output_format == "webp"
     assert config.sync_mode is True
+    assert config.enable_safety_checker is False
 
 
 @pytest.mark.parametrize("aspect_ratio", ASPECT_RATIOS)
@@ -78,9 +84,9 @@ def test_grok_imagine_image_v2_0_text_to_image_accepts_aspect_ratio_enum(
     assert config.aspect_ratio == aspect_ratio
 
 
-@pytest.mark.parametrize("resolution", ["1k", "2k"])
-@pytest.mark.parametrize("quality", ["low", "medium"])
-@pytest.mark.parametrize("num_images", [1, 4])
+@pytest.mark.parametrize("resolution", ["1k", "1.5k", "2k"])
+@pytest.mark.parametrize("quality", ["low", "medium", "auto"])
+@pytest.mark.parametrize("num_images", [1, 10])
 def test_grok_imagine_image_v2_0_text_to_image_accepts_common_enums_and_boundaries(
     resolution: str,
     quality: str,
@@ -117,11 +123,15 @@ def test_grok_imagine_image_v2_0_text_to_image_accepts_output_format_enum(
     [
         ({}, "prompt"),
         ({"prompt": "x" * 8001}, "prompt"),
-        ({"prompt": "An abstract portrait.", "aspect_ratio": "auto"}, "aspect_ratio"),
+        ({"prompt": "An abstract portrait.", "aspect_ratio": "3:1"}, "aspect_ratio"),
         ({"prompt": "An abstract portrait.", "resolution": "4k"}, "resolution"),
         ({"prompt": "An abstract portrait.", "quality": "high"}, "quality"),
         ({"prompt": "An abstract portrait.", "num_images": 0}, "num_images"),
-        ({"prompt": "An abstract portrait.", "num_images": 5}, "num_images"),
+        ({"prompt": "An abstract portrait.", "num_images": 11}, "num_images"),
+        (
+            {"prompt": "An abstract portrait.", "enable_safety_checker": None},
+            "enable_safety_checker",
+        ),
         ({"prompt": "An abstract portrait.", "output_format": "gif"}, "output_format"),
         ({"prompt": "An abstract portrait.", "unexpected": True}, "unexpected"),
     ],
@@ -131,9 +141,7 @@ def test_grok_imagine_image_v2_0_text_to_image_rejects_invalid_payloads(
     needle: str,
 ) -> None:
     with pytest.raises(ValidationError, match=needle):
-        GrokImagineImageV20TextToImageConfig.model_validate(
-            {"app_id": APP_ID, **parameters}
-        )
+        GrokImagineImageV20TextToImageConfig.model_validate({"app_id": APP_ID, **parameters})
 
 
 def test_grok_imagine_image_v2_0_text_to_image_is_registered() -> None:

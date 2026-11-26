@@ -17,8 +17,9 @@ def test_seedance2_text_to_video_config_accepts_minimal_required_fields() -> Non
     assert config.duration == "auto"
     assert config.aspect_ratio == "auto"
     assert config.generate_audio is True
-    assert config.bitrate_mode == "high"
-    assert config.seed is None
+    assert config.bitrate_mode == "standard"
+    assert config.codec == "auto"
+    assert config.return_last_frame is False
     assert config.end_user_id is None
 
 
@@ -27,11 +28,12 @@ def test_seedance2_text_to_video_config_accepts_all_standard_tier_fields() -> No
         app_id="bytedance/seedance-2.0/text-to-video",
         prompt="The sun sets behind the mountains, sky shifting from gold to deep purple.",
         resolution="1080p",
-        duration=8,
+        duration="8",
         aspect_ratio="16:9",
         generate_audio=False,
         bitrate_mode="high",
-        seed=42,
+        codec="H265",
+        return_last_frame=True,
         end_user_id="user-123",
     )
 
@@ -39,11 +41,12 @@ def test_seedance2_text_to_video_config_accepts_all_standard_tier_fields() -> No
         "app_id": "bytedance/seedance-2.0/text-to-video",
         "prompt": "The sun sets behind the mountains, sky shifting from gold to deep purple.",
         "resolution": "1080p",
-        "duration": 8,
+        "duration": "8",
         "aspect_ratio": "16:9",
         "generate_audio": False,
         "bitrate_mode": "high",
-        "seed": 42,
+        "codec": "H265",
+        "return_last_frame": True,
         "end_user_id": "user-123",
     }
 
@@ -63,9 +66,9 @@ def test_seedance2_text_to_video_config_accepts_standard_tier_resolutions(
     assert config.resolution == resolution
 
 
-@pytest.mark.parametrize("duration", ["auto", *range(4, 16)])
+@pytest.mark.parametrize("duration", ["auto", *(str(value) for value in range(4, 16))])
 def test_seedance2_text_to_video_config_accepts_duration_enum(
-    duration: str | int,
+    duration: str,
 ) -> None:
     config = Seedance2TextToVideoConfig.model_validate(
         {
@@ -114,7 +117,7 @@ def test_seedance2_text_to_video_config_accepts_bitrate_mode_enum(
             {
                 "app_id": "bytedance/seedance-2.0/text-to-video",
                 "prompt": "A glowing train crosses a bridge at night.",
-                "duration": 3,
+                "duration": "3",
             },
             "duration",
         ),
@@ -122,7 +125,7 @@ def test_seedance2_text_to_video_config_accepts_bitrate_mode_enum(
             {
                 "app_id": "bytedance/seedance-2.0/text-to-video",
                 "prompt": "A glowing train crosses a bridge at night.",
-                "duration": 16,
+                "duration": "16",
             },
             "duration",
         ),

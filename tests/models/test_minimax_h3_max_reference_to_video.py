@@ -21,6 +21,12 @@ def test_minimax_h3_max_reference_to_video_accepts_schema_defaults() -> None:
     )
 
     assert config.model_dump() == {
+        "target_audio_url": None,
+        "image_url": None,
+        "end_image_url": None,
+        "middle_image_url": None,
+        "middle_frame_time": None,
+        "reference_conditions": [],
         "app_id": APP_ID,
         "prompt": "Keep the woman and dog consistent while they walk through a garden.",
         "duration": 5,
@@ -53,6 +59,12 @@ def test_minimax_h3_max_reference_to_video_accepts_all_fields() -> None:
     )
 
     assert config.model_dump() == {
+        "target_audio_url": None,
+        "image_url": None,
+        "end_image_url": None,
+        "middle_image_url": None,
+        "middle_frame_time": None,
+        "reference_conditions": [],
         "app_id": APP_ID,
         "prompt": "Use Image 1, Video 1, and Audio 1 to guide the scene.",
         "duration": 15,
@@ -126,9 +138,9 @@ def test_minimax_h3_max_reference_to_video_accepts_aspect_ratio_enum(
     assert config.aspect_ratio == aspect_ratio
 
 
-@pytest.mark.parametrize("duration", [5, 15])
+@pytest.mark.parametrize("duration", [0.92, 1.5, 15])
 def test_minimax_h3_max_reference_to_video_accepts_duration_boundaries(
-    duration: int,
+    duration: float,
 ) -> None:
     config = MinimaxH3MaxReferenceToVideoConfig(
         app_id=APP_ID,
@@ -220,17 +232,15 @@ def test_minimax_h3_max_reference_to_video_rejects_more_than_twelve_files() -> N
         )
 
 
-def test_minimax_h3_max_reference_to_video_rejects_audio_without_visual_reference() -> None:
-    with pytest.raises(
-        ValidationError,
-        match="reference_audio_urls require reference_image_urls or reference_video_urls",
-    ):
-        MinimaxH3MaxReferenceToVideoConfig(
-            app_id=APP_ID,
-            prompt="Use Audio 1 to guide the scene.",
-            prompt_expansion_mode="balanced",
-            reference_audio_urls=["https://example.com/dialogue.wav"],
-        )
+def test_minimax_h3_max_reference_to_video_accepts_audio_without_visual_reference() -> None:
+    config = MinimaxH3MaxReferenceToVideoConfig(
+        app_id=APP_ID,
+        prompt="Use Audio 1 to guide the scene.",
+        prompt_expansion_mode="balanced",
+        reference_audio_urls=["https://example.com/dialogue.wav"],
+    )
+
+    assert config.model_dump()["reference_audio_urls"] == ["https://example.com/dialogue.wav"]
 
 
 @pytest.mark.parametrize(
@@ -272,7 +282,7 @@ def test_minimax_h3_max_reference_to_video_rejects_audio_without_visual_referenc
                 "app_id": APP_ID,
                 "prompt": "Use Image 1 as the reference.",
                 "prompt_expansion_mode": "balanced",
-                "duration": 4,
+                "duration": 0.91,
             },
             "duration",
         ),

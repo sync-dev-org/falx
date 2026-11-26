@@ -52,6 +52,10 @@ class ViduQ3ReferenceToVideoBase(BaseFalConfig):
             "Whether to use direct audio-video generation. When true, outputs video with sound."
         ),
     )
+    enable_safety_checker: bool | None = Field(
+        default=True,
+        description="Enable safety checks; disabling requires authorization.",
+    )
 
 
 class ViduQ3ReferenceToVideoConfig(ViduQ3ReferenceToVideoBase):

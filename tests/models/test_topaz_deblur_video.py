@@ -16,6 +16,7 @@ def test_topaz_deblur_video_config_accepts_minimal_required_fields() -> None:
         "app_id": "topaz/deblur/video",
         "video_url": "https://example.com/input.mp4",
         "H264_output": False,
+        "enable_safety_checker": True,
     }
 
 
@@ -32,7 +33,12 @@ def test_topaz_deblur_video_config_accepts_h264_output() -> None:
 def test_topaz_deblur_video_schema_matches_public_api_contract() -> None:
     schema = TopazDeblurVideoConfig.model_json_schema()
 
-    assert list(schema["properties"]) == ["app_id", "video_url", "H264_output"]
+    assert list(schema["properties"]) == [
+        "app_id",
+        "video_url",
+        "H264_output",
+        "enable_safety_checker",
+    ]
     assert schema["required"] == ["app_id", "video_url"]
     assert schema["properties"]["video_url"]["type"] == "string"
     assert schema["properties"]["H264_output"] == {

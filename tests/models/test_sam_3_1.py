@@ -199,7 +199,46 @@ def test_sam_3_1_video_rle_accepts_schema_defaults() -> None:
         "mask_url": None,
         "frame_index": 0,
         "boundingbox_zip": False,
+        "return_object_rles": False,
     }
+
+
+@pytest.mark.parametrize("return_object_rles", [True, False])
+def test_sam_3_1_video_rle_accepts_per_object_mask_output(return_object_rles: bool) -> None:
+    config = Sam31VideoRleConfig(
+        app_id="fal-ai/sam-3-1/video-rle",
+        video_url="https://example.com/source.mp4",
+        return_object_rles=return_object_rles,
+    )
+
+    assert config.model_dump()["return_object_rles"] is return_object_rles
+
+
+@pytest.mark.parametrize("invalid_return_object_rles", [None, "invalid"])
+def test_sam_3_1_video_rle_rejects_invalid_per_object_mask_options(
+    invalid_return_object_rles: object,
+) -> None:
+    with pytest.raises(ValidationError, match="return_object_rles") as exc_info:
+        Sam31VideoRleConfig.model_validate(
+            {
+                "app_id": "fal-ai/sam-3-1/video-rle",
+                "video_url": "https://example.com/source.mp4",
+                "return_object_rles": invalid_return_object_rles,
+            }
+        )
+
+    assert exc_info.value.errors()[0]["type"] in {"bool_type", "bool_parsing"}
+
+
+def test_sam_3_1_video_rle_accepts_negative_initial_frame_index() -> None:
+    config = Sam31VideoRleConfig(
+        app_id="fal-ai/sam-3-1/video-rle",
+        video_url="https://example.com/source.mp4",
+        mask_url="https://example.com/mask.png",
+        frame_index=-1,
+    )
+
+    assert config.model_dump()["frame_index"] == -1
 
 
 def test_sam_3_1_video_rle_accepts_point_prompt_with_frame_index() -> None:

@@ -33,6 +33,14 @@ class SeedreamV5ProLayerizeConfig(BaseFalConfig):
             "input image while preserving each element's aspect ratio."
         ),
     )
+    output_format: Literal["jpeg", "png"] = Field(
+        default="png",
+        description="Format of the base image. Separated layers always use PNG.",
+    )
+    watermark: bool = Field(
+        default=False,
+        description="Whether to add the provider's visible watermark.",
+    )
     sync_mode: bool = Field(
         default=False,
         description=(

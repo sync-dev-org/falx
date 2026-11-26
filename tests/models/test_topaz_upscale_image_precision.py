@@ -29,6 +29,7 @@ def test_topaz_upscale_image_precision_accepts_schema_defaults() -> None:
         "denoise": None,
         "fix_compression": None,
         "strength": None,
+        "enable_safety_checker": True,
     }
 
 

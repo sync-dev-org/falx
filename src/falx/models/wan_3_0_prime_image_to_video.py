@@ -13,7 +13,7 @@ class Wan30PrimeImageToVideoConfig(BaseFalConfig):
     app_id: Literal["alibaba/wan-3.0-prime/image-to-video"]
     prompt: str | None = Field(
         default=None,
-        max_length=5000,
+        max_length=20000,
         description="Text prompt describing the motion to generate.",
     )
     resolution: Literal["480p", "720p", "1080p"] = Field(

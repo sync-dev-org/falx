@@ -126,12 +126,12 @@ def test_wan_3_0_prime_image_to_video_accepts_empty_and_max_length_prompts() -> 
     maximum = Wan30PrimeImageToVideoConfig(
         app_id=APP_ID,
         start_image_url="https://example.com/start.png",
-        prompt="x" * 5000,
+        prompt="x" * 20000,
     )
 
     assert empty.prompt == ""
     assert maximum.prompt is not None
-    assert len(maximum.prompt) == 5000
+    assert len(maximum.prompt) == 20000
 
 
 @pytest.mark.parametrize(
@@ -142,7 +142,7 @@ def test_wan_3_0_prime_image_to_video_accepts_empty_and_max_length_prompts() -> 
             {
                 "app_id": APP_ID,
                 "start_image_url": "https://example.com/start.png",
-                "prompt": "x" * 5001,
+                "prompt": "x" * 20001,
             },
             "prompt",
         ),

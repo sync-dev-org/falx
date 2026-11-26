@@ -42,6 +42,18 @@ def test_happy_horse_text_to_video_config_accepts_all_fields() -> None:
     }
 
 
+@pytest.mark.parametrize("prompt_length", [1, 2500])
+def test_happy_horse_text_to_video_config_accepts_prompt_length_boundaries(
+    prompt_length: int,
+) -> None:
+    config = HappyHorseTextToVideoConfig(
+        app_id="alibaba/happy-horse/text-to-video",
+        prompt="x" * prompt_length,
+    )
+
+    assert config.prompt == "x" * prompt_length
+
+
 @pytest.mark.parametrize("aspect_ratio", ["16:9", "9:16", "1:1", "4:3", "3:4"])
 def test_happy_horse_text_to_video_config_accepts_aspect_ratio_enum(
     aspect_ratio: str,
@@ -74,6 +86,7 @@ def test_happy_horse_text_to_video_config_accepts_duration_enum(duration: int) -
     ("payload", "needle"),
     [
         ({"app_id": "alibaba/happy-horse/text-to-video"}, "prompt"),
+        ({"app_id": "alibaba/happy-horse/text-to-video", "prompt": ""}, "prompt"),
         (
             {
                 "app_id": "alibaba/happy-horse/text-to-video",

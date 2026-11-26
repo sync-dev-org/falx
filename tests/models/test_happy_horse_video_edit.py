@@ -61,6 +61,19 @@ def test_happy_horse_video_edit_config_accepts_reference_image_boundaries() -> N
     assert len(config.reference_image_urls or []) == 5
 
 
+@pytest.mark.parametrize("prompt_length", [1, 2500])
+def test_happy_horse_video_edit_config_accepts_prompt_length_boundaries(
+    prompt_length: int,
+) -> None:
+    config = HappyHorseVideoEditConfig(
+        app_id="alibaba/happy-horse/video-edit",
+        video_url="https://example.com/source.mp4",
+        prompt="x" * prompt_length,
+    )
+
+    assert config.prompt == "x" * prompt_length
+
+
 @pytest.mark.parametrize("audio_setting", ["auto", "origin"])
 def test_happy_horse_video_edit_config_accepts_audio_setting_enum(
     audio_setting: str,
@@ -81,6 +94,14 @@ def test_happy_horse_video_edit_config_accepts_audio_setting_enum(
     ("payload", "needle"),
     [
         ({"app_id": "alibaba/happy-horse/video-edit", "prompt": "Edit it."}, "video_url"),
+        (
+            {
+                "app_id": "alibaba/happy-horse/video-edit",
+                "video_url": "https://example.com/source.mp4",
+                "prompt": "",
+            },
+            "prompt",
+        ),
         (
             {
                 "app_id": "alibaba/happy-horse/video-edit",

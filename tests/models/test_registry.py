@@ -53,7 +53,7 @@ from falx.models import (
 
 
 def test_supported_app_ids_lists_initial_registered_models() -> None:
-    assert len(SUPPORTED_APP_IDS) == 150
+    assert len(SUPPORTED_APP_IDS) == 273
     assert "fal-ai/gemini-tts" in SUPPORTED_APP_IDS
     assert "fal-ai/gemini-3.1-flash-tts" in SUPPORTED_APP_IDS
     assert "google/gemini-3.8-flash-tts" in SUPPORTED_APP_IDS
@@ -65,7 +65,13 @@ def test_supported_app_ids_lists_initial_registered_models() -> None:
     assert "google/virtual-try-on" in SUPPORTED_APP_IDS
     assert "blackforestlabs/flux-3/edit-video" in SUPPORTED_APP_IDS
     assert "bria/increase-resolution" in SUPPORTED_APP_IDS
+    assert "bria/video/background-removal" in SUPPORTED_APP_IDS
+    assert "bria/video/background-removal/v3" in SUPPORTED_APP_IDS
     assert "bria/video/background-removal/green-screen-despill" in SUPPORTED_APP_IDS
+    assert "bria/video/erase/keypoints" in SUPPORTED_APP_IDS
+    assert "bria/video/erase/mask" in SUPPORTED_APP_IDS
+    assert "bria/video/erase/prompt" in SUPPORTED_APP_IDS
+    assert "bria/video/increase-resolution" in SUPPORTED_APP_IDS
     assert "fal-ai/sam-3-1/image" in SUPPORTED_APP_IDS
     assert "fal-ai/sam-3-1/image-rle" in SUPPORTED_APP_IDS
     assert "fal-ai/sam-3-1/video" in SUPPORTED_APP_IDS
@@ -94,6 +100,13 @@ def test_supported_app_ids_lists_initial_registered_models() -> None:
     assert "fal-ai/bytedance/seedream/v4.5/edit" in SUPPORTED_APP_IDS
     assert "fal-ai/bytedance/seedream/v5/lite/text-to-image" in SUPPORTED_APP_IDS
     assert "fal-ai/bytedance/seedream/v5/lite/edit" in SUPPORTED_APP_IDS
+    assert "bytedance/seedream/v5/flash/text-to-image" in SUPPORTED_APP_IDS
+    assert "bytedance/seedream/v5/flash/edit" in SUPPORTED_APP_IDS
+    assert "bytedance/seedream/v5/flash/layerize" in SUPPORTED_APP_IDS
+    assert "bytedance/seedream/v5/lite/text-to-image" in SUPPORTED_APP_IDS
+    assert "bytedance/seedream/v5/lite/edit" in SUPPORTED_APP_IDS
+    assert "bytedance/seedream/v5/pro/us/text-to-image" in SUPPORTED_APP_IDS
+    assert "bytedance/seedream/v5/pro/us/edit" in SUPPORTED_APP_IDS
     assert "bytedance/seedance-2.0/image-to-video" in SUPPORTED_APP_IDS
     assert "bytedance/seedance-2.0/reference-to-video" in SUPPORTED_APP_IDS
     assert "bytedance/seedance-2.0/text-to-video" in SUPPORTED_APP_IDS
@@ -103,6 +116,9 @@ def test_supported_app_ids_lists_initial_registered_models() -> None:
     assert "bytedance/seedance-2.0/mini/image-to-video" in SUPPORTED_APP_IDS
     assert "bytedance/seedance-2.0/mini/reference-to-video" in SUPPORTED_APP_IDS
     assert "bytedance/seedance-2.0/mini/text-to-video" in SUPPORTED_APP_IDS
+    assert "bytedance/seedance-2.5/flash/image-to-video" in SUPPORTED_APP_IDS
+    assert "bytedance/seedance-2.5/flash/reference-to-video" in SUPPORTED_APP_IDS
+    assert "bytedance/seedance-2.5/flash/text-to-video" in SUPPORTED_APP_IDS
     assert "fal-ai/kling-video/v3/pro/image-to-video" in SUPPORTED_APP_IDS
     assert "fal-ai/kling-video/v3/4k/image-to-video" in SUPPORTED_APP_IDS
     assert "fal-ai/kling-video/v3/pro/text-to-video" in SUPPORTED_APP_IDS
@@ -117,6 +133,17 @@ def test_supported_app_ids_lists_initial_registered_models() -> None:
     assert "fal-ai/kling-video/o3/4k/reference-to-video" in SUPPORTED_APP_IDS
     assert "fal-ai/kling-video/o3/4k/video-to-video/edit" in SUPPORTED_APP_IDS
     assert "fal-ai/kling-video/o3/4k/video-to-video/reference" in SUPPORTED_APP_IDS
+    assert "kling/v4/flash/image-to-video" in SUPPORTED_APP_IDS
+    assert "kling/v4/flash/reference-to-video" in SUPPORTED_APP_IDS
+    assert "kling/v4/flash/text-to-video" in SUPPORTED_APP_IDS
+    assert "kling/v4/flash/video-to-video" in SUPPORTED_APP_IDS
+    assert "kling/v4/image-to-image" in SUPPORTED_APP_IDS
+    assert "kling/v4/long-image" in SUPPORTED_APP_IDS
+    assert "kling/v4/text-to-image" in SUPPORTED_APP_IDS
+    assert "kling/v4/image-to-video" in SUPPORTED_APP_IDS
+    assert "kling/v4/reference-to-video" in SUPPORTED_APP_IDS
+    assert "kling/v4/text-to-video" in SUPPORTED_APP_IDS
+    assert "kling/v4/video-to-video/edit" in SUPPORTED_APP_IDS
     assert "alibaba/happy-horse/text-to-video" in SUPPORTED_APP_IDS
     assert "alibaba/happy-horse/image-to-video" in SUPPORTED_APP_IDS
     assert "alibaba/happy-horse/reference-to-video" in SUPPORTED_APP_IDS
@@ -147,9 +174,24 @@ def test_supported_app_ids_lists_initial_registered_models() -> None:
     assert "luma/agent/ray/v3.2/video-to-video" in SUPPORTED_APP_IDS
     assert "luma/agent/ray/v3.2/reframe" in SUPPORTED_APP_IDS
     assert "minimax/h3-max-turbo/image-to-video" in SUPPORTED_APP_IDS
+    assert "minimax/h3-max-turbo/reference-to-video" in SUPPORTED_APP_IDS
+    assert "minimax/h3/image-to-video" in SUPPORTED_APP_IDS
+    assert "minimax/h3/image-to-video/lora" in SUPPORTED_APP_IDS
+    assert "minimax/h3/reference-to-video" in SUPPORTED_APP_IDS
+    assert "minimax/h3/reference-to-video/lora" in SUPPORTED_APP_IDS
+    assert "minimax/h3/text-to-video" in SUPPORTED_APP_IDS
+    assert "minimax/h3/text-to-video/lora" in SUPPORTED_APP_IDS
     assert "minimax/h3-max-turbo/text-to-video" in SUPPORTED_APP_IDS
     assert "minimax/h3-max/reference-to-video" in SUPPORTED_APP_IDS
     assert "minimax/h3-max/camera-controls" in SUPPORTED_APP_IDS
+    assert "minimax/h3-max/extend-video" in SUPPORTED_APP_IDS
+    assert "minimax/h3-max-turbo/extend-video" in SUPPORTED_APP_IDS
+    assert "minimax/h3-max/insert-video" in SUPPORTED_APP_IDS
+    assert "minimax/h3-max/recast" in SUPPORTED_APP_IDS
+    assert "minimax/h3-max/relight" in SUPPORTED_APP_IDS
+    assert "minimax/h3-max/reframe-video" in SUPPORTED_APP_IDS
+    assert "minimax/h3-max/3d-to-video" in SUPPORTED_APP_IDS
+    assert "minimax/h3-max/lip-sync/image-to-video" in SUPPORTED_APP_IDS
     assert "meta/muse-image/edit" in SUPPORTED_APP_IDS
     assert "meta/muse-image/text-to-image" in SUPPORTED_APP_IDS
     assert "xai/grok-imagine-image/v2.0/edit" in SUPPORTED_APP_IDS
@@ -171,10 +213,35 @@ def test_supported_app_ids_lists_initial_registered_models() -> None:
 
 def test_registered_models_declare_random_seed_metadata() -> None:
     seeded_app_ids = {
+        "blackforestlabs/flux-3-max/text-to-video",
+        "blackforestlabs/flux-3-max/image-to-video",
+        "blackforestlabs/flux-3-max/keyframes-to-video",
+        "heygen/heygen-video/text-to-video",
+        "heygen/heygen-video/image-to-video",
+        "heygen/heygen-video/reference-to-video",
+        "tbc/mischief-1/image-to-video",
+        "fal-ai/vidu/q3/text-to-video/turbo",
+        "fal-ai/vidu/q3/image-to-video/turbo",
+        "alibaba/wan-3.0/text-to-video",
+        "alibaba/wan-3.0/image-to-video",
+        "alibaba/wan-3.0/reference-to-video",
+        "blackforestlabs/flux-3/klein/text-to-image",
+        "blackforestlabs/flux-3/klein/edit-image",
+        "blackforestlabs/flux-3/klein/text-to-image/lora",
+        "blackforestlabs/flux-3/klein/edit-image/lora",
+        "blackforestlabs/flux-3/klein/base/text-to-image/lora",
+        "blackforestlabs/flux-3/klein/base/edit-image/lora",
         "fal-ai/lyria2",
         "alibaba/qwen-image-3/edit",
         "alibaba/qwen-image-3/text-to-image",
         "ideogram/v4",
+        "ideogram/v4/fast",
+        "ideogram/v4/instant",
+        "ideogram/v4/lora",
+        "ideogram/v4/image-to-image",
+        "ideogram/v4/image-to-image/lora",
+        "ideogram/v4/tiling",
+        "ideogram/v4/tiling/lora",
         "meshy/v7/text-to-3d",
         "minimax/music-3",
         "alibaba/happy-horse/image-to-video",
@@ -184,15 +251,9 @@ def test_registered_models_declare_random_seed_metadata() -> None:
         "alibaba/wan-3.0-prime/image-to-video",
         "alibaba/wan-3.0-prime/reference-to-video",
         "alibaba/wan-3.0-prime/text-to-video",
-        "bytedance/seedance-2.0/image-to-video",
-        "bytedance/seedance-2.0/reference-to-video",
-        "bytedance/seedance-2.0/text-to-video",
-        "bytedance/seedance-2.0/fast/image-to-video",
-        "bytedance/seedance-2.0/fast/reference-to-video",
-        "bytedance/seedance-2.0/fast/text-to-video",
-        "bytedance/seedance-2.0/mini/image-to-video",
-        "bytedance/seedance-2.0/mini/reference-to-video",
-        "bytedance/seedance-2.0/mini/text-to-video",
+        "bytedance/seedance-2.5/reference-to-video",
+        "bytedance/seedance-2.5/flash/reference-to-video",
+        "bytedance/seedance-2.5/us/reference-to-video",
         "fal-ai/bytedance/seedream/v4.5/edit",
         "fal-ai/bytedance/seedream/v4.5/text-to-image",
         "fal-ai/nano-banana-2",
@@ -230,11 +291,35 @@ def test_registered_models_declare_random_seed_metadata() -> None:
         "fal-ai/vidu/q3/image-to-video",
         "fal-ai/vidu/q3/reference-to-video",
         "fal-ai/vidu/q3/reference-to-video/mix",
+        "minimax/h3/image-to-video",
+        "minimax/h3/image-to-video/lora",
+        "minimax/h3/reference-to-video",
+        "minimax/h3/reference-to-video/lora",
+        "minimax/h3/text-to-video",
+        "minimax/h3/text-to-video/lora",
+        "fal-ai/vidu/q4/image-to-video",
+        "fal-ai/vidu/q4/reference-to-video",
+        "pixverse/v6/max/text-to-video",
+        "pixverse/v6/max/image-to-video",
+        "fal-ai/pixverse/v6/text-to-video",
+        "fal-ai/pixverse/v6/image-to-video",
+        "fal-ai/pixverse/v6/extend",
+        "fal-ai/pixverse/v6/transition",
+        "fal-ai/kandinsky6-pro/text-to-video",
+        "fal-ai/kandinsky6-pro/image-to-video",
         "minimax/h3-max/camera-controls",
+        "minimax/h3-max/extend-video",
+        "minimax/h3-max-turbo/extend-video",
+        "minimax/h3-max/insert-video",
+        "minimax/h3-max/recast",
+        "minimax/h3-max/relight",
+        "minimax/h3-max/reframe-video",
+        "minimax/h3-max/lip-sync/image-to-video",
         "minimax/h3-max/image-to-video",
         "minimax/h3-max/reference-to-video",
         "minimax/h3-max/text-to-video",
         "minimax/h3-max-turbo/image-to-video",
+        "minimax/h3-max-turbo/reference-to-video",
         "minimax/h3-max-turbo/text-to-video",
     }
 

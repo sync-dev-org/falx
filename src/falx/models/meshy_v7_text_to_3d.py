@@ -26,18 +26,14 @@ class MeshyV7TextTo3dConfig(BaseFalConfig):
     seed: int | None = Field(
         default=None,
         description=(
-            "Seed for reproducible results. Same prompt and seed usually generate "
-            "the same result."
+            "Seed for reproducible results. Same prompt and seed usually generate the same result."
         ),
     )
-    model_type: Literal["standard", "lowpoly", "smart-topology"] = Field(
+    model_type: Literal["standard"] = Field(
         default="standard",
         description=(
-            "Type of 3D mesh generation. 'standard' produces a regular high-detail "
-            "mesh; 'lowpoly' produces a low-poly mesh optimized for cleaner polygons; "
-            "'smart-topology' uses Meshy-T2 for clean, natively separated parts on the "
-            "geometry (preview) step. When set to 'lowpoly', the remesh controls "
-            "(topology, target_polycount, should_remesh) are ignored by Meshy."
+            "Type of 3D mesh generation. Only 'standard' is supported; Smart Topology has its "
+            "own endpoints (/t2.5 and /t2)."
         ),
     )
     topology: Literal["quad", "triangle"] = Field(
@@ -51,17 +47,12 @@ class MeshyV7TextTo3dConfig(BaseFalConfig):
         default=30_000,
         ge=100,
         le=300_000,
-        description=(
-            "Target number of polygons in the generated model. When model_type is "
-            "'smart-topology' and this is left unset, Meshy's lower smart-topology "
-            "default (4,000) is used instead; smart topology accepts at most 15,000."
-        ),
+        description="Target number of polygons in the generated model.",
     )
     should_remesh: bool = Field(
         default=True,
         description=(
-            "Whether to enable the remesh phase. When false, returns unprocessed "
-            "triangular mesh."
+            "Whether to enable the remesh phase. When false, returns unprocessed triangular mesh."
         ),
     )
     symmetry_mode: Literal["off", "auto", "on"] = Field(
@@ -70,16 +61,12 @@ class MeshyV7TextTo3dConfig(BaseFalConfig):
     )
     enable_pbr: bool = Field(
         default=False,
-        description=(
-            "Generate PBR Maps (metallic, roughness, normal) in addition to base color."
-        ),
+        description=("Generate PBR Maps (metallic, roughness, normal) in addition to base color."),
     )
     is_a_t_pose: bool = Field(
         default=False,
         deprecated=True,
-        description=(
-            "Deprecated: use pose_mode instead. When true, generates a T-pose model."
-        ),
+        description=("Deprecated: use pose_mode instead. When true, generates a T-pose model."),
     )
     pose_mode: Literal["a-pose", "t-pose", ""] = Field(
         default="",
@@ -98,15 +85,28 @@ class MeshyV7TextTo3dConfig(BaseFalConfig):
     )
     texture_prompt: str | None = Field(
         default=None,
-        max_length=600,
+        max_length=800,
         description=(
             "Additional text prompt to guide the texturing process (only used in "
-            "'full' mode)"
+            "'full' mode). Maximum 800 characters. Cannot be combined with texture_image_url."
         ),
     )
     texture_image_url: str | None = Field(
         default=None,
-        description="2D image to guide the texturing process (only used in 'full' mode)",
+        description=(
+            "2D image to guide the texturing process (only used in 'full' mode). "
+            "Cannot be combined with texture_prompt."
+        ),
+    )
+    texture_model: Literal["meshy-n1"] | None = Field(
+        default=None,
+        description=(
+            "Model for the texturing (refine) step, only used in 'full' mode. Leave unset to "
+            "texture with the endpoint's model. meshy-n1 makes a 2K base color texture from a "
+            "reference image only: it rejects texture_prompt, enable_pbr, and quad topology "
+            "with remeshing, and needs texture_image_url unless the endpoint is v7.1 "
+            "(whose preview stores a reference image)."
+        ),
     )
     enable_rigging: bool = Field(
         default=False,
@@ -120,37 +120,66 @@ class MeshyV7TextTo3dConfig(BaseFalConfig):
         default=1.7,
         gt=0,
         description=(
-            "Approximate height of the character in meters. Only used when "
+            "Approximate height of the character in meters. Only used when enable_rigging is true."
+        ),
+    )
+    skeleton_template: (
+        Literal[
+            "mixamo",
+            "ue5_mannequin",
+            "unity_humanoid",
+            "maya_human_ik",
+            "blender_rigify_basic_human",
+            "max_biped",
+            "cc5_hd_neutral_base",
+            "daz_genesis9",
+            "meshyrig",
+        ]
+        | None
+    ) = Field(
+        default=None,
+        description=(
+            "Skeleton template for the rig. Animations made from the rig use the same skeleton. "
+            "Leave unset for Meshy's default skeleton (meshyrig). Some models can only be "
+            "rigged on meshyrig without fingers; those requests fail with a 422. Only used when "
+            "enable_rigging is true."
+        ),
+    )
+    include_fingers: bool = Field(
+        default=False,
+        description=(
+            "Rig the character's fingers. Works with any skeleton template. Only used when "
             "enable_rigging is true."
         ),
     )
     enable_animation: bool = Field(
         default=False,
         description=(
-            "Apply an animation preset to the rigged model. Requires enable_rigging "
-            "to be true."
+            "Apply an animation preset to the rigged model. Requires enable_rigging to be true."
         ),
     )
     animation_action_id: int = Field(
         default=92,
         description=(
             "Animation preset ID from Meshy's library. Only used when enable_animation "
-            "is true; in that case it must be in [0, 696] (``0`` is the \"Idle\" preset) "
+            'is true; in that case it must be in [0, 696] (``0`` is the "Idle" preset) '
             "and is otherwise rejected with a 422. See "
             "https://docs.meshy.ai/en/api/animation-library for available action IDs."
         ),
     )
     enable_safety_checker: bool = Field(
         default=True,
-        description=(
-            "If set to true, input data will be checked for safety before processing."
-        ),
+        description=("If set to true, input data will be checked for safety before processing."),
+    )
+    geometry_resolution: Literal["standard", "2k"] | None = Field(
+        default=None,
+        description="Geometry resolution. Meshy-7 supports standard and 2k.",
     )
     ultra_mode: bool = Field(
         default=False,
+        deprecated=True,
         description=(
-            "Enable higher-fidelity geometry with finer surface detail on the preview "
-            "(geometry) step. Only available for standard generation (ultra requires "
-            "Meshy-7; it cannot be combined with smart topology or lowpoly)."
+            "Deprecated: use geometry_resolution='2k'. If both fields are provided, "
+            "geometry_resolution takes precedence."
         ),
     )

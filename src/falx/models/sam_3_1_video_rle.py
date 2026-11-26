@@ -61,10 +61,16 @@ class Sam31VideoRleConfig(BaseFalConfig):
     )
     frame_index: int = Field(
         default=0,
-        ge=0,
         description="Frame index used for initial interaction when mask_url is provided.",
     )
     boundingbox_zip: bool = Field(
         default=False,
         description="Return per-frame bounding box overlays as a zip archive.",
+    )
+    return_object_rles: bool = Field(
+        default=False,
+        description=(
+            "Also return every tracked object's own mask in each frame, with an id "
+            "the object keeps for the whole video. The merged rle is returned as before."
+        ),
     )
