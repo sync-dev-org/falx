@@ -1,0 +1,5 @@
+app_id: fal-ai/kling-video/v3-pro/image-to-video
+parameters:
+  prompt: camera slowly pulls back
+  image_url: https://example.com/sample_asset.png
+  duration: 5

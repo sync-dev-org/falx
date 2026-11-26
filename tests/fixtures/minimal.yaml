@@ -1,0 +1,6 @@
+app_id: fal-ai/flux/schnell
+parameters:
+  prompt: a cat sitting on a mat
+  num_images: 2
+slug: minimal-cat
+version: 1

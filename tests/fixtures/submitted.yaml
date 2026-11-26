@@ -1,0 +1,6 @@
+app_id: fal-ai/flux/schnell
+request_id: abc12345-6789-4def-abcd-ef0123456789
+submitted_at: "2026-04-19T14:30:22+09:00"
+parameters:
+  prompt: a cat sitting on a mat
+  num_images: 2
