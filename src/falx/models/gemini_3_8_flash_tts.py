@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import ClassVar, Literal, Self
+from typing import Any, ClassVar, Literal, Self
 
 from pydantic import Field, model_validator
 
@@ -10,6 +10,7 @@ from falx.models.gemini_tts_common import Gemini38SpeechTurn, Gemini38TtsSpeaker
 
 class Gemini38FlashTtsConfig(BaseFalConfig):
     random_seed_field: ClassVar[str | None] = None
+    schema_example_parameters: ClassVar[dict[str, Any]] = {"prompt": "<your prompt here>"}
 
     app_id: Literal["google/gemini-3.8-flash-tts"]
     prompt: str | None = Field(

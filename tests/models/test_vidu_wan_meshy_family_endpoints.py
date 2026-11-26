@@ -172,7 +172,7 @@ def test_schema_command_prints_family_job_yaml(
         if key != "text_style_prompt"
     }
     if app_id == MESHY_RETEXTURE:
-        required_examples["text_style_prompt"] = None
+        required_examples["text_style_prompt"] = "<your prompt here>"
     assert payload["parameters"] == {**defaults, **required_examples}
 
 

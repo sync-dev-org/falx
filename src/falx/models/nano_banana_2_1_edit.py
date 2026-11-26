@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Literal, Self
+from typing import Any, ClassVar, Literal, Self
 
 from pydantic import Field, model_validator
 
@@ -8,6 +8,10 @@ from falx.models.nano_banana_2_1 import NanoBanana21AspectRatio, NanoBanana21Com
 
 
 class NanoBanana21EditConfig(NanoBanana21Common):
+    schema_example_parameters: ClassVar[dict[str, Any]] = {
+        "image_urls": ["https://example.com/input"],
+    }
+
     app_id: Literal["google/nano-banana-2.1/edit"]
     prompt: str = Field(
         ...,

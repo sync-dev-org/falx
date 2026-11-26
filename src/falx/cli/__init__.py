@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 import copy
 import json
+import math
 import random
 import re
 import warnings
@@ -11,7 +12,7 @@ from datetime import datetime
 from importlib import import_module
 from io import StringIO
 from pathlib import Path
-from typing import Annotated, Any, NoReturn, Protocol, cast, get_args, get_origin
+from typing import Annotated, Any, Literal, NoReturn, Protocol, cast, get_args, get_origin
 
 import httpx
 import typer
@@ -690,10 +691,15 @@ def _build_schema_example_yaml(config_class: type[Any], app_id: str) -> str:
 
 def _build_parameters_example(config_class: type[Any]) -> CommentedMap:
     parameters = CommentedMap()
+    overrides = getattr(config_class, "schema_example_parameters", {})
     for field_name, field in config_class.model_fields.items():
         if field_name == "app_id":
             continue
-        parameters[field_name] = _field_example_value(field_name, field)
+        parameters[field_name] = (
+            copy.deepcopy(overrides[field_name])
+            if field_name in overrides
+            else _field_example_value(field_name, field)
+        )
         _apply_field_comment(parameters, field, field_name, indent=2)
     return parameters
 
@@ -709,6 +715,10 @@ def _field_example_value(field_name: str, field: Any) -> Any:
 
 
 def _placeholder_for_required_field(field_name: str, field: Any) -> Any:
+    annotation = field.annotation
+    origin = get_origin(annotation)
+    if origin is Literal:
+        return get_args(annotation)[0]
     if field_name == "prompt":
         return "<your prompt here>"
     if field_name.endswith("_urls"):
@@ -716,8 +726,6 @@ def _placeholder_for_required_field(field_name: str, field: Any) -> Any:
     if field_name.endswith("_url") or field_name.endswith("_image_url"):
         return "https://example.com/input"
 
-    annotation = field.annotation
-    origin = get_origin(annotation)
     if origin in (list, tuple, set):
         min_length = max(
             (getattr(metadata, "min_length", 0) or 0 for metadata in field.metadata),
@@ -727,14 +735,34 @@ def _placeholder_for_required_field(field_name: str, field: Any) -> Any:
         return [_placeholder_for_annotation(item_annotation) for _ in range(min_length)]
     if annotation is bool:
         return False
-    if annotation is int:
-        return 1
-    if annotation is float:
-        return 1.0
+    if annotation in (int, float):
+        return _numeric_example_value(annotation, field)
     return f"<{field_name}>"
 
 
+def _numeric_example_value(annotation: type[int] | type[float], field: Any) -> int | float:
+    value = annotation(1)
+    for metadata in field.metadata:
+        if (bound := getattr(metadata, "ge", None)) is not None:
+            value = max(value, math.ceil(bound) if annotation is int else bound)
+        if (bound := getattr(metadata, "gt", None)) is not None:
+            value = max(
+                value,
+                math.floor(bound) + 1 if annotation is int else math.nextafter(bound, math.inf),
+            )
+        if (bound := getattr(metadata, "le", None)) is not None:
+            value = min(value, math.floor(bound) if annotation is int else bound)
+        if (bound := getattr(metadata, "lt", None)) is not None:
+            value = min(
+                value,
+                math.ceil(bound) - 1 if annotation is int else math.nextafter(bound, -math.inf),
+            )
+    return annotation(value)
+
+
 def _placeholder_for_annotation(annotation: object) -> Any:
+    if get_origin(annotation) is Literal:
+        return get_args(annotation)[0]
     if isinstance(annotation, type) and issubclass(annotation, BaseModel):
         return {
             field_name: _field_example_value(field_name, field)

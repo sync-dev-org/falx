@@ -20,6 +20,7 @@ class BaseFalConfig(BaseModel):
 
     model_config = ConfigDict(extra="forbid")
     random_seed_field: ClassVar[str | None] = None
+    schema_example_parameters: ClassVar[dict[str, Any]] = {}
 
 
 class MatrixAxis(BaseModel):

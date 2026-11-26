@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import ClassVar, Literal, Self
+from typing import Any, ClassVar, Literal, Self
 
 from pydantic import Field, model_validator
 
@@ -20,6 +20,7 @@ from falx.models.kling_o3_common import (
 class KlingVideoO3ProReferenceToVideoConfig(BaseFalConfig):
     max_total_references_when_using_video: ClassVar[int] = 4
     random_seed_field: ClassVar[str | None] = None
+    schema_example_parameters: ClassVar[dict[str, Any]] = {"prompt": "<your prompt here>"}
 
     app_id: Literal["fal-ai/kling-video/o3/pro/reference-to-video"]
     enable_safety_checker: bool = Field(

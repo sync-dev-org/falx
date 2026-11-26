@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Literal, Self
+from typing import Any, ClassVar, Literal, Self
 
 from pydantic import Field, model_validator
 
@@ -8,6 +8,10 @@ from falx.models import BaseFalConfig
 
 
 class MeshyV7RetextureConfig(BaseFalConfig):
+    schema_example_parameters: ClassVar[dict[str, Any]] = {
+        "text_style_prompt": "<your prompt here>",
+    }
+
     app_id: Literal["meshy/v7/retexture"]
     model_url: str = Field(
         ...,

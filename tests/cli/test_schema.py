@@ -1,16 +1,77 @@
 from __future__ import annotations
 
+from typing import Literal
+
 import pytest
+from pydantic import BaseModel, Field, create_model
 from ruamel.yaml import YAML
 from typer.testing import CliRunner
 
-from falx.cli import app
-from falx.models import Flux3KeyframesToVideoConfig, validate_parameters
+from falx.cli import _build_schema_example_yaml, app
+from falx.models import SUPPORTED_APP_IDS, Flux3KeyframesToVideoConfig, validate_parameters
 from falx.models.kling_o3_common import KlingO3MultiPromptElement
 from falx.models.kling_v3_common import KlingV3MultiPromptElement
 
 runner = CliRunner()
 safe_yaml = YAML(typ="safe")
+
+
+@pytest.mark.parametrize("app_id", sorted(SUPPORTED_APP_IDS))
+def test_schema_prints_parameters_accepted_by_the_model(app_id: str) -> None:
+    result = runner.invoke(app, ["schema", app_id])
+
+    assert result.exit_code == 0
+    payload = safe_yaml.load(result.stdout)
+    assert payload["app_id"] == app_id
+    validate_parameters(app_id, payload["parameters"])
+
+
+@pytest.mark.parametrize(
+    ("annotation", "constraints"),
+    [
+        (int, {"ge": 2}),
+        (int, {"gt": 2}),
+        (int, {"le": -2}),
+        (int, {"lt": -2}),
+        (float, {"ge": 1.625}),
+        (float, {"gt": 1.625}),
+        (float, {"le": -1.625}),
+        (float, {"lt": -1.625}),
+        (float, {"gt": 1.625, "lt": 1.626}),
+    ],
+)
+def test_schema_example_numbers_satisfy_their_bounds(
+    annotation: type[int] | type[float], constraints: dict[str, float]
+) -> None:
+    config_class = create_model(
+        "BoundedNumberConfig",
+        app_id=(Literal["example/model"], ...),
+        value=(annotation, Field(..., **constraints)),
+    )
+
+    payload = safe_yaml.load(_build_schema_example_yaml(config_class, "example/model"))
+
+    assert type(payload["parameters"]["value"]) is annotation
+    config_class.model_validate({"app_id": payload["app_id"], **payload["parameters"]})
+
+
+def test_schema_example_uses_the_first_choice_for_required_enum_fields() -> None:
+    class ChoicesConfig(BaseModel):
+        app_id: Literal["example/model"]
+        prompt: Literal["Draw a tree", "Draw a flower"]
+        image_url: Literal["https://example.com/reference", "https://example.com/other"]
+        count: Literal[3, 5]
+        modes: list[Literal["fast", "quality"]] = Field(min_length=1)
+
+    payload = safe_yaml.load(_build_schema_example_yaml(ChoicesConfig, "example/model"))
+
+    assert payload["parameters"] == {
+        "prompt": "Draw a tree",
+        "image_url": "https://example.com/reference",
+        "count": 3,
+        "modes": ["fast"],
+    }
+    ChoicesConfig.model_validate({"app_id": payload["app_id"], **payload["parameters"]})
 
 
 def test_schema_prints_commented_job_config_yaml_example() -> None:
@@ -334,7 +395,7 @@ def test_schema_prints_luma_ray_3_2_image_to_video_fields() -> None:
 
     assert result.exit_code == 0
     payload = safe_yaml.load(result.stdout)
-    assert payload["parameters"]["image_url"] is None
+    assert payload["parameters"]["image_url"] == "https://example.com/input"
     assert payload["parameters"]["end_image_url"] is None
     assert payload["parameters"]["duration"] == "5s"
     assert payload["parameters"]["keyframes"] is None
@@ -359,7 +420,7 @@ def test_schema_prints_luma_ray_3_2_reframe_fields() -> None:
     assert result.exit_code == 0
     payload = safe_yaml.load(result.stdout)
     assert payload["parameters"]["video_url"] == "https://example.com/input"
-    assert payload["parameters"]["aspect_ratio"] == "<aspect_ratio>"
+    assert payload["parameters"]["aspect_ratio"] == "3:4"
     assert payload["parameters"]["source_position"] is None
 
 
