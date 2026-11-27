@@ -53,7 +53,23 @@ from falx.models import (
 
 
 def test_supported_app_ids_lists_initial_registered_models() -> None:
-    assert len(SUPPORTED_APP_IDS) == 273
+    assert len(SUPPORTED_APP_IDS) == 360
+    assert "elevenlabs/sound-effects/v3" in SUPPORTED_APP_IDS
+    assert "mirelo-ai/sfx2.0/text-to-audio" in SUPPORTED_APP_IDS
+    assert "mirelo-ai/sfx2.0/video-to-audio" in SUPPORTED_APP_IDS
+    assert "mirelo-ai/sfx2.0/video-to-video" in SUPPORTED_APP_IDS
+    assert "fal-ai/motion-to-code/glsl" in SUPPORTED_APP_IDS
+    assert "fal-ai/motion-to-code/gsap" in SUPPORTED_APP_IDS
+    assert "veed/dubbing" in SUPPORTED_APP_IDS
+    assert "veed/dubbing/pro" in SUPPORTED_APP_IDS
+    assert "bytedance/seed-tts/v3" in SUPPORTED_APP_IDS
+    assert "heygen/heygen-voice" in SUPPORTED_APP_IDS
+    assert "heygen/heygen-voice/turbo" in SUPPORTED_APP_IDS
+    assert "kotoba-technologies/kotoba-stt/v1/speech-to-text" in SUPPORTED_APP_IDS
+    assert "fal-ai/marigold-v2" in SUPPORTED_APP_IDS
+    assert "fal-ai/moss-image" in SUPPORTED_APP_IDS
+    assert "recraft/v4.1/flash/v2/text-to-image" in SUPPORTED_APP_IDS
+    assert "recraft/vectorize/pro" in SUPPORTED_APP_IDS
     assert "fal-ai/gemini-tts" in SUPPORTED_APP_IDS
     assert "fal-ai/gemini-3.1-flash-tts" in SUPPORTED_APP_IDS
     assert "google/gemini-3.8-flash-tts" in SUPPORTED_APP_IDS
@@ -65,6 +81,11 @@ def test_supported_app_ids_lists_initial_registered_models() -> None:
     assert "google/virtual-try-on" in SUPPORTED_APP_IDS
     assert "blackforestlabs/flux-3/edit-video" in SUPPORTED_APP_IDS
     assert "bria/increase-resolution" in SUPPORTED_APP_IDS
+    assert "bria/fibo-2/edit" in SUPPORTED_APP_IDS
+    assert "bria/fibo-2/generate" in SUPPORTED_APP_IDS
+    assert "bria/fibo-edit-1.5/expand" in SUPPORTED_APP_IDS
+    assert "bria/guided-remove-background" in SUPPORTED_APP_IDS
+    assert "bria/rmbg-3" in SUPPORTED_APP_IDS
     assert "bria/video/background-removal" in SUPPORTED_APP_IDS
     assert "bria/video/background-removal/v3" in SUPPORTED_APP_IDS
     assert "bria/video/background-removal/green-screen-despill" in SUPPORTED_APP_IDS
@@ -82,6 +103,10 @@ def test_supported_app_ids_lists_initial_registered_models() -> None:
     assert "openai/gpt-image-2.5/flare/edit" in SUPPORTED_APP_IDS
     assert "openai/gpt-image-2.5/sunburst/text-to-image" in SUPPORTED_APP_IDS
     assert "openai/gpt-image-2.5/sunburst/edit" in SUPPORTED_APP_IDS
+    assert "openai/gpt-image-2.6/flare/text-to-image" in SUPPORTED_APP_IDS
+    assert "openai/gpt-image-2.6/flare/edit" in SUPPORTED_APP_IDS
+    assert "openai/gpt-image-2.6/sunburst/text-to-image" in SUPPORTED_APP_IDS
+    assert "openai/gpt-image-2.6/sunburst/edit" in SUPPORTED_APP_IDS
     assert "fal-ai/nano-banana-2" in SUPPORTED_APP_IDS
     assert "fal-ai/nano-banana-2/edit" in SUPPORTED_APP_IDS
     assert "fal-ai/nano-banana" in SUPPORTED_APP_IDS
@@ -103,6 +128,9 @@ def test_supported_app_ids_lists_initial_registered_models() -> None:
     assert "bytedance/seedream/v5/flash/text-to-image" in SUPPORTED_APP_IDS
     assert "bytedance/seedream/v5/flash/edit" in SUPPORTED_APP_IDS
     assert "bytedance/seedream/v5/flash/layerize" in SUPPORTED_APP_IDS
+    assert "bytedance/seedream/v5.5/edit" in SUPPORTED_APP_IDS
+    assert "bytedance/seedream/v5.5/layerize" in SUPPORTED_APP_IDS
+    assert "bytedance/seedream/v5.5/text-to-image" in SUPPORTED_APP_IDS
     assert "bytedance/seedream/v5/lite/text-to-image" in SUPPORTED_APP_IDS
     assert "bytedance/seedream/v5/lite/edit" in SUPPORTED_APP_IDS
     assert "bytedance/seedream/v5/pro/us/text-to-image" in SUPPORTED_APP_IDS
@@ -194,6 +222,10 @@ def test_supported_app_ids_lists_initial_registered_models() -> None:
     assert "minimax/h3-max/lip-sync/image-to-video" in SUPPORTED_APP_IDS
     assert "meta/muse-image/edit" in SUPPORTED_APP_IDS
     assert "meta/muse-image/text-to-image" in SUPPORTED_APP_IDS
+    assert "microsoft/mai-image-2.7/edit" in SUPPORTED_APP_IDS
+    assert "microsoft/mai-image-2.7/flash/edit" in SUPPORTED_APP_IDS
+    assert "microsoft/mai-image-2.7/flash/text-to-image" in SUPPORTED_APP_IDS
+    assert "microsoft/mai-image-2.7/text-to-image" in SUPPORTED_APP_IDS
     assert "xai/grok-imagine-image/v2.0/edit" in SUPPORTED_APP_IDS
     assert "xai/grok-imagine-image/v2.0/text-to-image" in SUPPORTED_APP_IDS
     assert "xai/grok-imagine-video/v1.5/image-to-video" in SUPPORTED_APP_IDS
@@ -213,6 +245,30 @@ def test_supported_app_ids_lists_initial_registered_models() -> None:
 
 def test_registered_models_declare_random_seed_metadata() -> None:
     seeded_app_ids = {
+        "speridlabs/idol",
+        "speridlabs/idol/max",
+        "speridlabs/idol/max/turbo",
+        "krea/v3/edit",
+        "krea/v3/edit/lora",
+        "krea/v3/text-to-image",
+        "krea/v3/text-to-image/lora",
+        "speridlabs/iris-z",
+        "speridlabs/iris-z/depth-to-image",
+        "speridlabs/iris-z/small",
+        "speridlabs/iris-z/small/depth-to-image",
+        "speridlabs/iris-z/small/text-to-image",
+        "speridlabs/iris-z/small/text-to-rgbd",
+        "speridlabs/iris-z/text-to-image",
+        "speridlabs/iris-z/text-to-rgbd",
+        "openimaginglab/flashvsr-plus",
+        "mirelo-ai/sfx2.0/text-to-audio",
+        "mirelo-ai/sfx2.0/video-to-audio",
+        "mirelo-ai/sfx2.0/video-to-video",
+        "bria/fibo-2/edit",
+        "bria/fibo-2/generate",
+        "bria/fibo-edit-1.5/expand",
+        "fal-ai/marigold-v2",
+        "fal-ai/moss-image",
         "blackforestlabs/flux-3-max/text-to-video",
         "blackforestlabs/flux-3-max/image-to-video",
         "blackforestlabs/flux-3-max/keyframes-to-video",
@@ -242,6 +298,11 @@ def test_registered_models_declare_random_seed_metadata() -> None:
         "ideogram/v4/image-to-image/lora",
         "ideogram/v4/tiling",
         "ideogram/v4/tiling/lora",
+        "ideogram/v4.6",
+        "ideogram/v4.6/edit",
+        "ideogram/vector/text-to-vector",
+        "meshy/t2/text-to-3d",
+        "meshy/t2.5/text-to-3d",
         "meshy/v7/text-to-3d",
         "minimax/music-3",
         "alibaba/happy-horse/image-to-video",

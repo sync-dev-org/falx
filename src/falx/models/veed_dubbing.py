@@ -1,0 +1,383 @@
+from __future__ import annotations
+
+from typing import Annotated, ClassVar, Literal
+
+from pydantic import Field, field_validator
+
+from falx.models import BaseFalConfig
+
+VeedDubbingLanguage = Literal[
+    "af",
+    "ar",
+    "as",
+    "ast",
+    "az",
+    "be",
+    "bg",
+    "bn",
+    "bs",
+    "ca",
+    "ceb",
+    "cs",
+    "cy",
+    "da",
+    "de",
+    "el",
+    "en",
+    "es",
+    "et",
+    "fa",
+    "fi",
+    "fil",
+    "fr",
+    "ga",
+    "gl",
+    "gu",
+    "ha",
+    "he",
+    "hi",
+    "hr",
+    "hu",
+    "hy",
+    "id",
+    "is",
+    "it",
+    "ja",
+    "jv",
+    "ka",
+    "kk",
+    "kn",
+    "ko",
+    "ky",
+    "lb",
+    "ln",
+    "lt",
+    "lv",
+    "mi",
+    "mk",
+    "ml",
+    "mn",
+    "mr",
+    "ms",
+    "mt",
+    "my",
+    "ne",
+    "nl",
+    "no",
+    "ny",
+    "oc",
+    "or",
+    "pa",
+    "pl",
+    "ps",
+    "pt",
+    "ro",
+    "ru",
+    "sd",
+    "sk",
+    "sl",
+    "so",
+    "sr",
+    "sv",
+    "sw",
+    "ta",
+    "te",
+    "tg",
+    "th",
+    "tl",
+    "tr",
+    "uk",
+    "ur",
+    "uz",
+    "vi",
+    "yo",
+    "yue",
+    "zh",
+]
+
+VeedDubbingProSourceLanguage = Literal[
+    "af",
+    "ak",
+    "am",
+    "ar",
+    "as",
+    "az",
+    "be",
+    "bg",
+    "bo",
+    "bs",
+    "ca",
+    "ceb",
+    "cmn",
+    "cs",
+    "cy",
+    "da",
+    "de",
+    "dgo",
+    "el",
+    "en",
+    "es",
+    "et",
+    "eu",
+    "fa",
+    "fi",
+    "fil",
+    "fr",
+    "gl",
+    "gu",
+    "ha",
+    "he",
+    "hi",
+    "hr",
+    "hu",
+    "hy",
+    "id",
+    "is",
+    "it",
+    "ja",
+    "jv",
+    "ka",
+    "ki",
+    "kk",
+    "kn",
+    "ko",
+    "ky",
+    "lg",
+    "lt",
+    "lv",
+    "mk",
+    "ml",
+    "mn",
+    "mr",
+    "ms",
+    "my",
+    "ne",
+    "nl",
+    "no",
+    "nso",
+    "pa",
+    "pl",
+    "pt",
+    "rn",
+    "ro",
+    "ru",
+    "rw",
+    "sd",
+    "sk",
+    "sl",
+    "sq",
+    "ss",
+    "st",
+    "su",
+    "sv",
+    "sw",
+    "ta",
+    "te",
+    "tg",
+    "th",
+    "tn",
+    "tr",
+    "ts",
+    "ug",
+    "uk",
+    "ur",
+    "uz",
+    "ve",
+    "vi",
+    "war",
+    "wo",
+    "yo",
+    "yue",
+    "zh",
+    "zu",
+]
+
+VeedDubbingProTargetLanguage = Literal[
+    "af",
+    "ak",
+    "am",
+    "ar",
+    "ar-EG",
+    "as",
+    "az",
+    "be",
+    "bg",
+    "bo",
+    "bs",
+    "ca",
+    "ceb",
+    "cmn",
+    "cs",
+    "cy",
+    "da",
+    "de",
+    "dgo",
+    "el",
+    "en",
+    "en-AU",
+    "en-CA",
+    "en-GB",
+    "en-US",
+    "es",
+    "es-AR",
+    "es-CL",
+    "es-ES",
+    "es-MX",
+    "et",
+    "eu",
+    "fa",
+    "fi",
+    "fil",
+    "fr",
+    "fr-CA",
+    "fr-FR",
+    "gl",
+    "gu",
+    "ha",
+    "he",
+    "hi",
+    "hr",
+    "hu",
+    "hy",
+    "id",
+    "is",
+    "it",
+    "ja",
+    "jv",
+    "ka",
+    "ki",
+    "kk",
+    "kn",
+    "ko",
+    "ky",
+    "lg",
+    "lt",
+    "lv",
+    "mk",
+    "ml",
+    "mn",
+    "mr",
+    "ms",
+    "my",
+    "ne",
+    "nl",
+    "no",
+    "nso",
+    "pa",
+    "pl",
+    "pt",
+    "pt-BR",
+    "pt-PT",
+    "rn",
+    "ro",
+    "ru",
+    "rw",
+    "sd",
+    "sk",
+    "sl",
+    "sq",
+    "ss",
+    "st",
+    "su",
+    "sv",
+    "sw",
+    "ta",
+    "te",
+    "tg",
+    "th",
+    "tn",
+    "tr",
+    "ts",
+    "ug",
+    "uk",
+    "ur",
+    "uz",
+    "ve",
+    "vi",
+    "war",
+    "wo",
+    "yo",
+    "yue",
+    "zh",
+    "zh-TW",
+    "zu",
+]
+
+VeedDubbingKeyterm = Annotated[str, Field(max_length=50, pattern=r"^[^<>{}\[\]\\]*$")]
+
+
+class VeedDubbingConfig(BaseFalConfig):
+    random_seed_field: ClassVar[str | None] = None
+
+    app_id: Literal["veed/dubbing"]
+    video_url: str = Field(
+        ...,
+        min_length=1,
+        max_length=2083,
+        json_schema_extra={"format": "uri"},
+        description=(
+            "Video to dub, 8 seconds to 10 minutes long and with speech in its audio track. The "
+            "speech is translated into the target language, and the speakers' lips are synced to "
+            "the dubbed voices."
+        ),
+    )
+    target_language: VeedDubbingLanguage = Field(
+        ...,
+        description=(
+            "Language to dub into. This model has no regional dialects: a regional tag such as "
+            "'fr-FR' is accepted and dubbed in the base language ('fr')."
+        ),
+    )
+    source_language: Literal["auto", VeedDubbingLanguage] = Field(
+        default="auto",
+        description=(
+            "Language spoken in the video. 'auto' (the default) detects it; set it explicitly if "
+            "detection picks the wrong language."
+        ),
+    )
+    keyterms: list[VeedDubbingKeyterm] = Field(
+        default=[],
+        max_length=1000,
+        description=(
+            "Names and terms to get right in the dub, such as brand, product or people's names: "
+            "they help the speech recognition catch these words and the translation keep them as "
+            "written. Up to 1,000 terms, each at most 50 characters and 5 words, without the "
+            "characters < > { } [ ] \\."
+        ),
+    )
+
+    @field_validator("keyterms")
+    @classmethod
+    def validate_keyterm_word_count(cls, value: list[str]) -> list[str]:
+        if any(len(term.split()) > 5 for term in value):
+            raise ValueError("Each keyterm must contain at most 5 words")
+        return value
+
+
+class VeedDubbingProConfig(VeedDubbingConfig):
+    app_id: Literal["veed/dubbing/pro"]
+    target_language: VeedDubbingProTargetLanguage = Field(
+        ...,
+        description=(
+            "Language to dub into, optionally with a regional dialect (e.g. 'es-MX', 'pt-BR'). "
+            "Case-insensitive; for a language without dialects the region is ignored ('de-DE' = "
+            "'de'), and an unsupported dialect is rejected."
+        ),
+    )
+    source_language: Literal["auto", VeedDubbingProSourceLanguage] = Field(
+        default="auto",
+        description=(
+            "Language spoken in the video. 'auto' (the default) detects it; set it explicitly if "
+            "detection picks the wrong language."
+        ),
+    )
+    voice_cloning_strength: int = Field(
+        default=7,
+        ge=0,
+        le=10,
+        description=(
+            "How closely the dubbed voices match the original speakers, from 0 to 10. Higher "
+            "keeps more of each speaker's voice and accent; lower sounds more natural in the "
+            "target language."
+        ),
+    )

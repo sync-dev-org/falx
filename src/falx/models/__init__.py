@@ -193,7 +193,14 @@ class JobConfig(BaseModel):
         return self
 
 
+from falx.models.bria_fibo_2_edit import BriaFibo2EditConfig  # noqa: E402
+from falx.models.bria_fibo_2_generate import BriaFibo2GenerateConfig  # noqa: E402
+from falx.models.bria_fibo_edit_1_5_expand import BriaFiboEdit15ExpandConfig  # noqa: E402
+from falx.models.bria_guided_remove_background import (  # noqa: E402
+    BriaGuidedRemoveBackgroundConfig,
+)
 from falx.models.bria_increase_resolution import BriaIncreaseResolutionConfig  # noqa: E402
+from falx.models.bria_rmbg_3 import BriaRmbg3Config  # noqa: E402
 from falx.models.bria_video_background_removal import (  # noqa: E402
     BriaVideoBackgroundRemovalConfig,
     BriaVideoBackgroundRemovalV3Config,
@@ -211,6 +218,8 @@ from falx.models.bria_video_erase import (  # noqa: E402
 from falx.models.bria_video_increase_resolution import (  # noqa: E402
     BriaVideoIncreaseResolutionConfig,
 )
+from falx.models.elevenlabs_sound_effects_v3 import ElevenLabsSoundEffectsV3Config  # noqa: E402
+from falx.models.flashvsr_plus import FlashvsrPlusConfig  # noqa: E402
 from falx.models.flux_3_common import Flux3Keyframe  # noqa: E402
 from falx.models.flux_3_draft_enhance import Flux3DraftEnhanceConfig  # noqa: E402
 from falx.models.flux_3_edit_image import Flux3EditImageConfig  # noqa: E402
@@ -319,6 +328,14 @@ from falx.models.gpt_image_2_5_edit import (  # noqa: E402
     GptImage25FlareEditConfig,
     GptImage25SunburstEditConfig,
 )
+from falx.models.gpt_image_2_6 import (  # noqa: E402
+    GptImage26FlareTextToImageConfig,
+    GptImage26SunburstTextToImageConfig,
+)
+from falx.models.gpt_image_2_6_edit import (  # noqa: E402
+    GptImage26FlareEditConfig,
+    GptImage26SunburstEditConfig,
+)
 from falx.models.gpt_image_2_edit import GptImage2EditConfig  # noqa: E402
 from falx.models.grok_imagine_image_v2_0 import (  # noqa: E402
     GrokImagineImageV20AspectRatio,
@@ -361,9 +378,25 @@ from falx.models.heygen_video_reference_to_video import (  # noqa: E402
     HeygenVideoReferenceToVideoConfig,
 )
 from falx.models.heygen_video_text_to_video import HeygenVideoTextToVideoConfig  # noqa: E402
+from falx.models.heygen_voice import HeygenVoiceConfig  # noqa: E402
+from falx.models.hyper3d_lowpoly import (  # noqa: E402
+    Hyper3dLowpolyImageTo3dConfig,
+    Hyper3dLowpolyMeshTo3dConfig,
+    Hyper3dLowpolyTextTo3dConfig,
+)
+from falx.models.hyper3d_rigging import (  # noqa: E402
+    Hyper3dRiggingAnimationsConfig,
+    Hyper3dRiggingConfig,
+    Hyper3dRigHierarchyNode,
+)
 from falx.models.ideogram_v4 import (  # noqa: E402
     IdeogramV4Config,
     IdeogramV4ImageSize,
+)
+from falx.models.ideogram_v4_6 import (  # noqa: E402
+    IdeogramV46Config,
+    IdeogramV46ContextWindowBox,
+    IdeogramV46EditConfig,
 )
 from falx.models.ideogram_v4_variants import (  # noqa: E402
     IdeogramV4FastConfig,
@@ -374,6 +407,22 @@ from falx.models.ideogram_v4_variants import (  # noqa: E402
     IdeogramV4LoRAInput,
     IdeogramV4TilingConfig,
     IdeogramV4TilingLoraConfig,
+)
+from falx.models.ideogram_vector import (  # noqa: E402
+    IdeogramVectorImageToVectorConfig,
+    IdeogramVectorTextToVectorConfig,
+)
+from falx.models.idol import IdolConfig, IdolMaxConfig  # noqa: E402
+from falx.models.iris_z import (  # noqa: E402
+    IrisZDepthConfig,
+    IrisZDepthToImageConfig,
+    IrisZImageSize,
+    IrisZSmallDepthConfig,
+    IrisZSmallDepthToImageConfig,
+    IrisZSmallTextToImageConfig,
+    IrisZSmallTextToRgbdConfig,
+    IrisZTextToImageConfig,
+    IrisZTextToRgbdConfig,
 )
 from falx.models.kandinsky6_pro_image_to_video import (  # noqa: E402
     Kandinsky6ProImageToVideoConfig,
@@ -497,6 +546,27 @@ from falx.models.kling_v4_text_to_video import (  # noqa: E402
 from falx.models.kling_v4_video_to_video_edit import (  # noqa: E402
     KlingV4VideoToVideoEditConfig,
 )
+from falx.models.kotoba_stt_v1_speech_to_text import (  # noqa: E402
+    KotobaSttV1SpeechToTextConfig,
+)
+from falx.models.krea_3_common import Krea3ImageSize, Krea3LoRAInput  # noqa: E402
+from falx.models.krea_3_edit import (  # noqa: E402
+    Krea3EditConfig,
+    Krea3EditLoraConfig,
+    Krea3EditRegion,
+)
+from falx.models.krea_3_text_to_image import (  # noqa: E402
+    Krea3TextToImageConfig,
+    Krea3TextToImageLoraConfig,
+)
+from falx.models.ltx_2_5 import (  # noqa: E402
+    Ltx25AlphaGenConfig,
+    Ltx25HdrConfig,
+    Ltx25ReframeAnchor,
+    Ltx25ReframeConfig,
+    Ltx25ReframeRectangle,
+    Ltx25UpscaleConfig,
+)
 from falx.models.luma_ray_3_2_common import (  # noqa: E402
     LumaRay32EditControls,
     LumaRay32EditDepthControl,
@@ -520,6 +590,32 @@ from falx.models.lyria2 import Lyria2Config  # noqa: E402
 from falx.models.lyria3 import Lyria3Config  # noqa: E402
 from falx.models.lyria3_pro import Lyria3ProConfig  # noqa: E402
 from falx.models.lyria_3_5 import Lyria35Config  # noqa: E402
+from falx.models.mai_image_2_7 import (  # noqa: E402
+    MaiImage27FlashTextToImageConfig,
+    MaiImage27ImageSize,
+    MaiImage27TextToImageConfig,
+)
+from falx.models.mai_image_2_7_edit import (  # noqa: E402
+    MaiImage27EditConfig,
+    MaiImage27FlashEditConfig,
+)
+from falx.models.marigold_v2 import MarigoldV2Config, MarigoldV2ImageSize  # noqa: E402
+from falx.models.meshy_relief import MeshyReliefConfig  # noqa: E402
+from falx.models.meshy_retexture import (  # noqa: E402
+    MeshyN1RetextureConfig,
+    MeshyV6LiteRetextureConfig,
+    MeshyV6RetextureConfig,
+)
+from falx.models.meshy_rigging import (  # noqa: E402
+    MeshyRiggingConfig,
+    MeshyRiggingMultiAnimationConfig,
+)
+from falx.models.meshy_smart_topology import (  # noqa: E402
+    MeshyT2ImageTo3dConfig,
+    MeshyT2TextTo3dConfig,
+    MeshyT25ImageTo3dConfig,
+    MeshyT25TextTo3dConfig,
+)
 from falx.models.meshy_v7_image_to_3d import (  # noqa: E402
     MeshyV7ImageTo3dConfig,
 )
@@ -527,6 +623,18 @@ from falx.models.meshy_v7_retexture import (  # noqa: E402
     MeshyV7RetextureConfig,
 )
 from falx.models.meshy_v7_text_to_3d import MeshyV7TextTo3dConfig  # noqa: E402
+from falx.models.minimax_h3_image import (  # noqa: E402
+    MinimaxH3ImageHighspeedTextToImageConfig,
+    MinimaxH3ImageTextToImageConfig,
+)
+from falx.models.minimax_h3_image_common import (  # noqa: E402
+    H3ImageLoraInput,
+    MinimaxH3ImageSize,
+)
+from falx.models.minimax_h3_image_edit import (  # noqa: E402
+    MinimaxH3ImageEditConfig,
+    MinimaxH3ImageHighspeedEditConfig,
+)
 from falx.models.minimax_h3_image_to_video import MinimaxH3ImageToVideoConfig  # noqa: E402
 from falx.models.minimax_h3_lora import (  # noqa: E402
     H3LoraInput,
@@ -582,7 +690,27 @@ from falx.models.minimax_h3_reference_to_video import (  # noqa: E402
 )
 from falx.models.minimax_h3_text_to_video import MinimaxH3TextToVideoConfig  # noqa: E402
 from falx.models.minimax_music_3 import MinimaxMusic3Config  # noqa: E402
+from falx.models.mirelo_sfx_2_0 import (  # noqa: E402
+    MireloSfx20TextToAudioConfig,
+    MireloSfx20VideoToAudioConfig,
+    MireloSfx20VideoToVideoConfig,
+)
 from falx.models.mischief_1_image_to_video import Mischief1ImageToVideoConfig  # noqa: E402
+from falx.models.moge import Moge2Config, Moge3Config  # noqa: E402
+from falx.models.moss_image import MossImageConfig, MossImageSize  # noqa: E402
+from falx.models.motion_to_code import (  # noqa: E402
+    MotionToCodeGlslConfig,
+    MotionToCodeGsapConfig,
+)
+from falx.models.mureka import (  # noqa: E402
+    MurekaFilesUploadConfig,
+    MurekaInstrumentalConfig,
+    MurekaSongConfig,
+    MurekaSongExtendConfig,
+    MurekaSongRemixConfig,
+    MurekaSoundtrackConfig,
+    MurekaTrackConfig,
+)
 from falx.models.muse_image import (  # noqa: E402
     MuseImageAspectRatio,
     MuseImageBaseConfig,
@@ -613,6 +741,12 @@ from falx.models.qwen_image_3_edit import QwenImage3EditConfig  # noqa: E402
 from falx.models.qwen_image_3_text_to_image import (  # noqa: E402
     QwenImage3TextToImageConfig,
 )
+from falx.models.recraft_v4_1_flash_v2_text_to_image import (  # noqa: E402
+    RecraftV41FlashV2ImageSize,
+    RecraftV41FlashV2RGBColor,
+    RecraftV41FlashV2TextToImageConfig,
+)
+from falx.models.recraft_vectorize_pro import RecraftVectorizeProConfig  # noqa: E402
 from falx.models.sam_3_1_common import (  # noqa: E402
     Sam31BoxPrompt,
     Sam31BoxPromptBase,
@@ -626,6 +760,7 @@ from falx.models.sam_3_1_image import Sam31ImageConfig  # noqa: E402
 from falx.models.sam_3_1_image_rle import Sam31ImageRleConfig  # noqa: E402
 from falx.models.sam_3_1_video import Sam31VideoConfig  # noqa: E402
 from falx.models.sam_3_1_video_rle import Sam31VideoRleConfig  # noqa: E402
+from falx.models.seed_tts_v3 import SeedTtsV3Config  # noqa: E402
 from falx.models.seedance2_fast_image_to_video import (  # noqa: E402
     Seedance2FastImageToVideoConfig,
 )
@@ -705,6 +840,9 @@ from falx.models.seedream_v45_text_to_image import (  # noqa: E402
     SeedreamV45ImageSize,
     SeedreamV45TextToImageConfig,
 )
+from falx.models.seedream_v55_edit import SeedreamV55EditConfig  # noqa: E402
+from falx.models.seedream_v55_layerize import SeedreamV55LayerizeConfig  # noqa: E402
+from falx.models.seedream_v55_text_to_image import SeedreamV55TextToImageConfig  # noqa: E402
 from falx.models.sonilo_v1_1_variants import (  # noqa: E402
     SoniloV11TextToMusicConfig,
     SoniloV11TextToSoundEffectsConfig,
@@ -745,6 +883,7 @@ from falx.models.topaz_upscale_video_generative import (  # noqa: E402
 from falx.models.topaz_upscale_video_precision import (  # noqa: E402
     TopazUpscaleVideoPrecisionConfig,
 )
+from falx.models.veed_dubbing import VeedDubbingConfig, VeedDubbingProConfig  # noqa: E402
 from falx.models.veo3_1_extend_video import Veo31ExtendVideoConfig  # noqa: E402
 from falx.models.veo3_1_first_last_frame_to_video import (  # noqa: E402
     Veo31FirstLastFrameToVideoConfig,
@@ -801,7 +940,12 @@ from falx.models.wan_3_0_text_to_video import (  # noqa: E402
 )
 
 FalConfig = Annotated[
-    BriaIncreaseResolutionConfig
+    BriaFibo2EditConfig
+    | BriaFibo2GenerateConfig
+    | BriaFiboEdit15ExpandConfig
+    | BriaGuidedRemoveBackgroundConfig
+    | BriaIncreaseResolutionConfig
+    | BriaRmbg3Config
     | BriaVideoBackgroundRemovalConfig
     | BriaVideoBackgroundRemovalV3Config
     | BriaVideoBackgroundRemovalGreenScreenDespillConfig
@@ -809,6 +953,12 @@ FalConfig = Annotated[
     | BriaVideoEraseMaskConfig
     | BriaVideoErasePromptConfig
     | BriaVideoIncreaseResolutionConfig
+    | FlashvsrPlusConfig
+    | ElevenLabsSoundEffectsV3Config
+    | MotionToCodeGlslConfig
+    | MotionToCodeGsapConfig
+    | VeedDubbingConfig
+    | VeedDubbingProConfig
     | Flux3DraftEnhanceConfig
     | Flux3EditImageConfig
     | Flux3EditVideoConfig
@@ -842,6 +992,10 @@ FalConfig = Annotated[
     | GptImage25SunburstTextToImageConfig
     | GptImage25FlareEditConfig
     | GptImage25SunburstEditConfig
+    | GptImage26FlareTextToImageConfig
+    | GptImage26SunburstTextToImageConfig
+    | GptImage26FlareEditConfig
+    | GptImage26SunburstEditConfig
     | GeminiOmniFlashEditConfig
     | GeminiOmniFlashImageToVideoConfig
     | GeminiOmniFlashReferenceToVideoConfig
@@ -871,6 +1025,7 @@ FalConfig = Annotated[
     | HeygenVideoImageToVideoConfig
     | HeygenVideoReferenceToVideoConfig
     | HeygenVideoTextToVideoConfig
+    | HeygenVoiceConfig
     | IdeogramV4Config
     | Kandinsky6ProImageToVideoConfig
     | Kandinsky6ProTextToVideoConfig
@@ -881,6 +1036,18 @@ FalConfig = Annotated[
     | IdeogramV4LoraConfig
     | IdeogramV4TilingConfig
     | IdeogramV4TilingLoraConfig
+    | IdeogramV46Config
+    | IdeogramV46EditConfig
+    | IdeogramVectorImageToVectorConfig
+    | IdeogramVectorTextToVectorConfig
+    | IrisZDepthConfig
+    | IrisZDepthToImageConfig
+    | IrisZSmallDepthConfig
+    | IrisZSmallDepthToImageConfig
+    | IrisZSmallTextToImageConfig
+    | IrisZSmallTextToRgbdConfig
+    | IrisZTextToImageConfig
+    | IrisZTextToRgbdConfig
     | KlingVideoO34kImageToVideoConfig
     | KlingVideoO34kReferenceToVideoConfig
     | KlingVideoO34kTextToVideoConfig
@@ -916,17 +1083,54 @@ FalConfig = Annotated[
     | KlingVideoV3StandardMotionControlConfig
     | KlingVideoV3TurboTextToVideoConfig
     | KlingVideoV3TurboImageToVideoConfig
+    | Krea3EditConfig
+    | Krea3EditLoraConfig
+    | Krea3TextToImageConfig
+    | Krea3TextToImageLoraConfig
+    | Ltx25AlphaGenConfig
+    | Ltx25HdrConfig
+    | Ltx25ReframeConfig
+    | Ltx25UpscaleConfig
     | LumaRay32ImageToVideoConfig
     | LumaRay32ReframeConfig
     | LumaRay32TextToVideoConfig
     | LumaRay32VideoToVideoConfig
+    | KotobaSttV1SpeechToTextConfig
     | Lyria2Config
     | Lyria3Config
     | Lyria3ProConfig
     | Lyria35Config
+    | MeshyN1RetextureConfig
+    | MeshyReliefConfig
+    | MeshyRiggingConfig
+    | MeshyRiggingMultiAnimationConfig
+    | MeshyT2ImageTo3dConfig
+    | MeshyT2TextTo3dConfig
+    | MeshyT25ImageTo3dConfig
+    | MeshyT25TextTo3dConfig
+    | MeshyV6LiteRetextureConfig
+    | MeshyV6RetextureConfig
+    | MaiImage27EditConfig
+    | MaiImage27FlashEditConfig
+    | MaiImage27FlashTextToImageConfig
+    | MaiImage27TextToImageConfig
+    | Hyper3dLowpolyImageTo3dConfig
+    | Hyper3dLowpolyMeshTo3dConfig
+    | Hyper3dLowpolyTextTo3dConfig
+    | Hyper3dRiggingAnimationsConfig
+    | Hyper3dRiggingConfig
+    | MarigoldV2Config
     | MeshyV7ImageTo3dConfig
     | MeshyV7RetextureConfig
     | MeshyV7TextTo3dConfig
+    | Moge2Config
+    | Moge3Config
+    | IdolConfig
+    | IdolMaxConfig
+    | MinimaxH3ImageEditConfig
+    | MinimaxH3ImageHighspeedEditConfig
+    | MinimaxH3ImageHighspeedTextToImageConfig
+    | MinimaxH3ImageTextToImageConfig
     | MinimaxH3Max3dToVideoConfig
     | MinimaxH3ImageToVideoConfig
     | MinimaxH3ImageToVideoLoraConfig
@@ -949,7 +1153,18 @@ FalConfig = Annotated[
     | MinimaxH3TextToVideoConfig
     | MinimaxH3TextToVideoLoraConfig
     | MinimaxMusic3Config
+    | MireloSfx20TextToAudioConfig
+    | MireloSfx20VideoToAudioConfig
+    | MireloSfx20VideoToVideoConfig
     | Mischief1ImageToVideoConfig
+    | MossImageConfig
+    | MurekaFilesUploadConfig
+    | MurekaInstrumentalConfig
+    | MurekaSongConfig
+    | MurekaSongExtendConfig
+    | MurekaSongRemixConfig
+    | MurekaSoundtrackConfig
+    | MurekaTrackConfig
     | MuseImageEditConfig
     | MuseImageTextToImageConfig
     | NanoBanana2Config
@@ -969,10 +1184,13 @@ FalConfig = Annotated[
     | QwenAudio3TtsConfig
     | QwenImage3EditConfig
     | QwenImage3TextToImageConfig
+    | RecraftV41FlashV2TextToImageConfig
+    | RecraftVectorizeProConfig
     | Sam31ImageConfig
     | Sam31ImageRleConfig
     | Sam31VideoConfig
     | Sam31VideoRleConfig
+    | SeedTtsV3Config
     | SeedreamV45EditConfig
     | SeedreamV45TextToImageConfig
     | SeedreamV5FlashEditConfig
@@ -985,6 +1203,9 @@ FalConfig = Annotated[
     | SeedreamV5ProTextToImageConfig
     | SeedreamV5ProUsEditConfig
     | SeedreamV5ProUsTextToImageConfig
+    | SeedreamV55EditConfig
+    | SeedreamV55LayerizeConfig
+    | SeedreamV55TextToImageConfig
     | Seedance2FastImageToVideoConfig
     | Seedance2FastReferenceToVideoConfig
     | Seedance2FastTextToVideoConfig
@@ -1059,7 +1280,37 @@ FalConfig = Annotated[
 
 SUPPORTED_APP_IDS = frozenset(
     {
+        "krea/v3/edit",
+        "krea/v3/edit/lora",
+        "krea/v3/text-to-image",
+        "krea/v3/text-to-image/lora",
+        "speridlabs/iris-z",
+        "speridlabs/iris-z/depth-to-image",
+        "speridlabs/iris-z/small",
+        "speridlabs/iris-z/small/depth-to-image",
+        "speridlabs/iris-z/small/text-to-image",
+        "speridlabs/iris-z/small/text-to-rgbd",
+        "speridlabs/iris-z/text-to-image",
+        "speridlabs/iris-z/text-to-rgbd",
+        "lightricks/ltx-2.5/alpha-gen",
+        "lightricks/ltx-2.5/hdr",
+        "lightricks/ltx-2.5/reframe",
+        "lightricks/ltx-2.5/upscale",
+        "openimaginglab/flashvsr-plus",
+        "fal-ai/motion-to-code/glsl",
+        "fal-ai/motion-to-code/gsap",
+        "veed/dubbing",
+        "veed/dubbing/pro",
+        "bria/fibo-2/edit",
+        "bria/fibo-2/generate",
+        "bria/fibo-edit-1.5/expand",
+        "bria/guided-remove-background",
+        "bria/rmbg-3",
         "fal-ai/gemini-tts",
+        "fal-ai/marigold-v2",
+        "fal-ai/moss-image",
+        "recraft/v4.1/flash/v2/text-to-image",
+        "recraft/vectorize/pro",
         "fal-ai/gemini-3.1-flash-tts",
         "google/gemini-3.8-flash-tts",
         "google/gemini-3.8-flash-lite-tts",
@@ -1067,7 +1318,15 @@ SUPPORTED_APP_IDS = frozenset(
         "fal-ai/lyria3",
         "fal-ai/lyria3/pro",
         "google/lyria-3.5",
+        "elevenlabs/sound-effects/v3",
+        "mirelo-ai/sfx2.0/text-to-audio",
+        "mirelo-ai/sfx2.0/video-to-audio",
+        "mirelo-ai/sfx2.0/video-to-video",
         "google/virtual-try-on",
+        "bytedance/seed-tts/v3",
+        "heygen/heygen-voice",
+        "heygen/heygen-voice/turbo",
+        "kotoba-technologies/kotoba-stt/v1/speech-to-text",
         "alibaba/happy-horse/image-to-video",
         "alibaba/happy-horse/reference-to-video",
         "alibaba/happy-horse/text-to-video",
@@ -1145,6 +1404,9 @@ SUPPORTED_APP_IDS = frozenset(
         "bytedance/seedream/v5/lite/text-to-image",
         "bytedance/seedream/v5/pro/us/edit",
         "bytedance/seedream/v5/pro/us/text-to-image",
+        "bytedance/seedream/v5.5/edit",
+        "bytedance/seedream/v5.5/layerize",
+        "bytedance/seedream/v5.5/text-to-image",
         "fal-ai/kling-video/o3/4k/image-to-video",
         "fal-ai/kling-video/o3/4k/reference-to-video",
         "fal-ai/kling-video/o3/4k/text-to-video",
@@ -1221,12 +1483,20 @@ SUPPORTED_APP_IDS = frozenset(
         "ideogram/v4/lora",
         "ideogram/v4/tiling",
         "ideogram/v4/tiling/lora",
+        "ideogram/v4.6",
+        "ideogram/v4.6/edit",
+        "ideogram/vector/image-to-vector",
+        "ideogram/vector/text-to-vector",
         "openai/gpt-image-2",
         "openai/gpt-image-2/edit",
         "openai/gpt-image-2.5/flare/edit",
         "openai/gpt-image-2.5/flare/text-to-image",
         "openai/gpt-image-2.5/sunburst/edit",
         "openai/gpt-image-2.5/sunburst/text-to-image",
+        "openai/gpt-image-2.6/flare/edit",
+        "openai/gpt-image-2.6/flare/text-to-image",
+        "openai/gpt-image-2.6/sunburst/edit",
+        "openai/gpt-image-2.6/sunburst/text-to-image",
         "topaz/adjust/image",
         "topaz/deblur/video",
         "tbc/mischief-1/image-to-video",
@@ -1279,9 +1549,33 @@ SUPPORTED_APP_IDS = frozenset(
         "luma/agent/ray/v3.2/reframe",
         "luma/agent/ray/v3.2/text-to-video",
         "luma/agent/ray/v3.2/video-to-video",
+        "meshy/n1/retexture",
+        "meshy/relief",
+        "meshy/rigging",
+        "meshy/rigging/multi-animation",
+        "meshy/t2/image-to-3d",
+        "meshy/t2/text-to-3d",
+        "meshy/t2.5/image-to-3d",
+        "meshy/t2.5/text-to-3d",
+        "meshy/v6/retexture",
+        "meshy/v6-lite/retexture",
+        "hyper3d/lowpoly/image-to-3d",
+        "hyper3d/lowpoly/mesh-to-3d",
+        "hyper3d/lowpoly/text-to-3d",
+        "hyper3d/rigging/animations",
+        "hyper3d/rigging",
         "meshy/v7/image-to-3d",
         "meshy/v7/retexture",
         "meshy/v7/text-to-3d",
+        "microsoft/moge-2",
+        "microsoft/moge-3",
+        "speridlabs/idol",
+        "speridlabs/idol/max",
+        "speridlabs/idol/max/turbo",
+        "minimax/h3-image/edit",
+        "minimax/h3-image/highspeed/edit",
+        "minimax/h3-image/highspeed/text-to-image",
+        "minimax/h3-image/text-to-image",
         "minimax/h3-max/3d-to-video",
         "minimax/h3/image-to-video",
         "minimax/h3/image-to-video/lora",
@@ -1304,8 +1598,22 @@ SUPPORTED_APP_IDS = frozenset(
         "minimax/h3-max-turbo/reference-to-video",
         "minimax/h3-max-turbo/text-to-video",
         "minimax/music-3",
+        "mureka/api/files/upload",
+        "mureka/v8/generate/instrumental",
+        "mureka/v8/generate/song",
+        "mureka/v8/generate/soundtrack",
+        "mureka/v8/generate/track",
+        "mureka/v8/song/extend",
+        "mureka/v8/song/remix",
+        "mureka/v9/generate/instrumental",
+        "mureka/v9/generate/song",
+        "mureka/v9/generate/soundtrack",
         "meta/muse-image/edit",
         "meta/muse-image/text-to-image",
+        "microsoft/mai-image-2.7/edit",
+        "microsoft/mai-image-2.7/flash/edit",
+        "microsoft/mai-image-2.7/flash/text-to-image",
+        "microsoft/mai-image-2.7/text-to-image",
         "sonilo/v1.1/video-to-sound-effects",
         "pixverse/v6/max/image-to-video",
         "pixverse/v6/max/text-to-video",
@@ -1391,8 +1699,17 @@ def validate_job_schema(raw_payload: dict[str, Any]) -> JobConfig:
 
 
 __all__ = [
+    "MotionToCodeGlslConfig",
+    "MotionToCodeGsapConfig",
+    "VeedDubbingConfig",
+    "VeedDubbingProConfig",
     "BaseFalConfig",
+    "BriaFibo2EditConfig",
+    "BriaFibo2GenerateConfig",
+    "BriaFiboEdit15ExpandConfig",
+    "BriaGuidedRemoveBackgroundConfig",
     "BriaIncreaseResolutionConfig",
+    "BriaRmbg3Config",
     "BriaVideoBackgroundRemovalConfig",
     "BriaVideoBackgroundRemovalV3Config",
     "BriaVideoBackgroundRemovalGreenScreenDespillConfig",
@@ -1403,6 +1720,11 @@ __all__ = [
     "BriaVideoIncreaseResolutionConfig",
     "BriaVideoOutputContainerAndCodec",
     "FalConfig",
+    "FlashvsrPlusConfig",
+    "ElevenLabsSoundEffectsV3Config",
+    "MireloSfx20TextToAudioConfig",
+    "MireloSfx20VideoToAudioConfig",
+    "MireloSfx20VideoToVideoConfig",
     "Flux3DraftEnhanceConfig",
     "Flux3EditImageConfig",
     "Flux3EditVideoConfig",
@@ -1462,6 +1784,10 @@ __all__ = [
     "GptImage25FlareTextToImageConfig",
     "GptImage25SunburstEditConfig",
     "GptImage25SunburstTextToImageConfig",
+    "GptImage26FlareEditConfig",
+    "GptImage26FlareTextToImageConfig",
+    "GptImage26SunburstEditConfig",
+    "GptImage26SunburstTextToImageConfig",
     "GrokImagineImageV20AspectRatio",
     "GrokImagineImageV20BaseConfig",
     "GrokImagineImageV20EditAspectRatio",
@@ -1486,6 +1812,13 @@ __all__ = [
     "HeygenVideoImageToVideoConfig",
     "HeygenVideoReferenceToVideoConfig",
     "HeygenVideoTextToVideoConfig",
+    "Hyper3dLowpolyImageTo3dConfig",
+    "Hyper3dLowpolyMeshTo3dConfig",
+    "Hyper3dLowpolyTextTo3dConfig",
+    "Hyper3dRigHierarchyNode",
+    "Hyper3dRiggingAnimationsConfig",
+    "Hyper3dRiggingConfig",
+    "HeygenVoiceConfig",
     "IdeogramV4Config",
     "IdeogramV4FastConfig",
     "IdeogramV4ImageSize",
@@ -1496,6 +1829,20 @@ __all__ = [
     "IdeogramV4LoRAInput",
     "IdeogramV4TilingConfig",
     "IdeogramV4TilingLoraConfig",
+    "IdeogramV46Config",
+    "IdeogramV46ContextWindowBox",
+    "IdeogramV46EditConfig",
+    "IdeogramVectorImageToVectorConfig",
+    "IdeogramVectorTextToVectorConfig",
+    "IrisZDepthConfig",
+    "IrisZDepthToImageConfig",
+    "IrisZImageSize",
+    "IrisZSmallDepthConfig",
+    "IrisZSmallDepthToImageConfig",
+    "IrisZSmallTextToImageConfig",
+    "IrisZSmallTextToRgbdConfig",
+    "IrisZTextToImageConfig",
+    "IrisZTextToRgbdConfig",
     "ImageSize",
     "JobConfig",
     "Kandinsky6ProImageToVideoConfig",
@@ -1546,6 +1893,20 @@ __all__ = [
     "KlingVideoV3StandardMotionControlConfig",
     "KlingVideoV3TurboTextToVideoConfig",
     "KlingVideoV3TurboImageToVideoConfig",
+    "Krea3EditConfig",
+    "Krea3EditLoraConfig",
+    "Krea3EditRegion",
+    "Krea3ImageSize",
+    "Krea3LoRAInput",
+    "Krea3TextToImageConfig",
+    "Krea3TextToImageLoraConfig",
+    "Ltx25AlphaGenConfig",
+    "Ltx25HdrConfig",
+    "Ltx25ReframeAnchor",
+    "Ltx25ReframeConfig",
+    "Ltx25ReframeRectangle",
+    "Ltx25UpscaleConfig",
+    "KotobaSttV1SpeechToTextConfig",
     "LumaRay32EditControls",
     "LumaRay32EditDepthControl",
     "LumaRay32EditFaceControl",
@@ -1561,11 +1922,38 @@ __all__ = [
     "Lyria3Config",
     "Lyria3ProConfig",
     "Lyria35Config",
+    "MaiImage27EditConfig",
+    "MaiImage27FlashEditConfig",
+    "MaiImage27FlashTextToImageConfig",
+    "MaiImage27ImageSize",
+    "MaiImage27TextToImageConfig",
+    "MarigoldV2Config",
+    "MarigoldV2ImageSize",
     "MatrixAxes",
     "MatrixAxis",
+    "MeshyN1RetextureConfig",
+    "MeshyReliefConfig",
+    "MeshyRiggingConfig",
+    "MeshyRiggingMultiAnimationConfig",
+    "MeshyT2ImageTo3dConfig",
+    "MeshyT2TextTo3dConfig",
+    "MeshyT25ImageTo3dConfig",
+    "MeshyT25TextTo3dConfig",
+    "MeshyV6LiteRetextureConfig",
+    "MeshyV6RetextureConfig",
     "MeshyV7ImageTo3dConfig",
     "MeshyV7RetextureConfig",
     "MeshyV7TextTo3dConfig",
+    "Moge2Config",
+    "Moge3Config",
+    "IdolConfig",
+    "IdolMaxConfig",
+    "H3ImageLoraInput",
+    "MinimaxH3ImageEditConfig",
+    "MinimaxH3ImageHighspeedEditConfig",
+    "MinimaxH3ImageHighspeedTextToImageConfig",
+    "MinimaxH3ImageSize",
+    "MinimaxH3ImageTextToImageConfig",
     "MinimaxH3Max3dToVideoConfig",
     "MinimaxH3ImageToVideoConfig",
     "MinimaxH3ImageToVideoLoraConfig",
@@ -1589,6 +1977,15 @@ __all__ = [
     "MinimaxH3TextToVideoLoraConfig",
     "MinimaxMusic3Config",
     "Mischief1ImageToVideoConfig",
+    "MossImageConfig",
+    "MossImageSize",
+    "MurekaFilesUploadConfig",
+    "MurekaInstrumentalConfig",
+    "MurekaSongConfig",
+    "MurekaSongExtendConfig",
+    "MurekaSongRemixConfig",
+    "MurekaSoundtrackConfig",
+    "MurekaTrackConfig",
     "MuseImageAspectRatio",
     "MuseImageBaseConfig",
     "MuseImageEditConfig",
@@ -1611,6 +2008,10 @@ __all__ = [
     "QwenImage3EditConfig",
     "QwenImage3ImageSize",
     "QwenImage3TextToImageConfig",
+    "RecraftV41FlashV2ImageSize",
+    "RecraftV41FlashV2RGBColor",
+    "RecraftV41FlashV2TextToImageConfig",
+    "RecraftVectorizeProConfig",
     "Sam31BoxPrompt",
     "Sam31BoxPromptBase",
     "Sam31ImageConfig",
@@ -1637,6 +2038,10 @@ __all__ = [
     "SeedreamV5ProTextToImageConfig",
     "SeedreamV5ProUsEditConfig",
     "SeedreamV5ProUsTextToImageConfig",
+    "SeedreamV55EditConfig",
+    "SeedreamV55LayerizeConfig",
+    "SeedreamV55TextToImageConfig",
+    "SeedTtsV3Config",
     "Seedance2FastImageToVideoConfig",
     "Seedance2FastReferenceToVideoConfig",
     "Seedance2FastTextToVideoConfig",
